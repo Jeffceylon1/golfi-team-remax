@@ -1,5 +1,8 @@
-const Anthropic = require('@anthropic-ai/sdk');
+// Uses raw fetch — Anthropic SDK has a connection issue on Vercel Node 24
 const { createClient } = require('@supabase/supabase-js');
+
+const ANTHROPIC_API = 'https://api.anthropic.com/v1/messages';
+const MODEL = 'claude-sonnet-4-5';
 
 const SYSTEM_PROMPT = `You are an AI assistant for the Golfi Team, Hamilton and Niagara's leading RE/MAX real estate team since 1998. You are embedded on their website golfi-team-remax.vercel.app and you help buyers and sellers in the Hamilton and Niagara region find their perfect home or sell their property.
 
@@ -58,7 +61,6 @@ BOOKING VIEWINGS:
 RULES:
 - Never guarantee sale prices or specific valuations — always say "our agents will do a proper market analysis"
 - Never badmouth other agents or competitors
-- If asked about a specific property not on the site, say you'd be happy to have our team look it up
 - Keep responses concise — 2-4 sentences max unless they ask a complex question
 - Always move the conversation toward a natural next step (viewing, valuation, call)
 - You can suggest they call 905-304-9444 directly for urgent matters`;
@@ -74,23 +76,39 @@ function corsHeaders() {
   };
 }
 
+async function callClaude(messages) {
+  const res = await fetch(ANTHROPIC_API, {
+    method: 'POST',
+    headers: {
+      'x-api-key': process.env.ANTHROPIC_API_KEY,
+      'anthropic-version': '2023-06-01',
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({ model: MODEL, max_tokens: 1024, system: SYSTEM_PROMPT, messages }),
+    signal: AbortSignal.timeout(25000),
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Anthropic API ${res.status}: ${err.slice(0, 200)}`);
+  }
+  const data = await res.json();
+  return data.content[0].text;
+}
+
 module.exports = async function handler(req, res) {
-  // CORS preflight
   if (req.method === 'OPTIONS') {
     res.writeHead(200, corsHeaders());
     return res.end();
   }
-
   if (req.method !== 'POST') {
     res.writeHead(405, { ...corsHeaders(), 'Content-Type': 'application/json' });
     return res.end(JSON.stringify({ error: 'Method not allowed' }));
   }
 
   const supabase = createClient(
-    process.env.SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_KEY
+    process.env.SUPABASE_URL.trim(),
+    process.env.SUPABASE_SERVICE_KEY.trim()
   );
-  const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
   let body;
   try {
@@ -101,7 +119,6 @@ module.exports = async function handler(req, res) {
   }
 
   const { sessionId, message, visitorData } = body || {};
-
   if (!sessionId || !message) {
     res.writeHead(400, { ...corsHeaders(), 'Content-Type': 'application/json' });
     return res.end(JSON.stringify({ error: 'sessionId and message are required' }));
@@ -116,39 +133,20 @@ module.exports = async function handler(req, res) {
       .order('created_at', { ascending: true })
       .limit(20);
 
-    if (historyErr) throw historyErr;
+    if (historyErr) throw new Error(`DB history: ${historyErr.message}`);
 
     const messages = [
       ...(history || []).map((m) => ({ role: m.role, content: m.content })),
       { role: 'user', content: message },
     ];
 
-    // Call Claude claude-sonnet-4-5
-    const completion = await anthropic.messages.create({
-      model: 'claude-sonnet-4-5',
-      max_tokens: 1024,
-      system: SYSTEM_PROMPT,
-      messages,
-    });
+    const reply = await callClaude(messages);
 
-    const reply = completion.content[0].text;
+    // Store messages
+    await supabase.from('messages').insert({ session_id: sessionId, role: 'user', content: message });
+    await supabase.from('messages').insert({ session_id: sessionId, role: 'assistant', content: reply });
 
-    // Store user message then assistant reply (sequential to preserve order)
-    const { error: userMsgErr } = await supabase.from('messages').insert({
-      session_id: sessionId,
-      role: 'user',
-      content: message,
-    });
-    if (userMsgErr) throw userMsgErr;
-
-    const { error: asstMsgErr } = await supabase.from('messages').insert({
-      session_id: sessionId,
-      role: 'assistant',
-      content: reply,
-    });
-    if (asstMsgErr) throw asstMsgErr;
-
-    // Scan the new user message and assistant reply for contact info
+    // Detect contact info → capture lead
     const scanText = `${message} ${reply}`;
     const emailMatch = EMAIL_RE.exec(scanText);
     const phoneMatch = PHONE_RE.exec(scanText);
@@ -157,12 +155,8 @@ module.exports = async function handler(req, res) {
     if (emailMatch || phoneMatch) {
       const email = emailMatch ? emailMatch[0].toLowerCase() : null;
       const phone = phoneMatch ? phoneMatch[0].replace(/\s/g, '') : null;
-
-      // Pull a short snippet of recent history for context
-      const historySnippet = (history || [])
-        .slice(-6)
-        .map((m) => `${m.role}: ${m.content}`)
-        .join('\n');
+      const historySnippet = (history || []).slice(-6)
+        .map((m) => `${m.role}: ${m.content}`).join('\n');
 
       const { error: upsertErr } = await supabase.from('leads').upsert(
         {
@@ -177,17 +171,12 @@ module.exports = async function handler(req, res) {
         },
         { onConflict: email ? 'email' : 'session_id' }
       );
-
       if (!upsertErr) leadCaptured = true;
     }
 
-    // Update visitor last_seen (upsert ensures row exists)
+    // Update visitor
     await supabase.from('visitors').upsert(
-      {
-        session_id: sessionId,
-        last_seen: new Date().toISOString(),
-        ...(visitorData || {}),
-      },
+      { session_id: sessionId, last_seen: new Date().toISOString(), ...(visitorData || {}) },
       { onConflict: 'session_id' }
     );
 
@@ -196,6 +185,6 @@ module.exports = async function handler(req, res) {
   } catch (err) {
     console.error('[chat] error:', err?.message || err);
     res.writeHead(500, { ...corsHeaders(), 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ error: 'Internal server error' }));
+    return res.end(JSON.stringify({ error: 'Internal server error', detail: err?.message }));
   }
 };
