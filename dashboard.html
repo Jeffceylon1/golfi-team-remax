@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Dashboard | Golfi Team RE/MAX</title>
+
+  <!--=====FAB ICON=======-->
+  <link rel="shortcut icon" href="assets/img/logo/fav-logo1.png" type="image/x-icon">
+
+  <!--===== CSS LINK =======-->
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/plugins/bootstrap.min.css">
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/plugins/aos.css">
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/plugins/fontawesome.css">
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/plugins/magnific-popup.css">
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/plugins/mobile.css">
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/plugins/owlcarousel.min.css">
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/plugins/sidebar.css">
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/plugins/slick-slider.css">
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/plugins/nice-select.css">
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/plugins/swiper-slider.css">
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/main.css">
+
+  <!--=====  JS SCRIPT LINK =======-->
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/jquery-3-7-1.min.js"></script>
+  <link rel="stylesheet" href="assets/css/golfi-mobile.css">
+<style>.preloader { display: none !important; } body { overflow: auto !important; }</style>
+    <link rel="stylesheet" href="assets/css/golfi-brand.css">
+</head>
+
+<body class="homepage2-body" style="overflow: inherit;">
+
+  <!--===== PRELOADER STARTS =======-->
+  <div class="preloader">
+    <div class="loading-container">
+      <div class="loading"></div>
+      <div id="loading-icon"><img src="assets/img/logo/preloader.png" alt="Golfi Team RE/MAX"></div>
+    </div>
+  </div>
+  <!--===== PRELOADER ENDS =======-->
+
+  <!--===== PROGRESS STARTS=======-->
+  <div class="paginacontainer">
+    <div class="progress-wrap">
+      <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+      </svg>
+    </div>
+  </div>
+  <!--===== PROGRESS ENDS=======-->
+
+  <!--===== SEARCHBAR STARTS=======-->
+  <div class="header-search-form-wrapper">
+    <div class="tx-search-close tx-close"><i class="fa-solid fa-xmark"></i></div>
+    <div class="header-search-container">
+      <form role="search" class="search-form">
+        <input type="search" class="search-field" placeholder="Search …" value="" name="s">
+        <button type="submit" class="search-submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M13.7955 13.8111L19 19M16 8.5C16 12.6421 12.6421 16 8.5 16C4.35786 16 1 12.6421 1 8.5C1 4.35786 4.35786 1 8.5 1C12.6421 1 16 4.35786 16 8.5Z" stroke="#030E0F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg></button>
+      </form>
+    </div>
+  </div>
+  <div class="body-overlay"></div>
+  <!--===== SEARCHBAR STARTS=======-->
+
+  <!--=====HEADER START=======-->
+  <header>
+    <div class="header-area homepage2 header header-sticky d-none d-lg-block " id="header">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="header-elements">
+              <div class="site-logo">
+                <a href="index.html"><img src="assets/img/logo/golfi-logo-color.png" alt="Golfi Team" class="golfi-main-logo"></a>
+              </div>
+              <div class="main-menu">
+                <ul>
+                  <li><a href="index.html" class="nav-link">Home</a></li>
+                  <li><a href="#" class="plus">Properties <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="dropdown-padding">
+                      <li><a href="sidebar-grid.html">Search All Listings</a></li>
+                      <li><a href="property-details-v1.html">Detached Homes</a></li>
+                      <li><a href="property-details-v2.html">Condos &amp; Lofts</a></li>
+                      <li><a href="property-details-v3.html">Townhomes</a></li>
+                      <li><a href="property-details-v4.html">Luxury Estates</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#" class="plus">Buy &amp; Sell <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="dropdown-padding">
+                      <li><a href="sidebar-grid.html">Buy a Home</a></li>
+                      <li><a href="our-service.html">Sell Your Home</a></li>
+                      <li><a href="loan-caculator.html">Mortgage Calculator</a></li>
+                      <li><a href="blog.html">Market Reports</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#" class="plus">About <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="dropdown-padding">
+                      <li><a href="about-us.html">About Golfi Team</a></li>
+                      <li><a href="our-service.html">Our Services</a></li>
+                      <li><a href="pricing.html">Pricing</a></li>
+                      <li><a href="faq.html">FAQ</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="blog.html" class="plus">Blog <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="dropdown-padding">
+                      <li><a href="blog.html">All Posts</a></li>
+                      <li><a href="blog-grid.html">Blog Grid</a></li>
+                      <li><a href="blog-detail.html">Post Details</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#" class="plus">Dashboard <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="dropdown-padding">
+                      <li><a href="dashboard.html">Overview</a></li>
+                      <li><a href="my-property.html">My Properties</a></li>
+                      <li><a href="add-property.html">Add Property</a></li>
+                      <li><a href="my-favorites.html">My Favourites</a></li>
+                      <li><a href="message.html">Messages</a></li>
+                      <li><a href="reviews.html">Reviews</a></li>
+                      <li><a href="my-profile.html">My Profile</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="contact.html">Contact</a></li>
+                </ul>
+              </div>
+              <div class="btn-area">
+                <div class="search-icon header__search header-search-btn">
+                  <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path>
+                    </svg></a>
+                </div>
+                <a href="sidebar-grid.html" class="theme-btn3">Search Properties <span class="arrow1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                      <path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path>
+                    </svg></span><span class="arrow2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                      <path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path>
+                    </svg></span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!--=====HEADER END =======-->
+
+  <!--===== MOBILE HEADER STARTS =======-->
+  <div class="mobile-header mobile-header2 d-block d-lg-none">
+    <div class="container-fluid">
+      <div class="col-12">
+        <div class="mobile-header-elements">
+          <div class="mobile-logo">
+            <a href="index.html"><img src="assets/img/logo/golfi-logo-color.png" alt="Golfi Team RE/MAX"></a>
+          </div>
+          <div class="mobile-right d-flex gap-1 align-items-center">
+            <a class="circle-button user-icon" href="contact.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <g clip-path="url(#clip0_4104_7939)">
+                  <path d="M7 0C4.96456 0 3.30859 1.65596 3.30859 3.69141C3.30859 5.72685 4.96456 7.38281 7 7.38281C9.03544 7.38281 10.6914 5.72685 10.6914 3.69141C10.6914 1.65596 9.03544 0 7 0Z" fill="#073B3A" />
+                  <path d="M11.5928 9.79439C10.5822 8.76824 9.24243 8.20312 7.82031 8.20312H6.17969C4.75759 8.20312 3.4178 8.76824 2.40718 9.79439C1.4015 10.8155 0.847656 12.1634 0.847656 13.5898C0.847656 13.8164 1.0313 14 1.25781 14H12.7422C12.9687 14 13.1523 13.8164 13.1523 13.5898C13.1523 12.1634 12.5985 10.8155 11.5928 9.79439Z" fill="#073B3A" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_4104_7939">
+                    <rect width="14" height="14" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </a>
+            <a class="circle-button add-icon" href="contact.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <g clip-path="url(#clip0_4104_7948)">
+                  <path d="M12.75 8.25H8.5C8.36194 8.25 8.25 8.36194 8.25 8.5V12.75C8.25 13.4403 7.69031 14 7 14C6.30969 14 5.75 13.4403 5.75 12.75V8.5C5.75 8.36194 5.63806 8.25 5.5 8.25H1.25C0.559692 8.25 0 7.69031 0 7C0 6.30969 0.559692 5.75 1.25 5.75H5.5C5.63806 5.75 5.75 5.63806 5.75 5.5V1.25C5.75 0.559691 6.30969 -1.66893e-06 7 -1.66893e-06C7.69031 -1.66893e-06 8.25 0.559691 8.25 1.25V5.5C8.25 5.63806 8.36194 5.75 8.5 5.75H12.75C13.4403 5.75 14 6.30969 14 7C14 7.69031 13.4403 8.25 12.75 8.25Z" fill="#073B3A" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_4104_7948">
+                    <rect width="14" height="14" fill="white" transform="matrix(1 0 0 -1 0 14)" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </a>
+            <div class="mobile-nav-icon dots-menu">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 4H21V6H3V4ZM7 19H21V21H7V19ZM3 14H21V16H3V14ZM7 9H21V11H7V9Z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-sidebar mobile-sidebar2">
+    <div class="logosicon-area">
+      <div class="logos">
+        <img src="assets/img/logo/golfi-logo-color.png" alt="Golfi Team RE/MAX">
+      </div>
+      <div class="menu-close">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M10.5859 12L2.79297 4.20706L4.20718 2.79285L12.0001 10.5857L19.793 2.79285L21.2072 4.20706L13.4143 12L21.2072 19.7928L19.793 21.2071L12.0001 13.4142L4.20718 21.2071L2.79297 19.7928L10.5859 12Z"></path>
+        </svg>
+      </div>
+    </div>
+    <div class="mobile-nav mobile-nav1">
+      <ul class="mobile-nav-list nav-list1">
+        <li><a href="#">Home </a>
+          <ul class="sub-menu">
+            <li><a href="index.html">Home One</a></li>
+            <li><a href="index.html">Home Two</a></li>
+            <li><a href="index.html">Home Three</a></li>
+            <li><a href="index.html">Home Four</a></li>
+          </ul>
+        </li>
+        <li><a href="our-service.html">Listing</a>
+          <ul class="sub-menu">
+            <li><a href="sidebar-grid.html">Property Half Grid</a></li>
+            <li><a href="sidebar-grid.html">Property Half Map List</a></li>
+            <li><a href="sidebar-grid.html">Property Top Map Grid</a></li>
+            <li><a href="sidebar-grid.html">Property Top Map List</a></li>
+            <li><a href="sidebar-grid.html">Find Sidebar Grid</a></li>
+            <li><a href="sidebar-grid.html">Find Sidebar List</a></li>
+          </ul>
+        </li>
+        <li><a href="our-service.html">Properties</a>
+          <ul class="sub-menu">
+            <li><a href="property-details-v1.html">Property Details 01</a></li>
+            <li><a href="property-details-v2.html">Property Details 02</a></li>
+            <li><a href="property-details-v3.html">Property Details 03</a></li>
+            <li><a href="property-details-v4.html">Property Details 04</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Blogs</a>
+          <ul class="sub-menu">
+            <li><a href="blog.html">Blog Default</a></li>
+            <li><a href="blog-grid.html">Blog Grid</a></li>
+            <li><a href="blog-detail.html">Blog Post Details</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Pages</a>
+          <ul class="sub-menu">
+            <li><a href="about-us.html">About Us</a></li>
+            <li><a href="our-service.html">Our Services</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="faq.html">FAQ's</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Dashboard</a>
+          <ul class="sub-menu">
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="my-property.html">My Properties</a></li>
+            <li><a href="message.html">Message</a></li>
+            <li><a href="my-favorites.html">My Favourites</a></li>
+            <li><a href="reviews.html">Reviews</a></li>
+            <li><a href="my-profile.html">My Profile</a></li>
+            <li><a href="add-property.html">Add Property</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="allmobilesection">
+        <a href="contact.html" class="theme-btn1">Contact Us <span class="arrow1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+              <path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path>
+            </svg></span><span class="arrow2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+              <path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path>
+            </svg></span></a>
+        <div class="single-footer">
+          <h3>Contact Info</h3>
+          <div class="footer1-contact-info">
+            <div class="contact-info-single">
+              <div class="contact-info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M21 16.42V19.9561C21 20.4811 20.5941 20.9167 20.0705 20.9537C19.6331 20.9846 19.2763 21 19 21C10.1634 21 3 13.8366 3 5C3 4.72371 3.01545 4.36687 3.04635 3.9295C3.08337 3.40588 3.51894 3 4.04386 3H7.5801C7.83678 3 8.05176 3.19442 8.07753 3.4498C8.10067 3.67907 8.12218 3.86314 8.14207 4.00202C8.34435 5.41472 8.75753 6.75936 9.3487 8.00303C9.44359 8.20265 9.38171 8.44159 9.20185 8.57006L7.04355 10.1118C8.35752 13.1811 10.8189 15.6425 13.8882 16.9565L15.4271 14.8019C15.5572 14.6199 15.799 14.5573 16.001 14.6532C17.2446 15.2439 18.5891 15.6566 20.0016 15.8584C20.1396 15.8782 20.3225 15.8995 20.5502 15.9225C20.8056 15.9483 21 16.1633 21 16.42Z"></path>
+                </svg>
+              </div>
+              <div class="contact-info-text">
+                <a href="tel:+3(924)4596512">+3(924)4596512</a>
+              </div>
+            </div>
+
+            <div class="contact-info-single">
+              <div class="contact-info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M3 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3ZM12.0606 11.6829L5.64722 6.2377L4.35278 7.7623L12.0731 14.3171L19.6544 7.75616L18.3456 6.24384L12.0606 11.6829Z"></path>
+                </svg>
+              </div>
+              <div class="contact-info-text">
+                <a href="mailto:info@example.com">info@example.com</a>
+              </div>
+            </div>
+
+            <div class="single-footer">
+              <h3>Our Location</h3>
+
+              <div class="contact-info-single">
+                <div class="contact-info-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                  </svg>
+                </div>
+                <div class="contact-info-text">
+                  <a href="mailto:info@example.com">55 East Birchwood Ave.Brooklyn, <br> New York 11201,United States</a>
+                </div>
+              </div>
+
+            </div>
+            <div class="single-footer">
+              <h3>Social Links</h3>
+
+              <div class="social-links-mobile-menu">
+                <ul>
+                  <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
+                  <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+                  <li><a href="#"><i class="fa-brands fa-linkedin-in"></i></a></li>
+                  <li><a href="#"><i class="fa-brands fa-youtube"></i></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--===== MOBILE HEADER STARTS =======-->
+
+  <!--===== HERO AREA STARTS =======-->
+  <div class="hero-inner-section-area-sidebar">
+    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/hero/hero-img1.png" alt="Golfi Team RE/MAX" class="hero-img1">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="hero-header-area text-center">
+            <a href="index.html">Home <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M13.1717 12.0007L8.22192 7.05093L9.63614 5.63672L16.0001 12.0007L9.63614 18.3646L8.22192 16.9504L13.1717 12.0007Z"></path>
+              </svg> Dashboard</a>
+            <div class="space24"></div>
+            <h1>Agent Dashboard</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--===== HERO AREA ENDS =======-->
+
+  <!--===== DASHBOARD AREA STARTS =======-->
+  <div class="dashboard-section-area sp1">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-6">
+          <div class="dash1-box">
+            <div class="icons">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 22H4C3.44772 22 3 21.5523 3 21V3C3 2.44772 3.44772 2 4 2H20C20.5523 2 21 2.44772 21 3V21C21 21.5523 20.5523 22 20 22ZM19 20V4H5V20H19ZM8 7H16V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
+              </svg>
+            </div>
+            <div class="text">
+              <span>Active Listings</span>
+              <div class="space12"></div>
+              <h3>60 <span>/100 Capacity</span></h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="dash1-box">
+            <div class="icons">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM13 12H17V14H11V7H13V12Z"></path>
+              </svg>
+            </div>
+            <div class="text">
+              <span>Pending Offers</span>
+              <div class="space12"></div>
+              <h3>04 <span>/Pending</span></h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="dash1-box">
+            <div class="icons">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M11.9996 0.5L16.2256 6.68342L23.4123 8.7918L18.8374 14.7217L19.053 22.2082L11.9996 19.6897L4.94617 22.2082L5.16179 14.7217L0.586914 8.7918L7.7736 6.68342L11.9996 0.5ZM11.9996 4.044L9.02186 8.40151L3.95659 9.887L7.18152 14.0655L7.02859 19.34L11.9996 17.566L16.9696 19.34L16.8177 14.0655L20.0416 9.887L14.9773 8.40151L11.9996 4.044ZM9.99959 12C9.99959 13.1046 10.895 14 11.9996 14C13.1042 14 13.9996 13.1046 13.9996 12H15.9996C15.9996 14.2091 14.2087 16 11.9996 16C9.79045 16 7.99959 14.2091 7.99959 12H9.99959Z"></path>
+              </svg>
+            </div>
+            <div class="text">
+              <span>Saved Favourites</span>
+              <div class="space12"></div>
+              <h3>08 <span>/Favourite</span></h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="dash1-box">
+            <div class="icons">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M14 4.4375C15.3462 4.4375 16.4375 3.34619 16.4375 2H17.5625C17.5625 3.34619 18.6538 4.4375 20 4.4375V5.5625C18.6538 5.5625 17.5625 6.65381 17.5625 8H16.4375C16.4375 6.65381 15.3462 5.5625 14 5.5625V4.4375ZM1 11C4.31371 11 7 8.31371 7 5H9C9 8.31371 11.6863 11 15 11V13C11.6863 13 9 15.6863 9 19H7C7 15.6863 4.31371 13 1 13V11ZM4.87601 12C6.18717 12.7276 7.27243 13.8128 8 15.124 8.72757 13.8128 9.81283 12.7276 11.124 12 9.81283 11.2724 8.72757 10.1872 8 8.87601 7.27243 10.1872 6.18717 11.2724 4.87601 12ZM17.25 14C17.25 15.7949 15.7949 17.25 14 17.25V18.75C15.7949 18.75 17.25 20.2051 17.25 22H18.75C18.75 20.2051 20.2051 18.75 22 18.75V17.25C20.2051 17.25 18.75 15.7949 18.75 14H17.25Z"></path>
+              </svg>
+            </div>
+            <div class="text">
+              <span>Client Reviews</span>
+              <div class="space12"></div>
+              <h3>1,567</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="space30"></div>
+          <div class="dashboad-all-details-section">
+            <h3>Your Listings</h3>
+            <div class="row">
+              <div class="col-lg-4 col-md-6">
+                <div class="input-area">
+                  <form>
+                    <input type="text" placeholder="Search listings…">
+                    <button><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path>
+                      </svg></button>
+                  </form>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6">
+                <div class="input-area">
+                  <form>
+                    <input type="date">
+                  </form>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-6">
+                <div class="input-area">
+                  <div class="nice-select" tabindex="0">
+                    <span class="current">Select Status</span>
+                    <ul class="list">
+                      <li data-value="1" class="option">All</li>
+                      <li data-value="2" class="option selected">Approved</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="space28"></div>
+              <h4 class="found">60 Result Found</h4>
+              <div class="space20"></div>
+              <div class="table-container">
+                <!-- Header -->
+                <div class="table-header">
+                  <div>Listing</div>
+                  <div>Status</div>
+                  <div>Action</div>
+                </div>
+
+                <!-- Row 1 -->
+                <div class="table-row">
+                  <div class="listing">
+                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/others/dash-img1.png" alt="Detached Home">
+                    <div class="details">
+                      <a href="property-details-v1.html">Escarpment Detached Home</a>
+                      <div class="space18"></div>
+                      <p>
+                        <span><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="Golfi Team RE/MAX"> x4</span>
+                        <span><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="Golfi Team RE/MAX"> x3</span>
+                        <span><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="Golfi Team RE/MAX"> 2400 sq</span>
+                      </p>
+                      <div class="space16"></div>
+                      <a class="price">$1,120,000</a>
+                    </div>
+                  </div>
+                  <div class="status">
+                    <a href="#" class="status-badge approved">Approved</a>
+                  </div>
+                  <div class="actions">
+                    <button class="edit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6.41421 15.89L16.5563 5.74785L15.1421 4.33363L5 14.4758V15.89H6.41421ZM7.24264 17.89H3V13.6473L14.435 2.21231C14.8256 1.82179 15.4587 1.82179 15.8492 2.21231L18.6777 5.04074C19.0682 5.43126 19.0682 6.06443 18.6777 6.45495L7.24264 17.89ZM3 19.89H21V21.89H3V19.89Z"></path>
+                      </svg> Edit</button>
+                    <button class="sold"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7.0943 5.68009L18.3199 16.9057C19.3736 15.5506 20 13.8491 20 12C20 7.58172 16.4183 4 12 4C10.1509 4 8.44939 4.62644 7.0943 5.68009ZM16.9057 18.3199L5.68009 7.0943C4.62644 8.44939 4 10.1509 4 12C4 16.4183 7.58172 20 12 20C13.8491 20 15.5506 19.3736 16.9057 18.3199ZM4.92893 4.92893C6.73748 3.12038 9.23885 2 12 2C17.5228 2 22 6.47715 22 12C22 14.7611 20.8796 17.2625 19.0711 19.0711C17.2625 20.8796 14.7611 22 12 22C6.47715 22 2 17.5228 2 12C2 9.23885 3.12038 6.73748 4.92893 4.92893Z"></path>
+                      </svg> Sold</button>
+                    <button class="delete"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7 4V2H17V4H22V6H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V6H2V4H7ZM6 6V20H18V6H6ZM9 9H11V17H9V9ZM13 9H15V17H13V9Z"></path>
+                      </svg> Delete</button>
+                  </div>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="table-row">
+                  <div class="listing">
+                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/others/dash-img2.png" alt="Condo">
+                    <div class="details">
+                      <a href="property-details-v2.html">Downtown Condo &amp; Loft</a>
+                      <div class="space18"></div>
+                      <p>
+                        <span><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="Golfi Team RE/MAX"> x2</span>
+                        <span><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="Golfi Team RE/MAX"> x2</span>
+                        <span><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="Golfi Team RE/MAX"> 980 sq</span>
+                      </p>
+                      <div class="space16"></div>
+                      <a class="price">$540,000</a>
+                    </div>
+                  </div>
+                  <div class="status">
+                    <a href="" class="status-badge pending">Pending</a>
+                  </div>
+                  <div class="actions">
+                    <button class="edit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6.41421 15.89L16.5563 5.74785L15.1421 4.33363L5 14.4758V15.89H6.41421ZM7.24264 17.89H3V13.6473L14.435 2.21231C14.8256 1.82179 15.4587 1.82179 15.8492 2.21231L18.6777 5.04074C19.0682 5.43126 19.0682 6.06443 18.6777 6.45495L7.24264 17.89ZM3 19.89H21V21.89H3V19.89Z"></path>
+                      </svg> Edit</button>
+                    <button class="sold"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7.0943 5.68009L18.3199 16.9057C19.3736 15.5506 20 13.8491 20 12C20 7.58172 16.4183 4 12 4C10.1509 4 8.44939 4.62644 7.0943 5.68009ZM16.9057 18.3199L5.68009 7.0943C4.62644 8.44939 4 10.1509 4 12C4 16.4183 7.58172 20 12 20C13.8491 20 15.5506 19.3736 16.9057 18.3199ZM4.92893 4.92893C6.73748 3.12038 9.23885 2 12 2C17.5228 2 22 6.47715 22 12C22 14.7611 20.8796 17.2625 19.0711 19.0711C17.2625 20.8796 14.7611 22 12 22C6.47715 22 2 17.5228 2 12C2 9.23885 3.12038 6.73748 4.92893 4.92893Z"></path>
+                      </svg> Sold</button>
+                    <button class="delete"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7 4V2H17V4H22V6H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V6H2V4H7ZM6 6V20H18V6H6ZM9 9H11V17H9V9ZM13 9H15V17H13V9Z"></path>
+                      </svg> Delete</button>
+                  </div>
+                </div>
+
+                <!-- Row 3 -->
+                <div class="table-row">
+                  <div class="listing">
+                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/others/dash-img3.png" alt="Townhome">
+                    <div class="details">
+                      <a href="property-details-v3.html">Ancaster Townhome</a>
+                      <div class="space18"></div>
+                      <p>
+                        <span><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="Golfi Team RE/MAX"> x3</span>
+                        <span><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="Golfi Team RE/MAX"> x2</span>
+                        <span><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="Golfi Team RE/MAX"> 1600 sq</span>
+                      </p>
+                      <div class="space16"></div>
+                      <a class="price">$820,000</a>
+                    </div>
+                  </div>
+                  <div class="status">
+                    <a href="#" class="status-badge approved">Approved</a>
+                  </div>
+                  <div class="actions">
+                    <button class="edit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6.41421 15.89L16.5563 5.74785L15.1421 4.33363L5 14.4758V15.89H6.41421ZM7.24264 17.89H3V13.6473L14.435 2.21231C14.8256 1.82179 15.4587 1.82179 15.8492 2.21231L18.6777 5.04074C19.0682 5.43126 19.0682 6.06443 18.6777 6.45495L7.24264 17.89ZM3 19.89H21V21.89H3V19.89Z"></path>
+                      </svg> Edit</button>
+                    <button class="sold"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7.0943 5.68009L18.3199 16.9057C19.3736 15.5506 20 13.8491 20 12C20 7.58172 16.4183 4 12 4C10.1509 4 8.44939 4.62644 7.0943 5.68009ZM16.9057 18.3199L5.68009 7.0943C4.62644 8.44939 4 10.1509 4 12C4 16.4183 7.58172 20 12 20C13.8491 20 15.5506 19.3736 16.9057 18.3199ZM4.92893 4.92893C6.73748 3.12038 9.23885 2 12 2C17.5228 2 22 6.47715 22 12C22 14.7611 20.8796 17.2625 19.0711 19.0711C17.2625 20.8796 14.7611 22 12 22C6.47715 22 2 17.5228 2 12C2 9.23885 3.12038 6.73748 4.92893 4.92893Z"></path>
+                      </svg> Sold</button>
+                    <button class="delete"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7 4V2H17V4H22V6H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V6H2V4H7ZM6 6V20H18V6H6ZM9 9H11V17H9V9ZM13 9H15V17H13V9Z"></path>
+                      </svg> Delete</button>
+                  </div>
+                </div>
+
+                <!-- Row 4 -->
+                <div class="table-row">
+                  <div class="listing">
+                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/others/dash-img4.png" alt="Luxury Estate">
+                    <div class="details">
+                      <a href="property-details-v4.html">Golf Links Luxury Estate</a>
+                      <div class="space18"></div>
+                      <p>
+                        <span><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="Golfi Team RE/MAX"> x5</span>
+                        <span><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="Golfi Team RE/MAX"> x4</span>
+                        <span><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="Golfi Team RE/MAX"> 3800 sq</span>
+                      </p>
+                      <div class="space16"></div>
+                      <a class="price">$2,150,000</a>
+                    </div>
+                  </div>
+                  <div class="status">
+                    <a href="#" class="status-badge sold">Sold</a>
+                  </div>
+                  <div class="actions">
+                    <button class="edit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6.41421 15.89L16.5563 5.74785L15.1421 4.33363L5 14.4758V15.89H6.41421ZM7.24264 17.89H3V13.6473L14.435 2.21231C14.8256 1.82179 15.4587 1.82179 15.8492 2.21231L18.6777 5.04074C19.0682 5.43126 19.0682 6.06443 18.6777 6.45495L7.24264 17.89ZM3 19.89H21V21.89H3V19.89Z"></path>
+                      </svg> Edit</button>
+                    <button class="sold"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7.0943 5.68009L18.3199 16.9057C19.3736 15.5506 20 13.8491 20 12C20 7.58172 16.4183 4 12 4C10.1509 4 8.44939 4.62644 7.0943 5.68009ZM16.9057 18.3199L5.68009 7.0943C4.62644 8.44939 4 10.1509 4 12C4 16.4183 7.58172 20 12 20C13.8491 20 15.5506 19.3736 16.9057 18.3199ZM4.92893 4.92893C6.73748 3.12038 9.23885 2 12 2C17.5228 2 22 6.47715 22 12C22 14.7611 20.8796 17.2625 19.0711 19.0711C17.2625 20.8796 14.7611 22 12 22C6.47715 22 2 17.5228 2 12C2 9.23885 3.12038 6.73748 4.92893 4.92893Z"></path>
+                      </svg> Sold</button>
+                    <button class="delete"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7 4V2H17V4H22V6H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V6H2V4H7ZM6 6V20H18V6H6ZM9 9H11V17H9V9ZM13 9H15V17H13V9Z"></path>
+                      </svg> Delete</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-12">
+                <div class="pagination-area" style="text-align: start;">
+                  <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                      <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10.8284 12.0007L15.7782 16.9504L14.364 18.3646L8 12.0007L14.364 5.63672L15.7782 7.05093L10.8284 12.0007Z"></path>
+                          </svg>
+                        </a>
+                      </li>
+                      <li class="page-item"><a class="page-link active" href="#">1</a></li>
+                      <li class="page-item"><a class="page-link" href="#">2</a></li>
+                      <li class="page-item"><a class="page-link" href="#">....</a></li>
+                      <li class="page-item"><a class="page-link" href="#">12</a></li>
+                      <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M13.1717 12.0007L8.22192 7.05093L9.63614 5.63672L16.0001 12.0007L9.63614 18.3646L8.22192 16.9504L13.1717 12.0007Z"></path>
+                          </svg>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="space30"></div>
+          <div class="dashboardboxarea">
+            <h3>Listing Activity</h3>
+            <div class="space28"></div>
+            <div class="wd-filter-date">
+              <div class="left">
+                <div class="dates active">Day</div>
+                <div class="dates">Week</div>
+                <div class="dates">Month</div>
+                <div class="dates">Year</div>
+              </div>
+              <div class="right">
+                <div class="ip-group icon">
+                  <input type="date">
+                </div>
+                <div class="ip-group icon">
+                  <input type="date">
+                </div>
+              </div>
+            </div>
+            <div class="space32"></div>
+            <div class="chart-box">
+              <canvas id="lineChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="space30"></div>
+          <div class="dashboard-info-sider-deatils">
+            <div class="dashboard-info-sider">
+              <h3>Client Messages</h3>
+              <div class="space32"></div>
+              <div class="message-boxarea">
+                <div class="img1">
+                  <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/others/dash-img5.png" alt="Golfi Team RE/MAX">
+                </div>
+                <div class="conatent-area">
+                  <div class="content">
+                    <a href="#">Sarah Thompson</a>
+                    <p>3 Days Ago</p>
+                  </div>
+                  <div class="space14"></div>
+                  <p>We're excited to help you find the perfect neighborhood and home for your family — let us know how we can help.</p>
+                </div>
+              </div>
+
+              <div class="message-boxarea">
+                <div class="space32"></div>
+                <div class="img1">
+                  <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/others/dash-img6.png" alt="Golfi Team RE/MAX">
+                </div>
+                <div class="conatent-area">
+                  <div class="content">
+                    <a href="#">Mark Reynolds</a>
+                    <p>3 Days Ago</p>
+                  </div>
+                  <div class="space14"></div>
+                  <p>Thank you for reaching out! We're here to guide you every step of the way in finding the ideal home.</p>
+                </div>
+              </div>
+
+              <div class="message-boxarea" style="border-bottom: none; padding: 0;">
+                <div class="space32"></div>
+                <div class="img1">
+                  <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/others/dash-img7.png" alt="Golfi Team RE/MAX">
+                </div>
+                <div class="conatent-area">
+                  <div class="content">
+                    <a href="#">Priya Anand</a>
+                    <p>3 Days Ago</p>
+                  </div>
+                  <div class="space14"></div>
+                  <p>Finding the perfect place to call home is a journey worth taking — explore our listings and resources.</p>
+                </div>
+              </div>
+            </div>
+            <div class="space30"></div>
+            <div class="dashboard-info-sider">
+              <h3>Recent Reviews</h3>
+              <div class="space32"></div>
+              <div class="message-boxarea">
+                <div class="img1">
+                  <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/others/dash-img8.png" alt="Golfi Team RE/MAX">
+                </div>
+                <div class="conatent-area">
+                  <div class="content">
+                    <a href="#">Glenn Phillips</a>
+                    <p>3 Days Ago</p>
+                  </div>
+                  <div class="space14"></div>
+                  <p>The Golfi Team made our home search smooth and stress-free from the first showing to closing day.</p>
+                  <ul>
+                    <li><i class="fa-solid fa-star"></i></li>
+                    <li><i class="fa-solid fa-star"></i></li>
+                    <li><i class="fa-solid fa-star"></i></li>
+                    <li><i class="fa-solid fa-star"></i></li>
+                    <li><i class="fa-solid fa-star"></i></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="message-boxarea">
+                <div class="space32"></div>
+                <div class="img1">
+                  <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/others/dash-img9.png" alt="Golfi Team RE/MAX">
+                </div>
+                <div class="conatent-area">
+                  <div class="content">
+                    <a href="#">Trent Boulter</a>
+                    <p>3 Days Ago</p>
+                  </div>
+                  <div class="space14"></div>
+                  <p>Responsive, knowledgeable about the Hamilton &amp; Niagara market, and great to work with.</p>
+                  <ul>
+                    <li><i class="fa-solid fa-star"></i></li>
+                    <li><i class="fa-solid fa-star"></i></li>
+                    <li><i class="fa-solid fa-star"></i></li>
+                    <li><i class="fa-solid fa-star"></i></li>
+                    <li><i class="fa-solid fa-star"></i></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="message-boxarea" style="border-bottom: none; padding: 0;">
+                <div class="space32"></div>
+                <div class="img1">
+                  <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/others/dash-img10.png" alt="Golfi Team RE/MAX">
+                </div>
+                <div class="conatent-area">
+                  <div class="content">
+                    <a href="#">Logan Ferguson</a>
+                    <p>3 Days Ago</p>
+                  </div>
+                  <div class="space14"></div>
+                  <p>We hope your home search is going smoothly! If you have any questions, we're just a call away.</p>
+                  <ul>
+                    <li><i class="fa-solid fa-star"></i></li>
+                    <li><i class="fa-solid fa-star"></i></li>
+                    <li><i class="fa-solid fa-star"></i></li>
+                    <li><i class="fa-solid fa-star"></i></li>
+                    <li><i class="fa-solid fa-star"></i></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--===== DASHBOARD AREA ENDS =======-->
+
+  <div class="cta1-section-area golfi-cta-area">
+    <div class="container">
+      <div class="row align-items-center gy-4">
+        <div class="col-lg-7">
+          <div class="cta-header">
+            <span class="golfi-cta-eyebrow">Hamilton &amp; Niagara Region</span>
+            <h2 class="text-anime-style-3">Find Your Dream Home<br>with <span style="color:#E2001A;">Golfi Team</span></h2>
+            <div class="space16"></div>
+            <p data-aos="fade-left" data-aos-duration="1000">With over 25 years of local expertise, Golfi Team RE/MAX guides you home — from first showing to closing day.</p>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="golfi-cta-actions">
+            <a href="sidebar-grid.html" class="theme-btn3 golfi-cta-btn">Search Properties <span class="arrow1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path></svg></span><span class="arrow2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path></svg></span></a>
+            <a href="tel:+19053049444" class="golfi-cta-phone"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg> +1 (905) 304-9444</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--===== CTA AREA ENDS =======-->
+
+  <!--===== FOOTER AREA STARTS =======-->
+  <div class="footer2-section-area">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-6">
+          <div class="footer-logoarea">
+            <div class="footer-brand-row">
+              <span class="golfi-logo"><img src="assets/img/logo/golfi-logo-reverse.png" alt="Golfi Team"></span>
+              <span class="logo-divider"></span>
+              <span class="remax-logo"><img src="assets/img/logo/remax-balloon.png" alt="RE/MAX" style="max-height:56px;width:auto;"></span>
+            </div>
+
+            <ul class="contact">
+              <li><a href="tel:+19053049444"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M21 16.42V19.9561C21 20.4811 20.5941 20.9167 20.0705 20.9537C19.6331 20.9846 19.2763 21 19 21C10.1634 21 3 13.8366 3 5C3 4.72371 3.01545 4.36687 3.04635 3.9295C3.08337 3.40588 3.51894 3 4.04386 3H7.5801C7.83678 3 8.05176 3.19442 8.07753 3.4498C8.10067 3.67907 8.12218 3.86314 8.14207 4.00202C8.34435 5.41472 8.75753 6.75936 9.3487 8.00303C9.44359 8.20265 9.38171 8.44159 9.20185 8.57006L7.04355 10.1118C8.35752 13.1811 10.8189 15.6425 13.8882 16.9565L15.4271 14.8019C15.5572 14.6199 15.799 14.5573 16.001 14.6532C17.2446 15.2439 18.5891 15.6566 20.0016 15.8584C20.1396 15.8782 20.3225 15.8995 20.5502 15.9225C20.8056 15.9483 21 16.1633 21 16.42Z"></path>
+                  </svg>+1 (905) 304-9444</a></li>
+
+              <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                  </svg> 905 Golf Links Rd, Ancaster, ON L9K 1L9</a></li>
+
+              <li><a href="mailto:info@golfiteam.com"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3ZM12.0606 11.6829L5.64722 6.2377L4.35278 7.7623L12.0731 14.3171L19.6544 7.75616L18.3456 6.24384L12.0606 11.6829Z"></path>
+                  </svg> info@golfiteam.com</a></li>
+            </ul>
+            <div class="space24"></div>
+            <ul class="social">
+              <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
+              <li><a href="#"><i class="fa-brands fa-linkedin-in"></i></a></li>
+              <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+              <li><a href="#"><i class="fa-brands fa-youtube"></i></a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="footer-content">
+            <h3>Category</h3>
+            <div class="space4"></div>
+            <ul>
+              <li><a href="property-details-v1.html">Detached Homes</a></li>
+              <li><a href="property-details-v2.html">Condos &amp; Lofts</a></li>
+              <li><a href="property-details-v3.html">Townhomes</a></li>
+              <li><a href="property-details-v4.html">Luxury Estates</a></li>
+              <li><a href="sidebar-grid.html">Investment Properties</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="footer-content2">
+            <h3>Quick Links</h3>
+            <div class="space4"></div>
+            <ul>
+              <li><a href="about-us.html">About Golfi Team</a></li>
+              <li><a href="sidebar-grid.html">Search Listings</a></li>
+              <li><a href="our-service.html">Sell Your Home</a></li>
+              <li><a href="blog.html">Market Reports</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="instagram-posts">
+            <h3>We are here</h3>
+            <div class="space28"></div>
+            <div class="maps">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="space60"></div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="copyright text-center">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px;margin-bottom:12px;">
+              <img src="assets/img/logo/realtor-logo-golfi.png" alt="REALTOR®" style="max-height:36px;width:auto;opacity:0.85;">
+              <img src="assets/img/logo/remax-logo-reverse.png" alt="RE/MAX" style="max-height:28px;width:auto;opacity:0.85;">
+            </div>
+            <p>©Copyright 2024 Golfi Team | RE/MAX Escarpment Realty Inc. | Brokerage. All Rights Reserved.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--===== FOOTER AREA ENDS =======-->
+
+  <!--===== JS SCRIPT LINK =======-->
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/bootstrap.min.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/fontawesome.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/aos.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/counter.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/chart.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/chart-init.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/gsap.min.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/ScrollTrigger.min.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/Splitetext.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/sidebar.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/swiper-slider.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/magnific-popup.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/mobilemenu.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/owlcarousel.min.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/nice-select.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/waypoints.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/slick-slider.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/circle-progress.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/main.js"></script>
+
+  <!-- Floating Mobile Action Bar -->
+  <div class="mobile-action-bar d-lg-none">
+    <a href="tel:+19053049485" class="mab-call">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z" fill="currentColor"/></svg>
+      Call Now
+    </a>
+    <a href="sidebar-grid.html" class="mab-listings">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor"/></svg>
+      Browse Listings
+    </a>
+  </div>
+
+</body>
+
+
+</html>

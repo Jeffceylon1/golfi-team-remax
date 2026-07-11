@@ -1,0 +1,3093 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Golfi Team RE/MAX | Hamilton & Niagara Real Estate</title>
+
+  <!--=====FAB ICON=======-->
+  <link rel="shortcut icon" href="assets/img/logo/fav-logo2.png" type="image/x-icon">
+
+  <!--===== CSS LINK =======-->
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/plugins/bootstrap.min.css">
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/plugins/aos.css">
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/plugins/fontawesome.css">
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/plugins/magnific-popup.css">
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/plugins/mobile.css">
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/plugins/owlcarousel.min.css">
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/plugins/sidebar.css">
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/plugins/slick-slider.css">
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/plugins/nice-select.css">
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/plugins/swiper-slider.css">
+  <link rel="stylesheet" href="https://housebox-html-demo.vercel.app/assets/css/main.css">
+
+  <!--=====  JS SCRIPT LINK =======-->
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/jquery-3-7-1.min.js"></script>
+
+<!-- ===== GOLFI TEAM RE/MAX BRAND OVERRIDES ===== -->
+<style>
+  :root {
+    --ztc-text-text-4: #E2001A;
+    --ztc-bg-bg-3: #E2001A;
+    /* NOTE: --ztc-text-text-5 intentionally NOT overridden */
+    --ztc-bg-bg-4: #0D1B3E;
+    --ztc-text-text-6: #E2001A;
+    --ztc-bg-bg-5: #E2001A;
+    --ztc-text-text-7: #003DA5;
+    --ztc-bg-bg-6: #003DA5;
+    --ztc-text-text-8: #E2001A;
+    --ztc-bg-bg-7: #E2001A;
+  }
+  /* ── STICKY HEADER ───────────────────────────── */
+  .homepage2-body .header-area.homepage2.sticky { background: #0D1B3E !important; }
+  .homepage2-body .header-area.homepage2 nav#navbar-example2 ul li a.nav-link.active { color: #E2001A !important; }
+  /* ── DESKTOP LOGO (Golfi-only) ───────────────── */
+  .site-logo { display: flex !important; align-items: center !important; }
+  .golfi-main-logo { max-height: 48px; width: auto; }
+  /* ── BUTTONS ─────────────────────────────────── */
+  .theme-btn, .theme-btn3 { background: #E2001A !important; }
+  .theme-btn:hover, .theme-btn3:hover { background: #003DA5 !important; }
+  /* ── TAGS / BADGES ───────────────────────────── */
+  .feature-tag, .property-tag, .property-badge { background: #E2001A !important; color: #fff !important; }
+  /* ── SECTION HEADERS ─────────────────────────── */
+  .section-header span, .heading-area span { color: #E2001A !important; }
+  /* ── COUNTER SECTION ─────────────────────────── */
+  .counter-section, .counter-section-area { background: #0D1B3E !important; }
+  .counter-section *, .counter-section-area * { color: #fff !important; }
+  .counter-section h2, .counter-section-area h2,
+  .counter-section .counter, .counter-section-area .counter { color: #fff !important; }
+  .counter-section span, .counter-section-area span { color: #E2001A !important; }
+  /* ── FOOTER ──────────────────────────────────── */
+  .footer2-section-area { background: #0D1B3E !important; }
+  .footer2-section-area h3,
+  .footer2-section-area h4,
+  .footer2-section-area p,
+  .footer2-section-area li,
+  .footer2-section-area a,
+  .footer2-section-area span,
+  .footer2-section-area .copyright p { color: #ffffff !important; }
+  .footer2-section-area a:hover { color: #E2001A !important; }
+  .footer2-section-area .social li a { background: rgba(255,255,255,0.12) !important; color: #fff !important; }
+  .footer2-section-area .social li a:hover { background: #E2001A !important; color: #fff !important; }
+  .footer2-section-area .contact li a svg { fill: #E2001A !important; }
+  .footer2-section-area .copyright { border-top: 1px solid rgba(255,255,255,0.15); padding-top: 24px; }
+  /* ── FOOTER BRAND ROW ────────────────────────── */
+  .footer-brand-row { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+  .footer-brand-row .golfi-logo img { max-height: 48px; width: auto; }
+  .footer-brand-row .logo-divider { width: 1px; height: 38px; background: rgba(255,255,255,0.25); display: inline-block; }
+  .footer-brand-row .remax-logo img { max-height: 56px; width: auto; }
+  /* ── GOLFI CTA BANNER ───────────────────────────── */
+  .golfi-cta-area {
+    background: #ffffff;
+    border-top: 4px solid #E2001A;
+    padding: 80px 0;
+  }
+  .golfi-cta-eyebrow {
+    display: inline-block;
+    background: #E2001A;
+    color: #fff !important;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
+  .golfi-cta-area .cta-header h2 {
+    color: #0D1B3E !important;
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+  }
+  .golfi-cta-area .cta-header p {
+    color: #5a6473 !important;
+    font-size: 16px;
+    line-height: 1.75;
+    margin-top: 16px;
+  }
+  .golfi-cta-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .golfi-cta-btn {
+    display: block !important;
+    width: 100%;
+    text-align: center;
+    background: #E2001A !important;
+    border-radius: 8px !important;
+    padding: 17px 32px !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: #fff !important;
+    box-shadow: 0 6px 24px rgba(226,0,26,0.25);
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  .golfi-cta-btn:hover { background: #bf0016 !important; box-shadow: 0 8px 30px rgba(226,0,26,0.38); }
+  .golfi-cta-phone {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    text-align: center;
+    color: #0D1B3E !important;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 15px 32px;
+    border: 1.5px solid #d0d5de;
+    border-radius: 8px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .golfi-cta-phone:hover { border-color: #E2001A !important; color: #E2001A !important; }
+  .golfi-cta-phone svg { fill: currentColor; flex-shrink: 0; }
+  @media (max-width: 991px) {
+    .golfi-cta-area { padding: 56px 0; }
+    .golfi-cta-area .cta-header h2 { font-size: 28px; }
+    .golfi-cta-actions { margin-top: 36px; }
+  }
+
+  /* ═══════════════════════════════════════════════
+     WORLD-CLASS MOBILE EXPERIENCE
+  ═══════════════════════════════════════════════ */
+
+  /* ── MOBILE HEADER ─────────────────────────── */
+  @media (max-width: 991px) {
+    .mobile-header.mobile-header2 {
+      position: sticky !important;
+      top: 0;
+      z-index: 9999;
+      background: #ffffff !important;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.10) !important;
+      padding: 10px 0 !important;
+      border-bottom: 2px solid #E2001A;
+    }
+    .mobile-header-elements {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      padding: 0 4px;
+    }
+    .mobile-logo a img {
+      max-height: 38px !important;
+      width: auto !important;
+    }
+    /* Style the hamburger + icon buttons */
+    .mobile-right .circle-button {
+      width: 38px !important;
+      height: 38px !important;
+      border-radius: 8px !important;
+      background: #f4f5f7 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      border: none !important;
+    }
+    .mobile-right .circle-button svg path { fill: #0D1B3E !important; }
+    .mobile-nav-icon.dots-menu {
+      width: 42px !important;
+      height: 42px !important;
+      border-radius: 8px !important;
+      background: #0D1B3E !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer;
+    }
+    .mobile-nav-icon.dots-menu svg { fill: #ffffff !important; width: 20px; height: 20px; }
+  }
+
+  /* ── MOBILE SIDEBAR ───────────────────────── */
+  @media (max-width: 991px) {
+    .mobile-sidebar.mobile-sidebar2 {
+      background: #0D1B3E !important;
+      width: 300px !important;
+    }
+    .mobile-nav-list li a {
+      color: #ffffff !important;
+      font-size: 15px !important;
+      font-weight: 500 !important;
+      padding: 12px 0 !important;
+      border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+    }
+    .mobile-nav-list li a:hover { color: #E2001A !important; }
+    .mobile-sidebar .side-logo img { max-height: 44px !important; }
+    .mobile-sidebar .side-close { color: #fff !important; }
+  }
+
+  /* ── HERO SECTION MOBILE ──────────────────── */
+  @media (max-width: 767px) {
+    .hero2-slider-area::after { display: none; }
+    .hero2-slider-area .container { padding-bottom: 32px; }
+
+    /* Hero text sizing */
+    .hero2-slider-area h1,
+    .hero2-slider-area .hero-heading {
+      font-size: 28px !important;
+      line-height: 1.25 !important;
+    }
+    .hero2-slider-area p {
+      font-size: 15px !important;
+      line-height: 1.65 !important;
+    }
+    /* Hero search box */
+    .hero2-search-form,
+    .hero-search-area {
+      border-radius: 12px !important;
+      padding: 16px !important;
+    }
+    .hero2-search-form .search-input,
+    .hero-search-area input {
+      font-size: 15px !important;
+      padding: 14px 16px !important;
+      border-radius: 8px !important;
+    }
+    .hero2-search-form .theme-btn,
+    .hero-search-area .theme-btn {
+      width: 100% !important;
+      padding: 14px !important;
+      font-size: 15px !important;
+      font-weight: 600 !important;
+      border-radius: 8px !important;
+      margin-top: 8px;
+    }
+  }
+
+  /* ── PROPERTY CARDS MOBILE ────────────────── */
+  @media (max-width: 767px) {
+    .property-card,
+    .property-item,
+    .property-box {
+      border-radius: 14px !important;
+      overflow: hidden !important;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.09) !important;
+      margin-bottom: 20px !important;
+    }
+    .property-card img,
+    .property-item img,
+    .property-box img {
+      border-radius: 0 !important;
+    }
+    .property-card .property-info,
+    .property-item .property-content,
+    .property-box .property-content {
+      padding: 16px !important;
+    }
+    .property-card h4, .property-card h3,
+    .property-item h4, .property-item h3 {
+      font-size: 16px !important;
+      line-height: 1.35 !important;
+      margin-bottom: 6px !important;
+    }
+    /* Price styling */
+    .property-card .price,
+    .property-item .price,
+    .property-price {
+      font-size: 18px !important;
+      font-weight: 700 !important;
+      color: #E2001A !important;
+    }
+    /* Feature icons row */
+    .property-features,
+    .property-meta {
+      gap: 12px !important;
+      font-size: 13px !important;
+    }
+  }
+
+  /* ── SECTION HEADERS MOBILE ───────────────── */
+  @media (max-width: 767px) {
+    .section-title, .section-header h2,
+    .heading-area h2 {
+      font-size: 24px !important;
+      line-height: 1.3 !important;
+    }
+    .section-desc, .section-header p,
+    .heading-area p {
+      font-size: 15px !important;
+    }
+    /* Section vertical padding */
+    section, .section-area {
+      padding-top: 52px !important;
+      padding-bottom: 52px !important;
+    }
+  }
+
+  /* ── AGENT/TEAM CARDS MOBILE ──────────────── */
+  @media (max-width: 767px) {
+    .agent-card, .team-card, .agent-item {
+      border-radius: 14px !important;
+      overflow: hidden !important;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08) !important;
+    }
+    .agent-card img, .team-card img { height: 220px !important; object-fit: cover !important; }
+    .agent-info, .team-info { padding: 16px !important; }
+    .agent-info h4, .team-info h4 { font-size: 16px !important; }
+  }
+
+  /* ── FOOTER MOBILE ────────────────────────── */
+  @media (max-width: 767px) {
+    .footer2-section-area { padding-top: 56px !important; padding-bottom: 100px !important; }
+    .footer-brand-row { flex-wrap: wrap; gap: 12px; }
+    .footer2-section-area h3 { font-size: 16px !important; margin-bottom: 16px !important; }
+    .footer2-section-area li { margin-bottom: 10px !important; }
+    .footer2-section-area .copyright { text-align: center; }
+  }
+
+  /* ── CTA SECTION MOBILE ───────────────────── */
+  @media (max-width: 767px) {
+    .golfi-cta-area { padding: 48px 0 !important; }
+    .golfi-cta-area .cta-header h2 { font-size: 24px !important; }
+    .golfi-cta-area .cta-header p { font-size: 15px !important; }
+    .golfi-cta-btn, .golfi-cta-phone { padding: 16px 24px !important; font-size: 15px !important; }
+    /* Stack on mobile */
+    .golfi-cta-actions { margin-top: 28px !important; }
+  }
+
+  /* ── FLOATING MOBILE ACTION BAR ───────────── */
+  .mobile-action-bar {
+    display: none;
+  }
+  @media (max-width: 991px) {
+    .mobile-action-bar {
+      display: flex;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 9998;
+      background: #0D1B3E;
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+      gap: 10px;
+      box-shadow: 0 -4px 24px rgba(0,0,0,0.22);
+    }
+    .mobile-action-bar a {
+      flex: 1;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 13px 12px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+    }
+    .mobile-action-bar .mab-call {
+      background: #E2001A;
+      color: #fff !important;
+    }
+    .mobile-action-bar .mab-listings {
+      background: rgba(255,255,255,0.10);
+      color: #fff !important;
+      border: 1.5px solid rgba(255,255,255,0.25);
+    }
+    .mobile-action-bar .mab-listings:hover,
+    .mobile-action-bar .mab-call:hover { opacity: 0.92; }
+    /* Push page content above the bar */
+    body { padding-bottom: 76px !important; }
+  }
+
+  /* ── BUTTONS — min touch target 44px ─────── */
+  @media (max-width: 991px) {
+    .theme-btn, .theme-btn3, .btn, button {
+      min-height: 44px !important;
+    }
+    a { -webkit-tap-highlight-color: rgba(226,0,26,0.15); }
+  }
+
+  /* ── COUNTERS/STATS MOBILE ────────────────── */
+  @media (max-width: 767px) {
+    .counter-section-area .col-6,
+    .counter-section .col-6 { margin-bottom: 24px; }
+    .counter, .counter-number { font-size: 32px !important; }
+  }
+
+  /* ── PRELOADER — hidden for local file preview ── */
+  .preloader { display: none !important; }
+  body { overflow: auto !important; }
+  .loading { border-color: #E2001A transparent transparent transparent !important; }
+  /* ── AGENT CARDS ─────────────────────────────── */
+  .agent-social a:hover { background: #E2001A !important; }
+  /* ── HERO REMAX BADGE ────────────────────────── */
+  .remax-hero-badge { position: absolute; bottom: 32px; right: 5%; display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 10; opacity: 0.92; }
+  /* ── HERO LEFT PANEL — RE/MAX BLUE OVERLAY ───── */
+  .hero2-slider-area { position: relative; }
+  .hero2-slider-area::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 44%;
+    height: 100%;
+    background: linear-gradient(to right,
+      rgba(0, 61, 165, 0.52) 0%,
+      rgba(0, 61, 165, 0.32) 72%,
+      rgba(0, 61, 165, 0.00) 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+  .hero2-slider-area .container { position: relative; z-index: 2; }
+</style>
+  <link rel="stylesheet" href="assets/css/golfi-mobile.css">
+    <link rel="stylesheet" href="assets/css/golfi-brand.css">
+</head>
+
+<body class="homepage2-body">
+
+  <!--===== PRELOADER STARTS =======-->
+  <div class="preloader">
+    <div class="loading-container">
+      <div class="loading"></div>
+      <div id="loading-icon"><img src="assets/img/logo/golfi-logo-color.png" alt="Golfi Team"></div>
+    </div>
+  </div>
+  <!--===== PRELOADER ENDS =======-->
+
+  <!--===== PROGRESS STARTS=======-->
+  <div class="paginacontainer">
+    <div class="progress-wrap">
+      <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+        <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+      </svg>
+    </div>
+  </div>
+  <!--===== PROGRESS ENDS=======-->
+
+  <!--===== SEARCHBAR STARTS=======-->
+  <div class="header-search-form-wrapper">
+    <div class="tx-search-close tx-close"><i class="fa-solid fa-xmark"></i></div>
+    <div class="header-search-container">
+      <form role="search" class="search-form">
+        <input type="search" class="search-field" placeholder="Search …" value="" name="s">
+        <button type="submit" class="search-submit"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M13.7955 13.8111L19 19M16 8.5C16 12.6421 12.6421 16 8.5 16C4.35786 16 1 12.6421 1 8.5C1 4.35786 4.35786 1 8.5 1C12.6421 1 16 4.35786 16 8.5Z" stroke="#030E0F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg></button>
+      </form>
+    </div>
+  </div>
+  <div class="body-overlay"></div>
+  <!--===== SEARCHBAR STARTS=======-->
+
+  <!--=====HEADER START=======-->
+  <header>
+    <div class="header-area homepage2 header header-sticky d-none d-lg-block " id="header">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="header-elements">
+              <div class="site-logo">
+                <a href="index.html"><img src="assets/img/logo/golfi-logo-color.png" alt="Golfi Team" class="golfi-main-logo"></a>
+              </div>
+              <div class="main-menu">
+                <ul>
+                  <li><a href="index.html" class="nav-link active">Home</a></li>
+                  <li><a href="#" class="plus">Properties <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="dropdown-padding">
+                      <li><a href="sidebar-grid.html">Search All Listings</a></li>
+                      <li><a href="property-details-v1.html">Detached Homes</a></li>
+                      <li><a href="property-details-v2.html">Condos &amp; Lofts</a></li>
+                      <li><a href="property-details-v3.html">Townhomes</a></li>
+                      <li><a href="property-details-v4.html">Luxury Estates</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#" class="plus">Buy &amp; Sell <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="dropdown-padding">
+                      <li><a href="sidebar-grid.html">Buy a Home</a></li>
+                      <li><a href="our-service.html">Sell Your Home</a></li>
+                      <li><a href="loan-caculator.html">Mortgage Calculator</a></li>
+                      <li><a href="blog.html">Market Reports</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#" class="plus">About <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="dropdown-padding">
+                      <li><a href="about-us.html">About Golfi Team</a></li>
+                      <li><a href="our-service.html">Our Services</a></li>
+                      <li><a href="pricing.html">Pricing</a></li>
+                      <li><a href="faq.html">FAQ</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="blog.html" class="plus">Blog <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="dropdown-padding">
+                      <li><a href="blog.html">All Posts</a></li>
+                      <li><a href="blog-grid.html">Blog Grid</a></li>
+                      <li><a href="blog-detail.html">Post Details</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#" class="plus">Dashboard <i class="fa-solid fa-angle-down"></i></a>
+                    <ul class="dropdown-padding">
+                      <li><a href="dashboard.html">Overview</a></li>
+                      <li><a href="my-property.html">My Properties</a></li>
+                      <li><a href="add-property.html">Add Property</a></li>
+                      <li><a href="my-favorites.html">My Favourites</a></li>
+                      <li><a href="message.html">Messages</a></li>
+                      <li><a href="reviews.html">Reviews</a></li>
+                      <li><a href="my-profile.html">My Profile</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="contact.html">Contact</a></li>
+                </ul>
+              </div>
+              <div class="btn-area">
+                <div class="search-icon header__search header-search-btn">
+                  <a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path>
+                    </svg></a>
+                </div>
+                <a href="sidebar-grid.html" class="theme-btn3">Search Properties <span class="arrow1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                      <path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path>
+                    </svg></span><span class="arrow2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                      <path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path>
+                    </svg></span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!--=====HEADER END =======-->
+
+  <!--===== MOBILE HEADER STARTS =======-->
+  <div class="mobile-header mobile-header2 d-block d-lg-none">
+    <div class="container-fluid">
+      <div class="col-12">
+        <div class="mobile-header-elements">
+          <div class="mobile-logo">
+            <a href="index.html"><img src="assets/img/logo/golfi-logo-color.png" alt="Golfi Team" style="max-height:44px;width:auto;"></a>
+          </div>
+          <div class="mobile-right d-flex gap-1 align-items-center">
+            <a class="circle-button user-icon" href="contact.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <g clip-path="url(#clip0_4104_7939)">
+                  <path d="M7 0C4.96456 0 3.30859 1.65596 3.30859 3.69141C3.30859 5.72685 4.96456 7.38281 7 7.38281C9.03544 7.38281 10.6914 5.72685 10.6914 3.69141C10.6914 1.65596 9.03544 0 7 0Z" fill="#073B3A" />
+                  <path d="M11.5928 9.79439C10.5822 8.76824 9.24243 8.20312 7.82031 8.20312H6.17969C4.75759 8.20312 3.4178 8.76824 2.40718 9.79439C1.4015 10.8155 0.847656 12.1634 0.847656 13.5898C0.847656 13.8164 1.0313 14 1.25781 14H12.7422C12.9687 14 13.1523 13.8164 13.1523 13.5898C13.1523 12.1634 12.5985 10.8155 11.5928 9.79439Z" fill="#073B3A" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_4104_7939">
+                    <rect width="14" height="14" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </a>
+            <a class="circle-button add-icon" href="contact.html">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <g clip-path="url(#clip0_4104_7948)">
+                  <path d="M12.75 8.25H8.5C8.36194 8.25 8.25 8.36194 8.25 8.5V12.75C8.25 13.4403 7.69031 14 7 14C6.30969 14 5.75 13.4403 5.75 12.75V8.5C5.75 8.36194 5.63806 8.25 5.5 8.25H1.25C0.559692 8.25 0 7.69031 0 7C0 6.30969 0.559692 5.75 1.25 5.75H5.5C5.63806 5.75 5.75 5.63806 5.75 5.5V1.25C5.75 0.559691 6.30969 -1.66893e-06 7 -1.66893e-06C7.69031 -1.66893e-06 8.25 0.559691 8.25 1.25V5.5C8.25 5.63806 8.36194 5.75 8.5 5.75H12.75C13.4403 5.75 14 6.30969 14 7C14 7.69031 13.4403 8.25 12.75 8.25Z" fill="#073B3A" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_4104_7948">
+                    <rect width="14" height="14" fill="white" transform="matrix(1 0 0 -1 0 14)" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </a>
+            <div class="mobile-nav-icon dots-menu">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 4H21V6H3V4ZM7 19H21V21H7V19ZM3 14H21V16H3V14ZM7 9H21V11H7V9Z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-sidebar mobile-sidebar2">
+    <div class="logosicon-area">
+      <div class="logos">
+        <img src="assets/img/logo/golfi-logo-reverse.png" alt="Golfi Team" style="max-height:44px;width:auto;">
+      </div>
+      <div class="menu-close">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M10.5859 12L2.79297 4.20706L4.20718 2.79285L12.0001 10.5857L19.793 2.79285L21.2072 4.20706L13.4143 12L21.2072 19.7928L19.793 21.2071L12.0001 13.4142L4.20718 21.2071L2.79297 19.7928L10.5859 12Z"></path>
+        </svg>
+      </div>
+    </div>
+    <div class="mobile-nav mobile-nav1">
+      <ul class="mobile-nav-list nav-list1">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#">Properties
+          <ul class="sub-menu">
+            <li><a href="sidebar-grid.html">Search All Listings</a></li>
+            <li><a href="property-details-v1.html">Detached Homes</a></li>
+            <li><a href="property-details-v2.html">Condos &amp; Lofts</a></li>
+            <li><a href="property-details-v3.html">Townhomes</a></li>
+            <li><a href="property-details-v4.html">Luxury Estates</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Buy &amp; Sell
+          <ul class="sub-menu">
+            <li><a href="sidebar-grid.html">Buy a Home</a></li>
+            <li><a href="our-service.html">Sell Your Home</a></li>
+            <li><a href="loan-caculator.html">Mortgage Calculator</a></li>
+            <li><a href="blog.html">Market Reports</a></li>
+          </ul>
+        </li>
+        <li><a href="#">About
+          <ul class="sub-menu">
+            <li><a href="about-us.html">About Golfi Team</a></li>
+            <li><a href="our-service.html">Our Services</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+          </ul>
+        </li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+                  <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <div class="allmobilesection">
+        <a href="contact.html" class="theme-btn3">Contact Us <span class="arrow1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+              <path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path>
+            </svg></span><span class="arrow2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+              <path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path>
+            </svg></span></a>
+        <div class="single-footer">
+          <h3>Contact Info</h3>
+          <div class="footer1-contact-info">
+            <div class="contact-info-single">
+              <div class="contact-info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M21 16.42V19.9561C21 20.4811 20.5941 20.9167 20.0705 20.9537C19.6331 20.9846 19.2763 21 19 21C10.1634 21 3 13.8366 3 5C3 4.72371 3.01545 4.36687 3.04635 3.9295C3.08337 3.40588 3.51894 3 4.04386 3H7.5801C7.83678 3 8.05176 3.19442 8.07753 3.4498C8.10067 3.67907 8.12218 3.86314 8.14207 4.00202C8.34435 5.41472 8.75753 6.75936 9.3487 8.00303C9.44359 8.20265 9.38171 8.44159 9.20185 8.57006L7.04355 10.1118C8.35752 13.1811 10.8189 15.6425 13.8882 16.9565L15.4271 14.8019C15.5572 14.6199 15.799 14.5573 16.001 14.6532C17.2446 15.2439 18.5891 15.6566 20.0016 15.8584C20.1396 15.8782 20.3225 15.8995 20.5502 15.9225C20.8056 15.9483 21 16.1633 21 16.42Z"></path>
+                </svg>
+              </div>
+              <div class="contact-info-text">
+                <a href="tel:+3(924)4596512">+3(924)4596512</a>
+              </div>
+            </div>
+
+            <div class="contact-info-single">
+              <div class="contact-info-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M3 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3ZM12.0606 11.6829L5.64722 6.2377L4.35278 7.7623L12.0731 14.3171L19.6544 7.75616L18.3456 6.24384L12.0606 11.6829Z"></path>
+                </svg>
+              </div>
+              <div class="contact-info-text">
+                <a href="mailto:info@example.com">info@example.com</a>
+              </div>
+            </div>
+
+            <div class="single-footer">
+              <h3>Our Location</h3>
+
+              <div class="contact-info-single">
+                <div class="contact-info-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                  </svg>
+                </div>
+                <div class="contact-info-text">
+                  <a href="mailto:info@example.com">55 East Birchwood Ave.Brooklyn, <br> New York 11201,United States</a>
+                </div>
+              </div>
+
+            </div>
+            <div class="single-footer">
+              <h3>Social Links</h3>
+
+              <div class="social-links-mobile-menu">
+                <ul>
+                  <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
+                  <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+                  <li><a href="#"><i class="fa-brands fa-linkedin-in"></i></a></li>
+                  <li><a href="#"><i class="fa-brands fa-youtube"></i></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--===== MOBILE HEADER STARTS =======-->
+
+  <!--===== HERO AREA STARTS =======-->
+  <div class="hero2-slider-sectionarea">
+    <div class="hero2-slider-area">
+      <img src="https://housebox-html-demo.vercel.app/assets/img/elements/elements1.png" alt="housebox" class="elements1">
+      <img src="https://housebox-html-demo.vercel.app/assets/img/elements/elements2.png" alt="housebox" class="elements2">
+      <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/hero/hero2-img1.png" alt="housebox" class="hero2-img1">
+      <div class="img1">
+        <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/hero/hero2-img2.png" alt="housebox">
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-5">
+            <div class="hero2-header">
+              <h5>Discover Your Ideal Property Today!</h5>
+              <div class="space20"></div>
+              <h1>Hamilton's <span style="color:#E2001A">RE/MAX</span> Realty Team Since 1998</h1>
+              <div class="space20"></div>
+              <div class="btn-area1">
+                <a href="property-details-v1.html" class="theme-btn3">Find Your Dream Home Now <span class="arrow1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                      <path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path>
+                    </svg></span><span class="arrow2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                      <path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path>
+                    </svg></span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero2-slider-area">
+      <img src="https://housebox-html-demo.vercel.app/assets/img/elements/elements1.png" alt="housebox" class="elements1">
+      <img src="https://housebox-html-demo.vercel.app/assets/img/elements/elements2.png" alt="housebox" class="elements2">
+      <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/hero/hero2-img1.png" alt="housebox" class="hero2-img1">
+      <div class="img1">
+        <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/hero/hero2-img3.png" alt="housebox">
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-5">
+            <div class="hero2-header">
+              <h5>Discover Your Ideal Property Today!</h5>
+              <div class="space20"></div>
+              <h1>Elegant Homes For Elevated Lifestyles</h1>
+              <div class="space20"></div>
+              <div class="btn-area1">
+                <a href="property-details-v1.html" class="theme-btn3">Find Your Dream Home Now <span class="arrow1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                      <path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path>
+                    </svg></span><span class="arrow2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                      <path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path>
+                    </svg></span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero2-slider-area">
+      <img src="https://housebox-html-demo.vercel.app/assets/img/elements/elements1.png" alt="housebox" class="elements1">
+      <img src="https://housebox-html-demo.vercel.app/assets/img/elements/elements2.png" alt="housebox" class="elements2">
+      <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/hero/hero2-img1.png" alt="housebox" class="hero2-img1">
+      <div class="img1">
+        <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/hero/hero2-img4.png" alt="housebox">
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-5">
+            <div class="hero2-header">
+              <h5>Discover Your Ideal Property Today!</h5>
+              <div class="space20"></div>
+              <h1>Elegant Homes For Elevated Lifestyles</h1>
+              <div class="space20"></div>
+              <div class="btn-area1">
+                <a href="property-details-v1.html" class="theme-btn3">Find Your Dream Home Now <span class="arrow1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                      <path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path>
+                    </svg></span><span class="arrow2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                      <path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path>
+                    </svg></span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero2-small-img">
+    <div class="img1">
+      <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/others/others-img1.png" alt="housebox">
+    </div>
+
+    <div class="img1">
+      <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/others/others-img3.png" alt="housebox">
+    </div>
+
+    <div class="img1">
+      <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/others/others-img2.png" alt="housebox">
+    </div>
+
+    <div class="img1">
+      <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/others/others-img1.png" alt="housebox">
+    </div>
+  </div>
+  <div class="remax-hero-badge">
+    <img src="assets/img/logo/remax-balloon.png" alt="RE/MAX" style="height:80px;width:auto;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.25));">
+    <span style="background:#E2001A;color:#fff;font-size:10px;font-weight:700;letter-spacing:1px;padding:3px 10px;border-radius:20px;text-transform:uppercase;">Official Partner</span>
+  </div>
+  <!--===== HERO AREA ENDS =======-->
+
+  <!--===== OTHERS AREA STARTS =======-->
+  <div class="others-section-area2">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="theme-btn1 open-search-filter-form">
+            <p class="open-text">Open Search Form
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path>
+              </svg>
+            </p>
+            <p class="close-text">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10.5859 12L2.79297 4.20706L4.20718 2.79285L12.0001 10.5857L19.793 2.79285L21.2072 4.20706L13.4143 12L21.2072 19.7928L19.793 21.2071L12.0001 13.4142L4.20718 21.2071L2.79297 19.7928L10.5859 12Z"></path>
+              </svg>
+              Close
+            </p>
+          </div>
+
+          <div class="property-tab-section search-filter-form">
+            <div class="tab-header">
+              <button class="tab-btn active" data-tab="for-sale">For Sale</button>
+              <button class="tab-btn" data-tab="for-rent">For Rent</button>
+            </div>
+
+            <div class="tab-content1" id="for-sale">
+              <div class="filters">
+                <div class="filter-group">
+                  <label>Status</label>
+                  <select>
+                    <option>All Status</option>
+                    <option>For Rent</option>
+                    <option>For Sale</option>
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <label>Labels</label>
+                  <select>
+                    <option>All Labels</option>
+                    <option>New Offer</option>
+                    <option>Hot Offer</option>
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <label>Types</label>
+                  <select>
+                    <option>All Types</option>
+                    <option>Apartment</option>
+                    <option>Bar</option>
+                    <option>Cafe</option>
+                    <option>House</option>
+                    <option>Farm</option>
+                    <option>Luxury Homes</option>
+                    <option>Office</option>
+                    <option>Single Family</option>
+                    <option>Store</option>
+                    <option>Villa</option>
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <label for="customize-sale">Customize</label>
+                  <button id="customize-sale" class="customize-sale show-form">
+                    Advance <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6.17071 18C6.58254 16.8348 7.69378 16 9 16C10.3062 16 11.4175 16.8348 11.8293 18H22V20H11.8293C11.4175 21.1652 10.3062 22 9 22C7.69378 22 6.58254 21.1652 6.17071 20H2V18H6.17071ZM12.1707 11C12.5825 9.83481 13.6938 9 15 9C16.3062 9 17.4175 9.83481 17.8293 11H22V13H17.8293C17.4175 14.1652 16.3062 15 15 15C13.6938 15 12.5825 14.1652 12.1707 13H2V11H12.1707ZM6.17071 4C6.58254 2.83481 7.69378 2 9 2C10.3062 2 11.4175 2.83481 11.8293 4H22V6H11.8293C11.4175 7.16519 10.3062 8 9 8C7.69378 8 6.58254 7.16519 6.17071 6H2V4H6.17071Z"></path>
+                      </svg></span>
+                  </button>
+                </div>
+                <div class="search-button">
+                  <button id="search-sale">Search <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path>
+                    </svg></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-content1" id="for-rent" style="display: none;">
+              <div class="filters">
+                <div class="filter-group">
+                  <label>Status</label>
+                  <select>
+                    <option>All Status</option>
+                    <option>For Rent</option>
+                    <option>For Sale</option>
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <label>Labels</label>
+                  <select>
+                    <option>All Labels</option>
+                    <option>New Offer</option>
+                    <option>Hot Offer</option>
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <label>Types</label>
+                  <select>
+                    <option>All Types</option>
+                    <option>Apartment</option>
+                    <option>Bar</option>
+                    <option>Cafe</option>
+                    <option>House</option>
+                    <option>Farm</option>
+                    <option>Luxury Homes</option>
+                    <option>Office</option>
+                    <option>Single Family</option>
+                    <option>Store</option>
+                    <option>Villa</option>
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <label for="customize-sale">Customize</label>
+                  <button id="customize-sale1" class="customize-sale show-form">
+                    Advance <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6.17071 18C6.58254 16.8348 7.69378 16 9 16C10.3062 16 11.4175 16.8348 11.8293 18H22V20H11.8293C11.4175 21.1652 10.3062 22 9 22C7.69378 22 6.58254 21.1652 6.17071 20H2V18H6.17071ZM12.1707 11C12.5825 9.83481 13.6938 9 15 9C16.3062 9 17.4175 9.83481 17.8293 11H22V13H17.8293C17.4175 14.1652 16.3062 15 15 15C13.6938 15 12.5825 14.1652 12.1707 13H2V11H12.1707ZM6.17071 4C6.58254 2.83481 7.69378 2 9 2C10.3062 2 11.4175 2.83481 11.8293 4H22V6H11.8293C11.4175 7.16519 10.3062 8 9 8C7.69378 8 6.58254 7.16519 6.17071 6H2V4H6.17071Z"></path>
+                      </svg></span>
+                  </button>
+                </div>
+                <div class="search-button">
+                  <button id="search-sale1">Search <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path>
+                    </svg></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="wd-search-form ">
+              <div class=" group-select">
+                <div class="box-select">
+                  <h5>Bathrooms</h5>
+                  <div class="nice-select" tabindex="0">
+                    <span class="current">Bathrooms</span>
+                    <ul class="list">
+                      <li data-value="1" class="option">1</li>
+                      <li data-value="2" class="option selected">2</li>
+                      <li data-value="3" class="option">3</li>
+                      <li data-value="4" class="option">4</li>
+                      <li data-value="5" class="option">5</li>
+                      <li data-value="6" class="option">6</li>
+                      <li data-value="7" class="option">7</li>
+                      <li data-value="8" class="option">8</li>
+                      <li data-value="9" class="option">9</li>
+                      <li data-value="10" class="option">10</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="box-select">
+                  <h5>Bedrooms</h5>
+                  <div class="nice-select" tabindex="0">
+                    <span class="current">Bedrooms</span>
+                    <ul class="list">
+                      <li data-value="1" class="option">1</li>
+                      <li data-value="2" class="option selected">2</li>
+                      <li data-value="3" class="option">3</li>
+                      <li data-value="4" class="option">4</li>
+                      <li data-value="5" class="option">5</li>
+                      <li data-value="6" class="option">6</li>
+                      <li data-value="7" class="option">7</li>
+                      <li data-value="8" class="option">8</li>
+                      <li data-value="9" class="option">9</li>
+                      <li data-value="10" class="option">10</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="box-select">
+                  <h5>States</h5>
+                  <div class="nice-select" tabindex="0">
+                    <span class="current">All States</span>
+                    <ul class="list">
+                      <li data-value="1" class="option">New York</li>
+                      <li data-value="2" class="option selected">California</li>
+                      <li data-value="3" class="option">Texas</li>
+                      <li data-value="4" class="option">Sydney</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="box-select">
+                  <h5>City</h5>
+                  <div class="nice-select" tabindex="0">
+                    <span class="current">All Cities</span>
+                    <ul class="list">
+                      <li data-value="1" class="option">Alice</li>
+                      <li data-value="2" class="option selected">Bridgaport</li>
+                      <li data-value="3" class="option">Dallas</li>
+                      <li data-value="4" class="option">Kingston</li>
+                      <li data-value="5" class="option">Los Angeles</li>
+                      <li data-value="6" class="option">New York</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class=" group-select">
+                <div class="box-select">
+                  <h5>Garages</h5>
+                  <div class="nice-select" tabindex="0">
+                    <span class="current">Any Garages</span>
+                    <ul class="list">
+                      <li data-value="1" class="option">1</li>
+                      <li data-value="2" class="option selected">2</li>
+                      <li data-value="3" class="option">3</li>
+                      <li data-value="4" class="option">4</li>
+                      <li data-value="5" class="option">5</li>
+                      <li data-value="6" class="option">6</li>
+                      <li data-value="7" class="option">7</li>
+                      <li data-value="8" class="option">8</li>
+                      <li data-value="9" class="option">9</li>
+                      <li data-value="10" class="option">10</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="box-select">
+                  <h5>Rooms</h5>
+                  <div class="nice-select" tabindex="0">
+                    <span class="current">Any Rooms</span>
+                    <ul class="list">
+                      <li data-value="1" class="option">1</li>
+                      <li data-value="2" class="option selected">2</li>
+                      <li data-value="3" class="option">3</li>
+                      <li data-value="4" class="option">4</li>
+                      <li data-value="5" class="option">5</li>
+                      <li data-value="6" class="option">6</li>
+                      <li data-value="7" class="option">7</li>
+                      <li data-value="8" class="option">8</li>
+                      <li data-value="9" class="option">9</li>
+                      <li data-value="10" class="option">10</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="group-price">
+                <div class="slider-item">
+                  <div class="slider-label">Price Range: <span id="price-output">$200 - $2,500,000</span></div>
+                  <div class="slider price-slider">
+                    <input type="range" id="price-range-min" class="range-min" min="200" max="2500000" value="200" step="100">
+                    <input type="range" id="price-range-max" class="range-max" min="200" max="2500000" value="2500000" step="100">
+                    <div class="slider-fill"></div>
+                  </div>
+                </div>
+
+                <div class="slider-item">
+                  <div class="slider-label">Size Range: <span id="size-output">146 SqFt - 448 SqFt</span></div>
+                  <div class="slider size-slider">
+                    <input type="range" id="size-range-min" class="range-min" min="146" max="448" value="146" step="1">
+                    <input type="range" id="size-range-max" class="range-max" min="146" max="448" value="448" step="1">
+                    <div class="slider-fill"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="group-checkbox">
+                <div class=" title text-4 fw-6">Others Features</div>
+                <div class="space16"></div>
+                <div class="group-amenities ">
+                  <fieldset class="checkbox-item style-1  ">
+                    <label>
+                      <input type="checkbox">
+                      <span class="btn-checkbox"></span>
+                      <span class="text-4">Air Conditioning</span>
+                    </label>
+                  </fieldset>
+                  <fieldset class="checkbox-item style-1   mt-12">
+                    <label>
+                      <input type="checkbox">
+                      <span class="btn-checkbox"></span>
+                      <span class="text-4"> Laundry</span>
+                    </label>
+                  </fieldset>
+                  <fieldset class="checkbox-item style-1   mt-12">
+                    <label>
+                      <input type="checkbox">
+                      <span class="btn-checkbox"></span>
+                      <span class="text-4">Refrigerator </span>
+                    </label>
+                  </fieldset>
+                  <fieldset class="checkbox-item style-1   mt-12">
+                    <label>
+                      <input type="checkbox">
+                      <span class="btn-checkbox"></span>
+                      <span class="text-4">Washer </span>
+                    </label>
+                  </fieldset>
+
+                  <fieldset class="checkbox-item style-1  ">
+                    <label>
+                      <input type="checkbox">
+                      <span class="btn-checkbox"></span>
+                      <span class="text-4"> Barbeque</span>
+                    </label>
+                  </fieldset>
+                  <fieldset class="checkbox-item style-1   mt-12">
+                    <label>
+                      <input type="checkbox">
+                      <span class="btn-checkbox"></span>
+                      <span class="text-4"> Lawn</span>
+                    </label>
+                  </fieldset>
+                  <fieldset class="checkbox-item style-1   mt-12">
+                    <label>
+                      <input type="checkbox">
+                      <span class="btn-checkbox"></span>
+                      <span class="text-4">Sauna </span>
+                    </label>
+                  </fieldset>
+                  <fieldset class="checkbox-item style-1   mt-12">
+                    <label>
+                      <input type="checkbox">
+                      <span class="btn-checkbox"></span>
+                      <span class="text-4">Wifi </span>
+                    </label>
+                  </fieldset>
+
+                  <fieldset class="checkbox-item style-1  ">
+                    <label>
+                      <input type="checkbox">
+                      <span class="btn-checkbox"></span>
+                      <span class="text-4">Dryer </span>
+                    </label>
+                  </fieldset>
+                  <fieldset class="checkbox-item style-1   mt-12">
+                    <label>
+                      <input type="checkbox">
+                      <span class="btn-checkbox"></span>
+                      <span class="text-4">Microwave</span>
+                    </label>
+                  </fieldset>
+                  <fieldset class="checkbox-item style-1   mt-12">
+                    <label>
+                      <input type="checkbox">
+                      <span class="btn-checkbox"></span>
+                      <span class="text-4"> Swimming Pool</span>
+                    </label>
+                  </fieldset>
+                  <fieldset class="checkbox-item style-1   mt-12">
+                    <label>
+                      <input type="checkbox">
+                      <span class="btn-checkbox"></span>
+                      <span class="text-4">Window Coverings</span>
+                    </label>
+                  </fieldset>
+
+                  <fieldset class="checkbox-item style-1  ">
+                    <label>
+                      <input type="checkbox">
+                      <span class="btn-checkbox"></span>
+                      <span class="text-4"> Gym</span>
+                    </label>
+                  </fieldset>
+                  <fieldset class="checkbox-item style-1   mt-12">
+                    <label>
+                      <input type="checkbox">
+                      <span class="btn-checkbox"></span>
+                      <span class="text-4">Outdoor Shower </span>
+                    </label>
+                  </fieldset>
+                  <fieldset class="checkbox-item style-1   mt-12">
+                    <label>
+                      <input type="checkbox">
+                      <span class="btn-checkbox"></span>
+                      <span class="text-4"> TV Cable</span>
+                    </label>
+                  </fieldset>
+                  <fieldset class="checkbox-item style-1   mt-12">
+                    <label>
+                      <input type="checkbox">
+                      <span class="btn-checkbox"></span>
+                      <span class="text-4">Fireplace </span>
+                    </label>
+                  </fieldset>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--===== OTHERS AREA STARTS =======-->
+
+  <!--===== ABOUT AREA STARTS =======-->
+  <div class="about2-section-area sp1">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-7">
+          <div class="about-images-area">
+            <div class="row align-items-center">
+              <div class="col-lg-6 col-md-6">
+                <div class="img2 image-anime reveal">
+                  <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/about/about-img3.png" alt="housebox">
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6">
+                <div class="img1 image-anime reveal">
+                  <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/about/about-img4.png" alt="housebox">
+                </div>
+                <div class="space30"></div>
+                <div class="img1 image-anime reveal">
+                  <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/about/about-img5.png" alt="housebox">
+                </div>
+              </div>
+            </div>
+            <div class="author-img">
+              <h3>Our Happy Customer</h3>
+              <div class="space18"></div>
+              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/others/author-img2.png" alt="housebox">
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="about-heading heading1">
+            <h5 data-aos="fade-left" data-aos-duration="800">About housebox</h5>
+            <div class="space20"></div>
+            <h2 class="text-anime-style-3">Embrace the Elegance Our Exclusive Property</h2>
+            <div class="space18"></div>
+            <p data-aos="fade-left" data-aos-duration="900">At HouseBox, we’re redefining the way people find, sell, and invest in properties. Our mission is to simplify real a estate by provide innovative solutions, expert guidance.</p>
+            <div class="space32"></div>
+            <div class="counter-boxes" data-aos="fade-left" data-aos-duration="1000">
+              <div class="row">
+                <div class="col-lg-4 col-md-4 col-6">
+                  <div class="counter-boxarea text-center">
+                    <h2><span class="counter">10</span>K</h2>
+                    <div class="space12"></div>
+                    <p>Homes Sold</p>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-6">
+                  <div class="counter-boxarea text-center">
+                    <h2><span class="counter">9</span>K</h2>
+                    <div class="space12"></div>
+                    <p>Happy Client</p>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-6">
+                  <div class="space20 d-md-none d-block"></div>
+                  <div class="counter-boxarea text-center">
+                    <h2><span class="counter">98</span>%</h2>
+                    <div class="space12"></div>
+                    <p>Satisfaction Rate</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="space32"></div>
+            <div class="btn-area1" data-aos="fade-left" data-aos-duration="1200">
+              <a href="sidebar-grid.html" class="theme-btn3">See All Properties <span class="arrow1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                    <path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path>
+                  </svg></span><span class="arrow2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                    <path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path>
+                  </svg></span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--===== ABOUT AREA ENDS =======-->
+
+  <!--===== PROPERTIES AREA STARTS =======-->
+  <div class="properties2-section-area sp2" style="background-image: url(https://housebox-html-demo.vercel.app/assets/img/all-images/bg/bg1.png); background-position: center; background-repeat: no-repeat; background-size: cover;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="property-heading heading1 space-margin60">
+            <div class="hedaing1">
+              <h5 data-aos="fade-left" data-aos-duration="800">Featured Properties</h5>
+              <div class="space20"></div>
+              <h2 class="text-anime-style-3">Our Featured Properties</h2>
+            </div>
+            <div class="btn-area1" data-aos="zoom-in" data-aos-duration="1000">
+              <a href="sidebar-grid.html" class="theme-btn3">See All Properties <span class="arrow1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                    <path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path>
+                  </svg></span><span class="arrow2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                    <path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path>
+                  </svg></span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12" data-aos="fade-up" data-aos-duration="1000">
+          <div class="property-feature-slider">
+            <div class="col-lg-12 m-auto">
+              <div class="tabs-btn-area space-margin60">
+                <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 21H5C4.44772 21 4 20.5523 4 20V11L1 11L11.3273 1.6115C11.7087 1.26475 12.2913 1.26475 12.6727 1.6115L23 11L20 11V20C20 20.5523 19.5523 21 19 21ZM6 19H18V9.15745L12 3.7029L6 9.15745V19ZM8 15H16V17H8V15Z"></path>
+                      </svg>
+                      For Sale
+                    </button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12.5812 2.68627C12.2335 2.43791 11.7664 2.43791 11.4187 2.68627L1.9187 9.47198L3.08118 11.0994L11.9999 4.7289L20.9187 11.0994L22.0812 9.47198L12.5812 2.68627ZM19.5812 12.6863L12.5812 7.68627C12.2335 7.43791 11.7664 7.43791 11.4187 7.68627L4.4187 12.6863C4.15591 12.874 3.99994 13.177 3.99994 13.5V20C3.99994 20.5523 4.44765 21 4.99994 21H18.9999C19.5522 21 19.9999 20.5523 19.9999 20V13.5C19.9999 13.177 19.844 12.874 19.5812 12.6863ZM5.99994 19V14.0146L11.9999 9.7289L17.9999 14.0146V19H5.99994Z"></path>
+                      </svg>
+                      Villas
+                    </button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21 19H23V21H1V19H3V4C3 3.44772 3.44772 3 4 3H14C14.5523 3 15 3.44772 15 4V19H19V11H17V9H20C20.5523 9 21 9.44772 21 10V19ZM5 5V19H13V5H5ZM7 11H11V13H7V11ZM7 7H11V9H7V7Z"></path>
+                      </svg>
+                      Apartments
+                    </button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-contact1-tab" data-bs-toggle="pill" data-bs-target="#pills-contact1" type="button" role="tab" aria-controls="pills-contact1" aria-selected="false">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12.6727 1.61162 20.7999 9H17.8267L12 3.70302 6 9.15757V19.0001H11V21.0001H5C4.44772 21.0001 4 20.5524 4 20.0001V11.0001L1 11.0001 11.3273 1.61162C11.7087 1.26488 12.2913 1.26488 12.6727 1.61162ZM14 11H23V18H14V11ZM16 13V16H21V13H16ZM24 21H13V19H24V21Z"></path>
+                      </svg>
+                      Houses
+                    </button>
+                  </li>
+
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-contact2-tab" data-bs-toggle="pill" data-bs-target="#pills-contact2" type="button" role="tab" aria-controls="pills-contact2" aria-selected="false">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M22 21H2V19H3V4C3 3.44772 3.44772 3 4 3H18C18.5523 3 19 3.44772 19 4V9H21V19H22V21ZM17 19H19V11H13V19H15V13H17V19ZM17 9V5H5V19H11V9H17ZM7 11H9V13H7V11ZM7 15H9V17H7V15ZM7 7H9V9H7V7Z"></path>
+                      </svg>
+                      Condos
+                    </button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-contact3-tab" data-bs-toggle="pill" data-bs-target="#pills-contact3" type="button" role="tab" aria-controls="pills-contact3" aria-selected="false">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 19V5.70046C3 5.27995 3.26307 4.90437 3.65826 4.76067L13.3291 1.24398C13.5886 1.14961 13.8755 1.28349 13.9699 1.54301C13.9898 1.59778 14 1.65561 14 1.71388V6.6667L20.3162 8.77211C20.7246 8.90822 21 9.29036 21 9.72079V19H23V21H1V19H3ZM5 19H12V3.85543L5 6.40089V19ZM19 19V10.4416L14 8.77488V19H19Z"></path>
+                      </svg>
+                      Retail
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="property-boxarea">
+                        <div class="row align-items-center">
+                          <div class="col-lg-6">
+                            <div class="img1 image-anime">
+                              <div class="swiper swiper-fade">
+                                <div class="swiper-wrapper">
+                                  <div class="swiper-slide">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img11.png" alt="housebox">
+                                  </div>
+                                  <div class="swiper-slide">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img12.png" alt="housebox">
+                                  </div>
+                                </div>
+                                <div class="swiper-pagination"></div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="category-list">
+                              <ul>
+                                <li><a href="property-details-v1.html">Featured</a></li>
+                                <li><a href="property-details-v1.html">For Rent</a></li>
+                              </ul>
+                            </div>
+                            <div class="content-area">
+                              <a href="property-details-v1.html">Luxury Suite Villa</a>
+                              <div class="space18"></div>
+                              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                                </svg> Los Angeles City, CA, USA</p>
+                              <div class="space24"></div>
+                              <ul>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="housebox">x12</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="housebox">x16</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="housebox">1200 sq</a></li>
+                              </ul>
+                              <div class="btn-area">
+                                <div class="name-area">
+                                  <div class="img">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img7.png" alt="housebox">
+                                  </div>
+                                  <div class="text">
+                                    <a href="#">Sheldon Jackson</a>
+                                  </div>
+                                </div>
+                                <a href="#" class="nm-btn">$820,000</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="maps">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="property-boxarea">
+                        <div class="row align-items-center">
+                          <div class="col-lg-6">
+                            <div class="img1 image-anime">
+                              <div class="swiper swiper-fade">
+                                <div class="swiper-wrapper">
+                                  <div class="swiper-slide">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img13.png" alt="housebox">
+                                  </div>
+                                  <div class="swiper-slide">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img14.png" alt="housebox">
+                                  </div>
+                                  <div class="swiper-slide">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img15.png" alt="housebox">
+                                  </div>
+                                </div>
+                                <div class="swiper-pagination"></div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="category-list">
+                              <ul>
+                                <li><a href="property-details-v1.html">Featured</a></li>
+                                <li><a href="property-details-v1.html">For Sale</a></li>
+                              </ul>
+                            </div>
+                            <div class="content-area">
+                              <a href="property-details-v1.html">Apartment Diamond</a>
+                              <div class="space18"></div>
+                              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                                </svg> Los Angeles City, CA, USA</p>
+                              <div class="space24"></div>
+                              <ul>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="housebox">x12</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="housebox">x16</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="housebox">1200 sq</a></li>
+                              </ul>
+                              <div class="btn-area">
+                                <div class="name-area">
+                                  <div class="img">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img8.png" alt="housebox">
+                                  </div>
+                                  <div class="text">
+                                    <a href="#">Alex Roberts</a>
+                                  </div>
+                                </div>
+                                <a href="#" class="nm-btn">$820,000</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="maps">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="property-boxarea">
+                        <div class="row align-items-center">
+                          <div class="col-lg-6">
+                            <div class="img1 image-anime">
+                              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img12.png" alt="housebox">
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="category-list">
+                              <ul>
+                                <li><a href="property-details-v1.html">Featured</a></li>
+                                <li><a href="property-details-v1.html">For Rent</a></li>
+                              </ul>
+                            </div>
+                            <div class="content-area">
+                              <a href="property-details-v1.html">Apartment Angles</a>
+                              <div class="space18"></div>
+                              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                                </svg> Los Angeles City, CA, USA</p>
+                              <div class="space24"></div>
+                              <ul>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="housebox">x12</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="housebox">x16</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="housebox">1200 sq</a></li>
+                              </ul>
+                              <div class="btn-area">
+                                <div class="name-area">
+                                  <div class="img">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img9.png" alt="housebox">
+                                  </div>
+                                  <div class="text">
+                                    <a href="#">Alesa Healy</a>
+                                  </div>
+                                </div>
+                                <a href="#" class="nm-btn">$820,000</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="maps">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="property-boxarea">
+                        <div class="row align-items-center">
+                          <div class="col-lg-6">
+                            <div class="img1 image-anime">
+                              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img10.png" alt="housebox">
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="category-list">
+                              <ul>
+                                <li><a href="property-details-v1.html">Featured</a></li>
+                                <li><a href="property-details-v1.html">For Rent</a></li>
+                              </ul>
+                            </div>
+                            <div class="content-area">
+                              <a href="property-details-v1.html">Luxury Suite Villa</a>
+                              <div class="space18"></div>
+                              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                                </svg> Los Angeles City, CA, USA</p>
+                              <div class="space24"></div>
+                              <ul>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="housebox">x12</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="housebox">x16</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="housebox">1200 sq</a></li>
+                              </ul>
+                              <div class="btn-area">
+                                <div class="name-area">
+                                  <div class="img">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img7.png" alt="housebox">
+                                  </div>
+                                  <div class="text">
+                                    <a href="#">Sheldon Jackson</a>
+                                  </div>
+                                </div>
+                                <a href="#" class="nm-btn">$820,000</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="maps">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="property-boxarea">
+                        <div class="row align-items-center">
+                          <div class="col-lg-6">
+                            <div class="img1 image-anime">
+                              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img11.png" alt="housebox">
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="category-list">
+                              <ul>
+                                <li><a href="property-details-v1.html">Featured</a></li>
+                                <li><a href="property-details-v1.html">For Sale</a></li>
+                              </ul>
+                            </div>
+                            <div class="content-area">
+                              <a href="property-details-v1.html">Apartment Diamond</a>
+                              <div class="space18"></div>
+                              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                                </svg> Los Angeles City, CA, USA</p>
+                              <div class="space24"></div>
+                              <ul>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="housebox">x12</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="housebox">x16</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="housebox">1200 sq</a></li>
+                              </ul>
+                              <div class="btn-area">
+                                <div class="name-area">
+                                  <div class="img">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img8.png" alt="housebox">
+                                  </div>
+                                  <div class="text">
+                                    <a href="#">Alex Roberts</a>
+                                  </div>
+                                </div>
+                                <a href="#" class="nm-btn">$820,000</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="maps">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="property-boxarea">
+                        <div class="row align-items-center">
+                          <div class="col-lg-6">
+                            <div class="img1 image-anime">
+                              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img12.png" alt="housebox">
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="category-list">
+                              <ul>
+                                <li><a href="property-details-v1.html">Featured</a></li>
+                                <li><a href="property-details-v1.html">For Rent</a></li>
+                              </ul>
+                            </div>
+                            <div class="content-area">
+                              <a href="property-details-v1.html">Apartment Angles</a>
+                              <div class="space18"></div>
+                              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                                </svg> Los Angeles City, CA, USA</p>
+                              <div class="space24"></div>
+                              <ul>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="housebox">x12</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="housebox">x16</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="housebox">1200 sq</a></li>
+                              </ul>
+                              <div class="btn-area">
+                                <div class="name-area">
+                                  <div class="img">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img9.png" alt="housebox">
+                                  </div>
+                                  <div class="text">
+                                    <a href="#">Alesa Healy</a>
+                                  </div>
+                                </div>
+                                <a href="#" class="nm-btn">$820,000</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="maps">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab" tabindex="0">
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="property-boxarea">
+                        <div class="row align-items-center">
+                          <div class="col-lg-6">
+                            <div class="img1 image-anime">
+                              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img10.png" alt="housebox">
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="category-list">
+                              <ul>
+                                <li><a href="property-details-v1.html">Featured</a></li>
+                                <li><a href="property-details-v1.html">For Rent</a></li>
+                              </ul>
+                            </div>
+                            <div class="content-area">
+                              <a href="property-details-v1.html">Luxury Suite Villa</a>
+                              <div class="space18"></div>
+                              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                                </svg> Los Angeles City, CA, USA</p>
+                              <div class="space24"></div>
+                              <ul>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="housebox">x12</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="housebox">x16</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="housebox">1200 sq</a></li>
+                              </ul>
+                              <div class="btn-area">
+                                <div class="name-area">
+                                  <div class="img">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img7.png" alt="housebox">
+                                  </div>
+                                  <div class="text">
+                                    <a href="#">Sheldon Jackson</a>
+                                  </div>
+                                </div>
+                                <a href="#" class="nm-btn">$820,000</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="maps">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="property-boxarea">
+                        <div class="row align-items-center">
+                          <div class="col-lg-6">
+                            <div class="img1 image-anime">
+                              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img11.png" alt="housebox">
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="category-list">
+                              <ul>
+                                <li><a href="property-details-v1.html">Featured</a></li>
+                                <li><a href="property-details-v1.html">For Sale</a></li>
+                              </ul>
+                            </div>
+                            <div class="content-area">
+                              <a href="property-details-v1.html">Apartment Diamond</a>
+                              <div class="space18"></div>
+                              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                                </svg> Los Angeles City, CA, USA</p>
+                              <div class="space24"></div>
+                              <ul>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="housebox">x12</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="housebox">x16</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="housebox">1200 sq</a></li>
+                              </ul>
+                              <div class="btn-area">
+                                <div class="name-area">
+                                  <div class="img">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img8.png" alt="housebox">
+                                  </div>
+                                  <div class="text">
+                                    <a href="#">Alex Roberts</a>
+                                  </div>
+                                </div>
+                                <a href="#" class="nm-btn">$820,000</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="maps">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="property-boxarea">
+                        <div class="row align-items-center">
+                          <div class="col-lg-6">
+                            <div class="img1 image-anime">
+                              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img12.png" alt="housebox">
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="category-list">
+                              <ul>
+                                <li><a href="property-details-v1.html">Featured</a></li>
+                                <li><a href="property-details-v1.html">For Rent</a></li>
+                              </ul>
+                            </div>
+                            <div class="content-area">
+                              <a href="property-details-v1.html">Apartment Angles</a>
+                              <div class="space18"></div>
+                              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                                </svg> Los Angeles City, CA, USA</p>
+                              <div class="space24"></div>
+                              <ul>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="housebox">x12</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="housebox">x16</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="housebox">1200 sq</a></li>
+                              </ul>
+                              <div class="btn-area">
+                                <div class="name-area">
+                                  <div class="img">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img9.png" alt="housebox">
+                                  </div>
+                                  <div class="text">
+                                    <a href="#">Alesa Healy</a>
+                                  </div>
+                                </div>
+                                <a href="#" class="nm-btn">$820,000</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="maps">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="pills-contact1" role="tabpanel" aria-labelledby="pills-contact1-tab" tabindex="0">
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="property-boxarea">
+                        <div class="row align-items-center">
+                          <div class="col-lg-6">
+                            <div class="img1 image-anime">
+                              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img10.png" alt="housebox">
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="category-list">
+                              <ul>
+                                <li><a href="property-details-v1.html">Featured</a></li>
+                                <li><a href="property-details-v1.html">For Rent</a></li>
+                              </ul>
+                            </div>
+                            <div class="content-area">
+                              <a href="property-details-v1.html">Luxury Suite Villa</a>
+                              <div class="space18"></div>
+                              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                                </svg> Los Angeles City, CA, USA</p>
+                              <div class="space24"></div>
+                              <ul>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="housebox">x12</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="housebox">x16</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="housebox">1200 sq</a></li>
+                              </ul>
+                              <div class="btn-area">
+                                <div class="name-area">
+                                  <div class="img">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img7.png" alt="housebox">
+                                  </div>
+                                  <div class="text">
+                                    <a href="#">Sheldon Jackson</a>
+                                  </div>
+                                </div>
+                                <a href="#" class="nm-btn">$820,000</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="maps">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="property-boxarea">
+                        <div class="row align-items-center">
+                          <div class="col-lg-6">
+                            <div class="img1 image-anime">
+                              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img11.png" alt="housebox">
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="category-list">
+                              <ul>
+                                <li><a href="property-details-v1.html">Featured</a></li>
+                                <li><a href="property-details-v1.html">For Sale</a></li>
+                              </ul>
+                            </div>
+                            <div class="content-area">
+                              <a href="property-details-v1.html">Apartment Diamond</a>
+                              <div class="space18"></div>
+                              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                                </svg> Los Angeles City, CA, USA</p>
+                              <div class="space24"></div>
+                              <ul>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="housebox">x12</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="housebox">x16</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="housebox">1200 sq</a></li>
+                              </ul>
+                              <div class="btn-area">
+                                <div class="name-area">
+                                  <div class="img">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img8.png" alt="housebox">
+                                  </div>
+                                  <div class="text">
+                                    <a href="#">Alex Roberts</a>
+                                  </div>
+                                </div>
+                                <a href="#" class="nm-btn">$820,000</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="maps">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="property-boxarea">
+                        <div class="row align-items-center">
+                          <div class="col-lg-6">
+                            <div class="img1 image-anime">
+                              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img12.png" alt="housebox">
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="category-list">
+                              <ul>
+                                <li><a href="property-details-v1.html">Featured</a></li>
+                                <li><a href="property-details-v1.html">For Rent</a></li>
+                              </ul>
+                            </div>
+                            <div class="content-area">
+                              <a href="property-details-v1.html">Apartment Angles</a>
+                              <div class="space18"></div>
+                              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                                </svg> Los Angeles City, CA, USA</p>
+                              <div class="space24"></div>
+                              <ul>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="housebox">x12</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="housebox">x16</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="housebox">1200 sq</a></li>
+                              </ul>
+                              <div class="btn-area">
+                                <div class="name-area">
+                                  <div class="img">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img9.png" alt="housebox">
+                                  </div>
+                                  <div class="text">
+                                    <a href="#">Alesa Healy</a>
+                                  </div>
+                                </div>
+                                <a href="#" class="nm-btn">$820,000</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="maps">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="pills-contact2" role="tabpanel" aria-labelledby="pills-contact2-tab" tabindex="0">
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="property-boxarea">
+                        <div class="row align-items-center">
+                          <div class="col-lg-6">
+                            <div class="img1 image-anime">
+                              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img10.png" alt="housebox">
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="category-list">
+                              <ul>
+                                <li><a href="property-details-v1.html">Featured</a></li>
+                                <li><a href="property-details-v1.html">For Rent</a></li>
+                              </ul>
+                            </div>
+                            <div class="content-area">
+                              <a href="property-details-v1.html">Luxury Suite Villa</a>
+                              <div class="space18"></div>
+                              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                                </svg> Los Angeles City, CA, USA</p>
+                              <div class="space24"></div>
+                              <ul>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="housebox">x12</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="housebox">x16</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="housebox">1200 sq</a></li>
+                              </ul>
+                              <div class="btn-area">
+                                <div class="name-area">
+                                  <div class="img">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img7.png" alt="housebox">
+                                  </div>
+                                  <div class="text">
+                                    <a href="#">Sheldon Jackson</a>
+                                  </div>
+                                </div>
+                                <a href="#" class="nm-btn">$820,000</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="maps">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="property-boxarea">
+                        <div class="row align-items-center">
+                          <div class="col-lg-6">
+                            <div class="img1 image-anime">
+                              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img11.png" alt="housebox">
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="category-list">
+                              <ul>
+                                <li><a href="property-details-v1.html">Featured</a></li>
+                                <li><a href="property-details-v1.html">For Sale</a></li>
+                              </ul>
+                            </div>
+                            <div class="content-area">
+                              <a href="property-details-v1.html">Apartment Diamond</a>
+                              <div class="space18"></div>
+                              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                                </svg> Los Angeles City, CA, USA</p>
+                              <div class="space24"></div>
+                              <ul>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="housebox">x12</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="housebox">x16</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="housebox">1200 sq</a></li>
+                              </ul>
+                              <div class="btn-area">
+                                <div class="name-area">
+                                  <div class="img">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img8.png" alt="housebox">
+                                  </div>
+                                  <div class="text">
+                                    <a href="#">Alex Roberts</a>
+                                  </div>
+                                </div>
+                                <a href="#" class="nm-btn">$820,000</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="maps">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="property-boxarea">
+                        <div class="row align-items-center">
+                          <div class="col-lg-6">
+                            <div class="img1 image-anime">
+                              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img12.png" alt="housebox">
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="category-list">
+                              <ul>
+                                <li><a href="property-details-v1.html">Featured</a></li>
+                                <li><a href="property-details-v1.html">For Rent</a></li>
+                              </ul>
+                            </div>
+                            <div class="content-area">
+                              <a href="property-details-v1.html">Apartment Angles</a>
+                              <div class="space18"></div>
+                              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                                </svg> Los Angeles City, CA, USA</p>
+                              <div class="space24"></div>
+                              <ul>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="housebox">x12</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="housebox">x16</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="housebox">1200 sq</a></li>
+                              </ul>
+                              <div class="btn-area">
+                                <div class="name-area">
+                                  <div class="img">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img9.png" alt="housebox">
+                                  </div>
+                                  <div class="text">
+                                    <a href="#">Alesa Healy</a>
+                                  </div>
+                                </div>
+                                <a href="#" class="nm-btn">$820,000</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="maps">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="pills-contact3" role="tabpanel" aria-labelledby="pills-contact3-tab" tabindex="0">
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="property-boxarea">
+                        <div class="row align-items-center">
+                          <div class="col-lg-6">
+                            <div class="img1 image-anime">
+                              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img10.png" alt="housebox">
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="category-list">
+                              <ul>
+                                <li><a href="property-details-v1.html">Featured</a></li>
+                                <li><a href="property-details-v1.html">For Rent</a></li>
+                              </ul>
+                            </div>
+                            <div class="content-area">
+                              <a href="property-details-v1.html">Luxury Suite Villa</a>
+                              <div class="space18"></div>
+                              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                                </svg> Los Angeles City, CA, USA</p>
+                              <div class="space24"></div>
+                              <ul>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="housebox">x12</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="housebox">x16</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="housebox">1200 sq</a></li>
+                              </ul>
+                              <div class="btn-area">
+                                <div class="name-area">
+                                  <div class="img">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img7.png" alt="housebox">
+                                  </div>
+                                  <div class="text">
+                                    <a href="#">Sheldon Jackson</a>
+                                  </div>
+                                </div>
+                                <a href="#" class="nm-btn">$820,000</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="maps">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="property-boxarea">
+                        <div class="row align-items-center">
+                          <div class="col-lg-6">
+                            <div class="img1 image-anime">
+                              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img11.png" alt="housebox">
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="category-list">
+                              <ul>
+                                <li><a href="property-details-v1.html">Featured</a></li>
+                                <li><a href="property-details-v1.html">For Sale</a></li>
+                              </ul>
+                            </div>
+                            <div class="content-area">
+                              <a href="property-details-v1.html">Apartment Diamond</a>
+                              <div class="space18"></div>
+                              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                                </svg> Los Angeles City, CA, USA</p>
+                              <div class="space24"></div>
+                              <ul>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="housebox">x12</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="housebox">x16</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="housebox">1200 sq</a></li>
+                              </ul>
+                              <div class="btn-area">
+                                <div class="name-area">
+                                  <div class="img">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img8.png" alt="housebox">
+                                  </div>
+                                  <div class="text">
+                                    <a href="#">Alex Roberts</a>
+                                  </div>
+                                </div>
+                                <a href="#" class="nm-btn">$820,000</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="maps">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-8">
+                      <div class="property-boxarea">
+                        <div class="row align-items-center">
+                          <div class="col-lg-6">
+                            <div class="img1 image-anime">
+                              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img12.png" alt="housebox">
+                            </div>
+                          </div>
+
+                          <div class="col-lg-6">
+                            <div class="category-list">
+                              <ul>
+                                <li><a href="property-details-v1.html">Featured</a></li>
+                                <li><a href="property-details-v1.html">For Rent</a></li>
+                              </ul>
+                            </div>
+                            <div class="content-area">
+                              <a href="property-details-v1.html">Apartment Angles</a>
+                              <div class="space18"></div>
+                              <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                                </svg> Los Angeles City, CA, USA</p>
+                              <div class="space24"></div>
+                              <ul>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="housebox">x12</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="housebox">x16</a></li>
+                                <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="housebox">1200 sq</a></li>
+                              </ul>
+                              <div class="btn-area">
+                                <div class="name-area">
+                                  <div class="img">
+                                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img9.png" alt="housebox">
+                                  </div>
+                                  <div class="text">
+                                    <a href="#">Alesa Healy</a>
+                                  </div>
+                                </div>
+                                <a href="#" class="nm-btn">$820,000</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="maps">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--===== PROPERTIES AREA ENDS =======-->
+
+  <!--===== PROPERTY-LOCATION AREA STARTS =======-->
+  <div class="property2-location-section-area sp2">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 m-auto">
+          <div class="property-headeing heading1 space-margin60 text-center">
+            <h5 data-aos="fade-left" data-aos-duration="800">property location</h5>
+            <div class="space20"></div>
+            <h2 class="text-anime-style-3">Explore Our Property Location</h2>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-3 col-md-6" data-aos="zoom-in-up" data-aos-duration="800">
+          <div class="propety-single-boxarea">
+            <div class="img1">
+              <div class="swiper swiper-fade">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/property_location/property-img6.png" alt="housebox">
+                  </div>
+                  <div class="swiper-slide">
+                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/property_location/property-img10.png" alt="housebox">
+                  </div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+            </div>
+            <h3>32</h3>
+            <a href="property-details-v1.html">San Francisco</a>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6" data-aos="zoom-in-up" data-aos-duration="900">
+          <div class="propety-single-boxarea">
+            <div class="img1">
+              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/property_location/property-img7.png" alt="housebox">
+            </div>
+            <h3>12</h3>
+            <a href="property-details-v1.html">Los Angeles</a>
+          </div>
+        </div>
+
+        <div class="col-lg-5 col-md-6" data-aos="zoom-in-up" data-aos-duration="1000">
+          <div class="propety-single-boxarea">
+            <div class="img1">
+              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/property_location/property-img8.png" alt="housebox">
+            </div>
+            <h3>15</h3>
+            <a href="property-details-v1.html">New York</a>
+          </div>
+        </div>
+        <div class="col-lg-5 col-md-6" data-aos="zoom-in-up" data-aos-duration="1100">
+          <div class="propety-single-boxarea">
+            <div class="img1">
+              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/property_location/property-img9.png" alt="housebox">
+            </div>
+            <h3>20</h3>
+            <a href="property-details-v1.html">San Diego</a>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6" data-aos="zoom-in-up" data-aos-duration="1200">
+          <div class="propety-single-boxarea">
+            <div class="img1">
+              <div class="swiper swiper-fade">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/property_location/property-img10.png" alt="housebox">
+                  </div>
+                  <div class="swiper-slide">
+                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/property_location/property-img7.png" alt="housebox">
+                  </div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+            </div>
+            <h3>24</h3>
+            <a href="property-details-v1.html">Dallas Texas</a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6" data-aos="zoom-in-up" data-aos-duration="1300">
+          <div class="propety-single-boxarea">
+            <div class="img1">
+              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/property_location/property-img11.png" alt="housebox">
+            </div>
+            <h3>21</h3>
+            <a href="property-details-v1.html">Houston City</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--===== PROPERTY-LOCATION AREA ENDS =======-->
+
+  <!--===== PROPERTY-LOCATION AREA STARTS =======-->
+  <div class="property3-location-section-area sp1" style="background-image: url(https://housebox-html-demo.vercel.app/assets/img/all-images/bg/bg1.png); background-position: center; background-repeat: no-repeat; background-size: cover;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-7 m-auto">
+          <div class="heading1 text-center space-margin60">
+            <h5>property location</h5>
+            <div class="space20"></div>
+            <h2 class="text-anime-style-3">Explore Our Property Location</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="row align-items-center">
+        <div class="col-lg-4">
+          <div class="location-accordion">
+            <div class="accordion" id="accordionExample">
+              <div class="accordion-item" data-aos="fade-left" data-aos-duration="800">
+                <h2 class="accordion-header">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    First Floor
+                  </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    <p>Kitchen appliances are essential tools that simplify and enhance our culinary experiences, transforming routine.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="space20"></div>
+              <div class="accordion-item" data-aos="fade-left" data-aos-duration="900">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Second Floor
+                  </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    <p>Kitchen appliances are essential tools that simplify and enhance our culinary experiences, transforming routine.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="space20"></div>
+              <div class="accordion-item" data-aos="fade-left" data-aos-duration="1000">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Swimming Pool
+                  </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    <p>Kitchen appliances are essential tools that simplify and enhance our culinary experiences, transforming routine.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="space20"></div>
+              <div class="accordion-item" data-aos="fade-left" data-aos-duration="1100">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    Kitchen Appliances
+                  </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                    <p>Kitchen appliances are essential tools that simplify and enhance our culinary experiences, transforming routine.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8" data-aos="zoom-in-up" data-aos-duration="1000">
+          <div class="location-maps-area">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--===== PROPERTY-LOCATION AREA ENDS =======-->
+
+  <!--===== ITEMS AREA STARTS =======-->
+  <div class="items2-section-area sp1" style="background-image: url(https://housebox-html-demo.vercel.app/assets/img/all-images/bg/bg2.png); background-position: center; background-repeat: no-repeat; background-size: cover; background-attachment: fixed;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5 m-auto">
+          <div class="item-header heading1 text-center space-margin60">
+            <h5>our best featured item</h5>
+            <div class="space20"></div>
+            <h2 class="text-anime-style-3">Our Featured Items</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="items-images-area">
+          <div class="row">
+            <div class="col-lg-5">
+              <div class="images-area">
+                <div class="img1 image-anime">
+                  <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/items/item-img1.png" alt="housebox">
+                </div>
+                <div class="img1 image-anime">
+                  <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/items/item-img1.png" alt="housebox">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-7">
+              <div class="slider-content-area">
+                <div class="items-content-area">
+                  <div class="category-list">
+                    <ul>
+                      <li><a href="property-details-v1.html">Featured</a></li>
+                      <li><a href="property-details-v1.html">For Rent</a></li>
+                    </ul>
+                  </div>
+                  <div class="content-area">
+                    <div class="space24"></div>
+                    <a href="property-details-v1.html">Rancho Vista Verde, Santos Barba</a>
+                    <div class="space20"></div>
+                    <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                      </svg> 742 Terrace, Springfield, IL 62704, USA</p>
+                    <div class="space24"></div>
+                    <ul>
+                      <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="housebox">x12 Beds</a></li>
+                      <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="housebox">x16 Baths</a></li>
+                      <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="housebox">1200 sq</a></li>
+                    </ul>
+                    <div class="space32"></div>
+                    <div class="btn-area">
+                      <div class="name-area">
+                        <div class="img">
+                          <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img8.png" alt="housebox">
+                        </div>
+                        <div class="text">
+                          <a href="#">Alex Roberts</a>
+                        </div>
+                      </div>
+                      <div class="space20 d-md-none d-block"></div>
+                      <div class="btn-area">
+                        <a href="javascript:void(0)" class="heart"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/heart1.svg" alt="housebox" class="heart1"> <img src="https://housebox-html-demo.vercel.app/assets/img/icons/heart2.svg" alt="housebox" class="heart2"></a>
+                        <a href="#" class="nm-btn">$820,000</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="items-content-area">
+                  <div class="category-list">
+                    <ul>
+                      <li><a href="property-details-v1.html">Featured</a></li>
+                      <li><a href="property-details-v1.html">For Sale</a></li>
+                    </ul>
+                  </div>
+                  <div class="content-area">
+                    <div class="space24"></div>
+                    <a href="property-details-v1.html">Rancho Vista Verde, Santos Barba</a>
+                    <div class="space20"></div>
+                    <p><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                      </svg> 742 Terrace, Springfield, IL 62704, USA</p>
+                    <div class="space24"></div>
+                    <ul>
+                      <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bed1.svg" alt="housebox">x12 Beds</a></li>
+                      <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/bath1.svg" alt="housebox">x16 Baths</a></li>
+                      <li><a href="#"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/sqare1.svg" alt="housebox">1200 sq</a></li>
+                    </ul>
+                    <div class="space32"></div>
+                    <div class="btn-area">
+                      <div class="name-area">
+                        <div class="img">
+                          <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/properties/property-img8.png" alt="housebox">
+                        </div>
+                        <div class="text">
+                          <a href="#">Alex Roberts</a>
+                        </div>
+                      </div>
+                      <div class="space20 d-md-none d-block"></div>
+                      <div class="btn-area">
+                        <a href="javascript:void(0)" class="heart"><img src="https://housebox-html-demo.vercel.app/assets/img/icons/heart1.svg" alt="housebox" class="heart1"> <img src="https://housebox-html-demo.vercel.app/assets/img/icons/heart2.svg" alt="housebox" class="heart2"></a>
+                        <a href="#" class="nm-btn">$820,000</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-arrows">
+            <div class="testimonial-prev-arrow">
+              <button><i class="fa-solid fa-angle-left"></i></button>
+            </div>
+            <div class="testimonial-next-arrow">
+              <button><i class="fa-solid fa-angle-right"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--===== ITEMS AREA ENDS =======-->
+
+  <!--===== TESTIMONIAL AREA STARTS =======-->
+  <div class="testimonial2-section-area sp1" style="background-image: url(https://housebox-html-demo.vercel.app/assets/img/all-images/bg/bg1.png); background-position: center; background-repeat: no-repeat; background-size: cover;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="testimonial-header space-margin60">
+            <div class="heading1">
+              <h5>Trusted by Thousand people</h5>
+              <div class="space20"></div>
+              <h2 class="text-anime-style-3">Hear Our Happy Clients</h2>
+            </div>
+            <div class="btn-area1">
+              <a href="index.html" class="theme-btn3">View All Testimonials <span class="arrow1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                    <path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path>
+                  </svg></span><span class="arrow2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                    <path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path>
+                  </svg></span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="img1 image-anime reveal">
+            <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/testimonial/testimonial-img3.png" alt="housebox">
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="slider-galeria">
+            <div class="testimonial-slider-content-area">
+              <div class="testimonial-author-area">
+                <ul>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                </ul>
+                <div class="space16"></div>
+                <img src="https://housebox-html-demo.vercel.app/assets/img/icons/quito2.svg" alt="housebox" class="quito2">
+                <img src="https://housebox-html-demo.vercel.app/assets/img/elements/elements3.png" alt="housebox" class="elements3">
+                <p>“From start to finish, the team was exceptional. There are listened to our needs, provided expert guidance, & found us the perfect home. We couldn’t be happier on with their serviceI got the best deal possible! Thanks””</p>
+              </div>
+              <div class="space60"></div>
+              <div class="testimonial-man-info-area">
+                <div class="man-images-text">
+                  <div class="mans-img">
+                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/testimonial/testimonial-img4.png" alt="housebox">
+                  </div>
+                  <div class="man-text">
+                    <a href="about-us.html">Sheldon Jackson</a>
+                    <div class="space12"></div>
+                    <p>Shop Store Owner</p>
+                  </div>
+                </div>
+                <img src="https://housebox-html-demo.vercel.app/assets/img/elements/elements4.png" alt="housebox">
+              </div>
+            </div>
+
+            <div class="testimonial-slider-content-area">
+              <div class="testimonial-author-area">
+                <ul>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                </ul>
+                <div class="space16"></div>
+                <img src="https://housebox-html-demo.vercel.app/assets/img/icons/quito2.svg" alt="housebox" class="quito2">
+                <img src="https://housebox-html-demo.vercel.app/assets/img/elements/elements3.png" alt="housebox" class="elements3">
+                <p>"Selling our home felt like a huge challenge until we found [Your Real Estate Agency]. Their team guided us every step of the way, from staging the property to negotiating offers. Within days, our home was sold for more than we expected."</p>
+              </div>
+              <div class="space60"></div>
+              <div class="testimonial-man-info-area">
+                <div class="man-images-text">
+                  <div class="mans-img">
+                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/testimonial/testimonial-img5.png" alt="housebox">
+                  </div>
+                  <div class="man-text">
+                    <a href="about-us.html">Sheldon Jackson</a>
+                    <div class="space12"></div>
+                    <p>Shop Store Owner</p>
+                  </div>
+                </div>
+                <img src="https://housebox-html-demo.vercel.app/assets/img/elements/elements4.png" alt="housebox">
+              </div>
+            </div>
+
+            <div class="testimonial-slider-content-area">
+              <div class="testimonial-author-area">
+                <ul>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                </ul>
+                <div class="space16"></div>
+                <img src="https://housebox-html-demo.vercel.app/assets/img/icons/quito2.svg" alt="housebox" class="quito2">
+                <img src="https://housebox-html-demo.vercel.app/assets/img/elements/elements3.png" alt="housebox" class="elements3">
+                <p>"We were first-time buyers, and the process seemed daunting. [Your Agency] made everything so simple and stress-free. They listened to our needs, showed us perfect options, and helped us close on our dream home quickly."</p>
+              </div>
+              <div class="space60"></div>
+              <div class="testimonial-man-info-area">
+                <div class="man-images-text">
+                  <div class="mans-img">
+                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/testimonial/testimonial-img6.png" alt="housebox">
+                  </div>
+                  <div class="man-text">
+                    <a href="about-us.html">Sheldon Jackson</a>
+                    <div class="space12"></div>
+                    <p>Shop Store Owner</p>
+                  </div>
+                </div>
+                <img src="https://housebox-html-demo.vercel.app/assets/img/elements/elements4.png" alt="housebox">
+              </div>
+            </div>
+
+            <div class="testimonial-slider-content-area">
+              <div class="testimonial-author-area">
+                <ul>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                </ul>
+                <div class="space16"></div>
+                <img src="https://housebox-html-demo.vercel.app/assets/img/icons/quito2.svg" alt="housebox" class="quito2">
+                <img src="https://housebox-html-demo.vercel.app/assets/img/elements/elements3.png" alt="housebox" class="elements3">
+                <p>"Thanks to [Your Agency], I found the ideal investment property. Their expertise, market insights, and personalized service set them apart. It’s clear they truly care about their clients' success."</p>
+              </div>
+              <div class="space60"></div>
+              <div class="testimonial-man-info-area">
+                <div class="man-images-text">
+                  <div class="mans-img">
+                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/testimonial/testimonial-img7.png" alt="housebox">
+                  </div>
+                  <div class="man-text">
+                    <a href="about-us.html">Sheldon Jackson</a>
+                    <div class="space12"></div>
+                    <p>Shop Store Owner</p>
+                  </div>
+                </div>
+                <img src="https://housebox-html-demo.vercel.app/assets/img/elements/elements4.png" alt="housebox">
+              </div>
+            </div>
+
+            <div class="testimonial-slider-content-area">
+              <div class="testimonial-author-area">
+                <ul>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                  <li><a href=""><i class="fa-solid fa-star"></i></a></li>
+                </ul>
+                <div class="space16"></div>
+                <img src="https://housebox-html-demo.vercel.app/assets/img/icons/quito2.svg" alt="housebox" class="quito2">
+                <img src="https://housebox-html-demo.vercel.app/assets/img/elements/elements3.png" alt="housebox" class="elements3">
+                <p>"The team at [Your Agency] transformed the way I looked at real estate. Their marketing was incredible—professional photos, virtual tours, and wide exposure. We had multiple offers within the first week!"</p>
+              </div>
+              <div class="space60"></div>
+              <div class="testimonial-man-info-area">
+                <div class="man-images-text">
+                  <div class="mans-img">
+                    <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/testimonial/testimonial-img4.png" alt="housebox">
+                  </div>
+                  <div class="man-text">
+                    <a href="about-us.html">Sheldon Jackson</a>
+                    <div class="space12"></div>
+                    <p>Shop Store Owner</p>
+                  </div>
+                </div>
+                <img src="https://housebox-html-demo.vercel.app/assets/img/elements/elements4.png" alt="housebox">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-1">
+          <div class="slider-galeria-thumbs text-center d-lg-block d-none">
+            <div class="testimonial3-sliders-img">
+              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/testimonial/testimonial-img4.png" alt="housebox">
+            </div>
+            <div class="testimonial3-sliders-img">
+              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/testimonial/testimonial-img5.png" alt="housebox">
+            </div>
+            <div class="testimonial3-sliders-img">
+              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/testimonial/testimonial-img6.png" alt="housebox">
+            </div>
+            <div class="testimonial3-sliders-img">
+              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/testimonial/testimonial-img7.png" alt="housebox">
+            </div>
+            <div class="testimonial3-sliders-img">
+              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/testimonial/testimonial-img4.png" alt="housebox">
+            </div>
+
+            <div class="testimonial3-sliders-img">
+              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/testimonial/testimonial-img5.png" alt="housebox">
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--===== TESTIMONIAL AREA ENDS =======-->
+
+  <!--===== BLOG AREA STARTS =======-->
+  <div class="blog2-section-area sp2">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 m-auto">
+          <div class="heading1 text-center space-margin60">
+            <h5 data-aos="fade-left" data-aos-duration="800">Latest Blog Posts</h5>
+            <div class="space20"></div>
+            <h2 class="text-anime-style-3">Our Real Estate Updates</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4 col-md-6" data-aos="zoom-in-up" data-aos-duration="800">
+          <div class="blog-single-boxarea">
+            <div class="img1 image-anime">
+              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/blog/blog-img1.png" alt="housebox">
+            </div>
+            <div class="content-area">
+              <ul>
+                <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M1.6665 9.16732H18.3332V16.6673C18.3332 17.1276 17.9601 17.5007 17.4998 17.5007H2.49984C2.0396 17.5007 1.6665 17.1276 1.6665 16.6673V9.16732ZM14.1665 2.50065H17.4998C17.9601 2.50065 18.3332 2.87375 18.3332 3.33398V7.50065H1.6665V3.33398C1.6665 2.87375 2.0396 2.50065 2.49984 2.50065H5.83317V0.833984H7.49984V2.50065H12.4998V0.833984H14.1665V2.50065Z" fill="#030E0F" />
+                    </svg> 8 December 2024</a></li>
+                <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="21" viewBox="0 0 16 21" fill="none">
+                      <path d="M7.08317 12.8894V18.3327H8.9165V12.8894C12.5339 13.3405 15.3332 16.4264 15.3332 20.166H0.666504C0.666504 16.4264 3.46572 13.3405 7.08317 12.8894ZM7.99984 11.916C4.96109 11.916 2.49984 9.45477 2.49984 6.41602C2.49984 3.37727 4.96109 0.916016 7.99984 0.916016C11.0386 0.916016 13.4998 3.37727 13.4998 6.41602C13.4998 9.45477 11.0386 11.916 7.99984 11.916Z" fill="#030E0F" />
+                    </svg> By Alex Roy</a></li>
+              </ul>
+              <div class="space14"></div>
+              <a href="blog-detail.html" class="head">5 Tips Find Your Dream Home Without An Stress Know Budget</a>
+              <div class="space20"></div>
+              <a href="blog-detail.html" class="readmore">learn more <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M13.0508 12.361L7.39395 18.0179L5.97974 16.6037L11.6366 10.9468L6.68684 5.99707H18.0006V17.3108L13.0508 12.361Z"></path>
+                </svg></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6" data-aos="zoom-in-up" data-aos-duration="1000">
+          <div class="blog-single-boxarea">
+            <div class="img1 image-anime">
+              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/blog/blog-img2.png" alt="housebox">
+            </div>
+            <div class="content-area">
+              <ul>
+                <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M1.6665 9.16732H18.3332V16.6673C18.3332 17.1276 17.9601 17.5007 17.4998 17.5007H2.49984C2.0396 17.5007 1.6665 17.1276 1.6665 16.6673V9.16732ZM14.1665 2.50065H17.4998C17.9601 2.50065 18.3332 2.87375 18.3332 3.33398V7.50065H1.6665V3.33398C1.6665 2.87375 2.0396 2.50065 2.49984 2.50065H5.83317V0.833984H7.49984V2.50065H12.4998V0.833984H14.1665V2.50065Z" fill="#030E0F" />
+                    </svg> 8 December 2024</a></li>
+                <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="21" viewBox="0 0 16 21" fill="none">
+                      <path d="M7.08317 12.8894V18.3327H8.9165V12.8894C12.5339 13.3405 15.3332 16.4264 15.3332 20.166H0.666504C0.666504 16.4264 3.46572 13.3405 7.08317 12.8894ZM7.99984 11.916C4.96109 11.916 2.49984 9.45477 2.49984 6.41602C2.49984 3.37727 4.96109 0.916016 7.99984 0.916016C11.0386 0.916016 13.4998 3.37727 13.4998 6.41602C13.4998 9.45477 11.0386 11.916 7.99984 11.916Z" fill="#030E0F" />
+                    </svg> By Alex Roy</a></li>
+              </ul>
+              <div class="space14"></div>
+              <a href="blog-detail.html" class="head">How Choose the Perfect Home Neighborhood For Your Family</a>
+              <div class="space20"></div>
+              <a href="blog-detail.html" class="readmore">learn more <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M13.0508 12.361L7.39395 18.0179L5.97974 16.6037L11.6366 10.9468L6.68684 5.99707H18.0006V17.3108L13.0508 12.361Z"></path>
+                </svg></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6" data-aos="zoom-in-up" data-aos-duration="1200">
+          <div class="blog-single-boxarea">
+            <div class="img1 image-anime">
+              <img src="https://housebox-html-demo.vercel.app/assets/img/all-images/blog/blog-img3.png" alt="housebox">
+            </div>
+            <div class="content-area">
+              <ul>
+                <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M1.6665 9.16732H18.3332V16.6673C18.3332 17.1276 17.9601 17.5007 17.4998 17.5007H2.49984C2.0396 17.5007 1.6665 17.1276 1.6665 16.6673V9.16732ZM14.1665 2.50065H17.4998C17.9601 2.50065 18.3332 2.87375 18.3332 3.33398V7.50065H1.6665V3.33398C1.6665 2.87375 2.0396 2.50065 2.49984 2.50065H5.83317V0.833984H7.49984V2.50065H12.4998V0.833984H14.1665V2.50065Z" fill="#030E0F" />
+                    </svg> 8 December 2024</a></li>
+                <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="21" viewBox="0 0 16 21" fill="none">
+                      <path d="M7.08317 12.8894V18.3327H8.9165V12.8894C12.5339 13.3405 15.3332 16.4264 15.3332 20.166H0.666504C0.666504 16.4264 3.46572 13.3405 7.08317 12.8894ZM7.99984 11.916C4.96109 11.916 2.49984 9.45477 2.49984 6.41602C2.49984 3.37727 4.96109 0.916016 7.99984 0.916016C11.0386 0.916016 13.4998 3.37727 13.4998 6.41602C13.4998 9.45477 11.0386 11.916 7.99984 11.916Z" fill="#030E0F" />
+                    </svg> By Alex Roy</a></li>
+              </ul>
+              <div class="space14"></div>
+              <a href="blog-detail.html" class="head">Common Homebuyer Mistakes And How To Home Avoid Them</a>
+              <div class="space20"></div>
+              <a href="blog-detail.html" class="readmore">learn more <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M13.0508 12.361L7.39395 18.0179L5.97974 16.6037L11.6366 10.9468L6.68684 5.99707H18.0006V17.3108L13.0508 12.361Z"></path>
+                </svg></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--===== BLOG AREA ENDS =======-->
+
+  <!--===== CTA AREA STARTS =======-->
+  <div class="cta1-section-area golfi-cta-area">
+    <div class="container">
+      <div class="row align-items-center gy-4">
+        <div class="col-lg-7">
+          <div class="cta-header">
+            <span class="golfi-cta-eyebrow">Hamilton &amp; Niagara Region</span>
+            <h2 class="text-anime-style-3">Find Your Dream Home<br>with <span style="color:#E2001A;">Golfi Team</span></h2>
+            <div class="space16"></div>
+            <p data-aos="fade-left" data-aos-duration="1000">With over 25 years of local expertise, Golfi Team RE/MAX guides you home — from first showing to closing day.</p>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="golfi-cta-actions">
+            <a href="sidebar-grid.html" class="theme-btn3 golfi-cta-btn">Search Properties <span class="arrow1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path></svg></span><span class="arrow2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 13H4V11H12V4L20 12L12 20V13Z"></path></svg></span></a>
+            <a href="tel:+19053049444" class="golfi-cta-phone"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg> +1 (905) 304-9444</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--===== CTA AREA ENDS =======-->
+
+  <!--===== FOOTER AREA STARTS =======-->
+  <div class="footer2-section-area">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-6">
+          <div class="footer-logoarea">
+            <div class="footer-brand-row">
+              <span class="golfi-logo"><img src="assets/img/logo/golfi-logo-reverse.png" alt="Golfi Team"></span>
+              <span class="logo-divider"></span>
+              <span class="remax-logo"><img src="assets/img/logo/remax-balloon.png" alt="RE/MAX" style="max-height:56px;width:auto;"></span>
+            </div>
+
+            <ul class="contact">
+              <li><a href="tel:+19053049444"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M21 16.42V19.9561C21 20.4811 20.5941 20.9167 20.0705 20.9537C19.6331 20.9846 19.2763 21 19 21C10.1634 21 3 13.8366 3 5C3 4.72371 3.01545 4.36687 3.04635 3.9295C3.08337 3.40588 3.51894 3 4.04386 3H7.5801C7.83678 3 8.05176 3.19442 8.07753 3.4498C8.10067 3.67907 8.12218 3.86314 8.14207 4.00202C8.34435 5.41472 8.75753 6.75936 9.3487 8.00303C9.44359 8.20265 9.38171 8.44159 9.20185 8.57006L7.04355 10.1118C8.35752 13.1811 10.8189 15.6425 13.8882 16.9565L15.4271 14.8019C15.5572 14.6199 15.799 14.5573 16.001 14.6532C17.2446 15.2439 18.5891 15.6566 20.0016 15.8584C20.1396 15.8782 20.3225 15.8995 20.5502 15.9225C20.8056 15.9483 21 16.1633 21 16.42Z"></path>
+                  </svg>+1 (905) 304-9444</a></li>
+
+              <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.364 17.364L12 23.7279L5.63604 17.364C2.12132 13.8492 2.12132 8.15076 5.63604 4.63604C9.15076 1.12132 14.8492 1.12132 18.364 4.63604C21.8787 8.15076 21.8787 13.8492 18.364 17.364ZM12 15C14.2091 15 16 13.2091 16 11C16 8.79086 14.2091 7 12 7C9.79086 7 8 8.79086 8 11C8 13.2091 9.79086 15 12 15ZM12 13C10.8954 13 10 12.1046 10 11C10 9.89543 10.8954 9 12 9C13.1046 9 14 9.89543 14 11C14 12.1046 13.1046 13 12 13Z"></path>
+                  </svg> 905 Golf Links Rd, Ancaster, ON L9K 1L9</a></li>
+
+              <li><a href="mailto:info@golfiteam.com"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3ZM12.0606 11.6829L5.64722 6.2377L4.35278 7.7623L12.0731 14.3171L19.6544 7.75616L18.3456 6.24384L12.0606 11.6829Z"></path>
+                  </svg> info@golfiteam.com</a></li>
+            </ul>
+            <div class="space24"></div>
+            <ul class="social">
+              <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
+              <li><a href="#"><i class="fa-brands fa-linkedin-in"></i></a></li>
+              <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+              <li><a href="#"><i class="fa-brands fa-youtube"></i></a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="footer-content">
+            <h3>Category</h3>
+            <div class="space4"></div>
+            <ul>
+              <li><a href="property-details-v1.html">Detached Homes</a></li>
+              <li><a href="property-details-v2.html">Condos &amp; Lofts</a></li>
+              <li><a href="property-details-v3.html">Townhomes</a></li>
+              <li><a href="property-details-v4.html">Luxury Estates</a></li>
+              <li><a href="sidebar-grid.html">Investment Properties</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="footer-content2">
+            <h3>Quick Links</h3>
+            <div class="space4"></div>
+            <ul>
+              <li><a href="about-us.html">About Golfi Team</a></li>
+              <li><a href="sidebar-grid.html">Search Listings</a></li>
+              <li><a href="our-service.html">Sell Your Home</a></li>
+              <li><a href="blog.html">Market Reports</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+          <div class="instagram-posts">
+            <h3>We are here</h3>
+            <div class="space28"></div>
+            <div class="maps">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2913.5!2d-79.97440!3d43.18450!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882c9bac6f8b69fd%3A0xc3e9e2e3c7bf98b4!2s905+Golf+Links+Rd%2C+Ancaster%2C+ON+L9K+1L9%2C+Canada!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="space60"></div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="copyright text-center">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px;margin-bottom:12px;">
+              <img src="assets/img/logo/realtor-logo-golfi.png" alt="REALTOR®" style="max-height:36px;width:auto;opacity:0.85;">
+              <img src="assets/img/logo/remax-logo-reverse.png" alt="RE/MAX" style="max-height:28px;width:auto;opacity:0.85;">
+            </div>
+            <p>©Copyright 2024 Golfi Team | RE/MAX Escarpment Realty Inc. | Brokerage. All Rights Reserved.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--===== FOOTER AREA ENDS =======-->
+
+  <!--===== JS SCRIPT LINK =======-->
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/bootstrap.min.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/fontawesome.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/aos.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/counter.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/chart.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/chart-init.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/gsap.min.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/ScrollTrigger.min.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/Splitetext.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/sidebar.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/swiper-slider.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/magnific-popup.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/mobilemenu.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/owlcarousel.min.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/nice-select.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/waypoints.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/slick-slider.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/plugins/circle-progress.js"></script>
+  <script src="https://housebox-html-demo.vercel.app/assets/js/main.js"></script>
+
+  <!-- Floating Mobile Action Bar -->
+  <div class="mobile-action-bar d-lg-none">
+    <a href="tel:+19053049485" class="mab-call">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z" fill="currentColor"/></svg>
+      Call Now
+    </a>
+    <a href="sidebar-grid.html" class="mab-listings">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor"/></svg>
+      Browse Listings
+    </a>
+  </div>
+
+</body>
+
+</html>
