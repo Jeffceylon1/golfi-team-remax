@@ -24,6 +24,24 @@ module.exports = async function handler(req, res) {
     results.supabase = { exception: e.message };
   }
 
+  // Test raw fetch to Anthropic
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({ model: 'claude-haiku-3-5', max_tokens: 10, messages: [{ role: 'user', content: 'OK' }] }),
+      signal: AbortSignal.timeout(15000)
+    });
+    const json = await r.json();
+    results.rawFetch = { status: r.status, body: JSON.stringify(json).slice(0, 200) };
+  } catch (e) {
+    results.rawFetch = { error: e.message, type: e.constructor.name };
+  }
+
   // Test Anthropic
   try {
     const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY, timeout: 20000 });
