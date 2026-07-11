@@ -26,15 +26,15 @@ module.exports = async function handler(req, res) {
 
   // Test Anthropic
   try {
-    const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+    const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY, timeout: 20000 });
     const r = await anthropic.messages.create({
-      model: 'claude-haiku-4-5',
+      model: 'claude-sonnet-4-5',
       max_tokens: 10,
       messages: [{ role: 'user', content: 'Say OK' }]
     });
     results.anthropic = { ok: true, reply: r.content[0].text };
   } catch (e) {
-    results.anthropic = { error: e.message, status: e.status };
+    results.anthropic = { error: e.message, status: e.status, type: e.constructor.name, code: e.code };
   }
 
   res.writeHead(200, { 'Content-Type': 'application/json' });
