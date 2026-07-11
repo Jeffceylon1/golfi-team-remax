@@ -1,7 +1,18 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "functions": {
+    "api/**/*.js": { "runtime": "@vercel/node", "maxDuration": 30 }
+  },
   "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "https://golfi-team-remax.vercel.app" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET,POST,OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
+      ]
+    },
     {
       "source": "/(.*)",
       "headers": [

@@ -1,0 +1,12 @@
+{
+  "name": "golfi-team-remax",
+  "version": "1.0.0",
+  "private": true,
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.30.0",
+    "@supabase/supabase-js": "^2.45.0",
+    "twilio": "^5.3.0",
+    "resend": "^4.0.0"
+  }
+}

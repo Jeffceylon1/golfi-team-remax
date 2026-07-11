@@ -762,6 +762,90 @@
   </div>
   <!--===== DASHBOARD AREA ENDS =======-->
 
+  <!--===== AI LEADS PANEL STARTS =======-->
+  <div class="dashboard-section-area sp1" style="padding-top:0;">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="dashboad-all-details-section">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+              <h3 style="margin:0;">🤖 AI Agent — Live Leads</h3>
+              <div style="display:flex;gap:10px;align-items:center;">
+                <span id="ga-lead-status" style="font-size:12px;color:#888;">Loading…</span>
+                <button onclick="loadLeads()" style="background:#E2001A;color:#fff;border:none;border-radius:6px;padding:7px 16px;font-size:13px;font-weight:600;cursor:pointer;">↻ Refresh</button>
+              </div>
+            </div>
+            <div style="overflow-x:auto;">
+              <table id="ga-leads-table" style="width:100%;border-collapse:collapse;font-size:13px;">
+                <thead>
+                  <tr style="background:#0D1B3E;color:#fff;">
+                    <th style="padding:11px 14px;text-align:left;font-weight:600;">Name</th>
+                    <th style="padding:11px 14px;text-align:left;font-weight:600;">Contact</th>
+                    <th style="padding:11px 14px;text-align:left;font-weight:600;">Type</th>
+                    <th style="padding:11px 14px;text-align:left;font-weight:600;">Temp</th>
+                    <th style="padding:11px 14px;text-align:left;font-weight:600;">Time</th>
+                    <th style="padding:11px 14px;text-align:left;font-weight:600;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="ga-leads-body">
+                  <tr><td colspan="6" style="padding:24px;text-align:center;color:#999;">Enter your dashboard key to load leads.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="margin-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <input id="ga-dash-key" type="password" placeholder="Dashboard key…" style="border:1.5px solid #dde0e8;border-radius:7px;padding:8px 14px;font-size:13px;outline:none;width:220px;" />
+              <button onclick="loadLeads()" style="background:#0D1B3E;color:#fff;border:none;border-radius:7px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;">Load Leads</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--===== AI LEADS PANEL ENDS =======-->
+
+  <script>
+  function loadLeads() {
+    var key = document.getElementById('ga-dash-key').value.trim();
+    if (!key) return;
+    var status = document.getElementById('ga-lead-status');
+    status.textContent = 'Loading…';
+    fetch('/api/leads', { headers: { 'X-Dashboard-Key': key } })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var leads = data.leads || [];
+        status.textContent = leads.length + ' leads';
+        var tbody = document.getElementById('ga-leads-body');
+        if (!leads.length) {
+          tbody.innerHTML = '<tr><td colspan="6" style="padding:24px;text-align:center;color:#999;">No leads yet. The agent is listening…</td></tr>';
+          return;
+        }
+        var tempColor = { hot: '#E2001A', warm: '#d97706', cold: '#64748b' };
+        var tempEmoji = { hot: '🔥', warm: '⚡', cold: '❄️' };
+        tbody.innerHTML = leads.map(function(l) {
+          var t = l.temperature || 'cold';
+          var time = new Date(l.created_at).toLocaleString('en-CA', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+          var waLink = l.phone ? 'https://wa.me/' + l.phone.replace(/\D/g,'') : '';
+          var emailLink = l.email ? 'mailto:' + l.email : '';
+          return '<tr style="border-bottom:1px solid #eee;">' +
+            '<td style="padding:11px 14px;font-weight:600;color:#0D1B3E;">' + (l.name || '—') + '</td>' +
+            '<td style="padding:11px 14px;color:#444;">' +
+              (l.email ? '<a href="' + emailLink + '" style="color:#0D1B3E;">' + l.email + '</a>' : '') +
+              (l.phone ? '<br><span style="color:#666;">' + l.phone + '</span>' : '') +
+            '</td>' +
+            '<td style="padding:11px 14px;color:#555;text-transform:capitalize;">' + (l.type||'').replace(/_/g,' ') + '</td>' +
+            '<td style="padding:11px 14px;"><span style="background:' + tempColor[t] + ';color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;">' + tempEmoji[t] + ' ' + t.toUpperCase() + '</span></td>' +
+            '<td style="padding:11px 14px;color:#888;font-size:12px;">' + time + '</td>' +
+            '<td style="padding:11px 14px;">' +
+              (waLink ? '<a href="' + waLink + '" target="_blank" style="background:#25d366;color:#fff;border-radius:5px;padding:5px 10px;font-size:12px;font-weight:600;text-decoration:none;margin-right:5px;">WhatsApp</a>' : '') +
+              (emailLink ? '<a href="' + emailLink + '" style="background:#0D1B3E;color:#fff;border-radius:5px;padding:5px 10px;font-size:12px;font-weight:600;text-decoration:none;">Email</a>' : '') +
+            '</td>' +
+          '</tr>';
+        }).join('');
+      })
+      .catch(function() { document.getElementById('ga-lead-status').textContent = 'Error — check key'; });
+  }
+  </script>
+
   <div class="cta1-section-area golfi-cta-area">
     <div class="container">
       <div class="row align-items-center gy-4">
@@ -906,6 +990,9 @@
     </a>
   </div>
 
+
+<!-- Golfi AI Agent -->
+<script src="/assets/js/golfi-agent.js"></script>
 </body>
 
 
