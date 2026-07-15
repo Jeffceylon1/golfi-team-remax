@@ -1,0 +1,125 @@
+/* Golfi Team RE/MAX — Brand & UI Overrides */
+
+:root {
+    --ztc-text-text-4: #E2001A;
+    --ztc-bg-bg-3: #E2001A;
+    /* NOTE: --ztc-text-text-5 intentionally NOT overridden */
+    --ztc-bg-bg-4: #0D1B3E;
+    --ztc-text-text-6: #E2001A;
+    --ztc-bg-bg-5: #E2001A;
+    --ztc-text-text-7: #003DA5;
+    --ztc-bg-bg-6: #003DA5;
+    --ztc-text-text-8: #E2001A;
+    --ztc-bg-bg-7: #E2001A;
+  }
+  /* ── STICKY HEADER ───────────────────────────── */
+  .homepage2-body .header-area.homepage2.sticky { background: #0D1B3E !important; }
+  .homepage2-body .header-area.homepage2 nav#navbar-example2 ul li a.nav-link.active { color: #E2001A !important; }
+  /* ── DESKTOP LOGO (Golfi-only) ───────────────── */
+  .site-logo { display: flex !important; align-items: center !important; }
+  .golfi-main-logo { max-height: 48px; width: auto; }
+  /* ── BUTTONS ─────────────────────────────────── */
+  .theme-btn, .theme-btn3 { background: #E2001A !important; }
+  .theme-btn:hover, .theme-btn3:hover { background: #003DA5 !important; }
+  /* ── TAGS / BADGES ───────────────────────────── */
+  .feature-tag, .property-tag, .property-badge { background: #E2001A !important; color: #fff !important; }
+  /* ── SECTION HEADERS ─────────────────────────── */
+  .section-header span, .heading-area span { color: #E2001A !important; }
+  /* ── COUNTER SECTION ─────────────────────────── */
+  .counter-section, .counter-section-area { background: #0D1B3E !important; }
+  .counter-section *, .counter-section-area * { color: #fff !important; }
+  .counter-section h2, .counter-section-area h2,
+  .counter-section .counter, .counter-section-area .counter { color: #fff !important; }
+  .counter-section span, .counter-section-area span { color: #E2001A !important; }
+  /* ── FOOTER ──────────────────────────────────── */
+  .footer2-section-area { background: #0D1B3E !important; }
+  .footer2-section-area h3,
+  .footer2-section-area h4,
+  .footer2-section-area p,
+  .footer2-section-area li,
+  .footer2-section-area a,
+  .footer2-section-area span,
+  .footer2-section-area .copyright p { color: #ffffff !important; }
+  .footer2-section-area a:hover { color: #E2001A !important; }
+  .footer2-section-area .social li a { background: rgba(255,255,255,0.12) !important; color: #fff !important; }
+  .footer2-section-area .social li a:hover { background: #E2001A !important; color: #fff !important; }
+  .footer2-section-area .contact li a svg { fill: #E2001A !important; }
+  .footer2-section-area .copyright { border-top: 1px solid rgba(255,255,255,0.15); padding-top: 24px; }
+  /* ── FOOTER BRAND ROW ────────────────────────── */
+  .footer-brand-row { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+  .footer-brand-row .golfi-logo img { max-height: 48px; width: auto; }
+  .footer-brand-row .logo-divider { width: 1px; height: 38px; background: rgba(255,255,255,0.25); display: inline-block; }
+  .footer-brand-row .remax-logo img { max-height: 56px; width: auto; }
+  /* ── GOLFI CTA BANNER ───────────────────────────── */
+  .golfi-cta-area {
+    background: #ffffff;
+    border-top: 4px solid #E2001A;
+    padding: 80px 0;
+  }
+  .golfi-cta-eyebrow {
+    display: inline-block;
+    background: #E2001A;
+    color: #fff !important;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
+  .golfi-cta-area .cta-header h2 {
+    color: #0D1B3E !important;
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+  }
+  .golfi-cta-area .cta-header p {
+    color: #5a6473 !important;
+    font-size: 16px;
+    line-height: 1.75;
+    margin-top: 16px;
+  }
+  .golfi-cta-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .golfi-cta-btn {
+    display: block !important;
+    width: 100%;
+    text-align: center;
+    background: #E2001A !important;
+    border-radius: 8px !important;
+    padding: 17px 32px !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: #fff !important;
+    box-shadow: 0 6px 24px rgba(226,0,26,0.25);
+    transition: background 0.2s, box-shadow 0.2s;
+  }
+  .golfi-cta-btn:hover { background: #bf0016 !important; box-shadow: 0 8px 30px rgba(226,0,26,0.38); }
+  .golfi-cta-phone {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    text-align: center;
+    color: #0D1B3E !important;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 15px 32px;
+    border: 1.5px solid #d0d5de;
+    border-radius: 8px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .golfi-cta-phone:hover { border-color: #E2001A !important; color: #E2001A !important; }
+  .golfi-cta-phone svg { fill: currentColor; flex-shrink: 0; }
+  @media (max-width: 991px) {
+    .golfi-cta-area { padding: 56px 0; }
+    .golfi-cta-area .cta-header h2 { font-size: 28px; }
+    .golfi-cta-actions { margin-top: 36px; }
+  }
