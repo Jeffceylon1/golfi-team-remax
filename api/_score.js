@@ -3,6 +3,32 @@
 
 function clamp(n, lo, hi) { return Math.max(lo, Math.min(hi, n)); }
 
+const DEFAULT_WEIGHTS = {
+  returnVisitPoints: 15, returnVisitCap: 30,
+  pageViewPoints: 3,     pageViewCap: 20,
+  propertyPoints: 8,     propertyCap: 24,
+  repeatViewPoints: 6,   repeatViewCap: 18,
+  searchPoints: 5,       searchCap: 15,
+  timePointsPerMin: 2,   timeCap: 20,
+  savedBonus: 15,
+  exitBonus: 10,
+  hotThreshold: 61,
+  warmThreshold: 26,
+};
+
+// Merge caller-supplied weights over the defaults, ignoring anything non-numeric
+// so a partial or malformed settings object can never break scoring.
+function resolveWeights(weights) {
+  const w = { ...DEFAULT_WEIGHTS };
+  if (weights) {
+    for (const k of Object.keys(DEFAULT_WEIGHTS)) {
+      const v = weights[k];
+      if (typeof v === 'number' && Number.isFinite(v)) w[k] = v;
+    }
+  }
+  return w;
+}
+
 /**
  * @param {object} v aggregated visitor stats
  *   sessionCount        - number of distinct visits
@@ -13,29 +39,32 @@ function clamp(n, lo, hi) { return Math.max(lo, Math.min(hi, n)); }
  *   totalSeconds        - cumulative time on site
  *   savedProperty       - bool, captured a property save
  *   exitIntentShown     - bool, exit-intent fired
+ * @param {object} [weights] optional DB-configured weights; falls back to DEFAULT_WEIGHTS
  * @returns {{score:number, temperature:string, breakdown:object}}
  */
-function computeScore(v) {
+function computeScore(v, weights) {
+  const w = resolveWeights(weights);
   const b = {
-    returnVisits:  clamp((v.sessionCount || 0) * 15, 0, 30),
-    pagesViewed:   clamp((v.pageViews || 0) * 3, 0, 20),
-    properties:    clamp((v.uniqueProperties || 0) * 8, 0, 24),
-    repeatViews:   clamp((v.repeatPropertyViews || 0) * 6, 0, 18),
-    searches:      clamp((v.searchCount || 0) * 5, 0, 15),
-    timeOnSite:    clamp(Math.floor((v.totalSeconds || 0) / 60) * 2, 0, 20),
-    savedBonus:    v.savedProperty ? 15 : 0,
-    exitBonus:     v.exitIntentShown ? 10 : 0,
+    returnVisits:  clamp((v.sessionCount || 0) * w.returnVisitPoints, 0, w.returnVisitCap),
+    pagesViewed:   clamp((v.pageViews || 0) * w.pageViewPoints, 0, w.pageViewCap),
+    properties:    clamp((v.uniqueProperties || 0) * w.propertyPoints, 0, w.propertyCap),
+    repeatViews:   clamp((v.repeatPropertyViews || 0) * w.repeatViewPoints, 0, w.repeatViewCap),
+    searches:      clamp((v.searchCount || 0) * w.searchPoints, 0, w.searchCap),
+    timeOnSite:    clamp(Math.floor((v.totalSeconds || 0) / 60) * w.timePointsPerMin, 0, w.timeCap),
+    savedBonus:    v.savedProperty ? w.savedBonus : 0,
+    exitBonus:     v.exitIntentShown ? w.exitBonus : 0,
   };
   const score = clamp(
     Object.values(b).reduce((a, x) => a + x, 0),
     0, 100
   );
-  return { score, temperature: bandFor(score), breakdown: b };
+  return { score, temperature: bandFor(score, weights), breakdown: b };
 }
 
-function bandFor(score) {
-  if (score >= 61) return 'hot';
-  if (score >= 26) return 'warm';
+function bandFor(score, weights) {
+  const w = resolveWeights(weights);
+  if (score >= w.hotThreshold) return 'hot';
+  if (score >= w.warmThreshold) return 'warm';
   return 'cold';
 }
 

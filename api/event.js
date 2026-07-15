@@ -1,10 +1,32 @@
 const { createClient } = require('@supabase/supabase-js');
 const { computeScore, aggregateEvents } = require('./_score');
 
-// Capture thresholds
+// Capture thresholds — built-in fallbacks used only when `hooks` settings are unset
 const PROPERTY_VIEW_THRESHOLD = 3; // same propertyId viewed N+ times -> property_save
 const SEARCH_THRESHOLD = 2;        // N+ search events -> search_alert
 const RECAPTURE_SCORE = 70;        // score >= N (no email yet) -> smart_recapture
+
+function numOr(v, fallback) {
+  return typeof v === 'number' && Number.isFinite(v) ? v : fallback;
+}
+
+// Load owner-configured scoring weights + capture hooks from the database.
+// Missing/failed reads return nulls so callers fall back to built-in defaults.
+async function loadSettings(supabase) {
+  try {
+    const { data, error } = await supabase
+      .from('settings')
+      .select('key, value')
+      .in('key', ['scoring', 'hooks']);
+    if (error) throw error;
+    const map = {};
+    for (const row of data || []) map[row.key] = row.value || {};
+    return { scoring: map.scoring || null, hooks: map.hooks || null };
+  } catch (err) {
+    console.error('[event] loadSettings:', err?.message || err);
+    return { scoring: null, hooks: null };
+  }
+}
 
 function corsHeaders() {
   return {
@@ -57,9 +79,25 @@ async function sessionHasEmail(supabase, sessionId, existing) {
 
 /**
  * Decide whether the widget should prompt for a lead, and how.
+ * Thresholds and enabled flags come from the owner-configured `hooks` settings,
+ * falling back to built-in defaults when unset. A disabled hook is never suggested.
  * Precedence: property_save > search_alert > smart_recapture > none.
  */
-async function decideCapture(supabase, sessionId, events, score, existing) {
+async function decideCapture(supabase, sessionId, events, score, existing, hooks) {
+  const h = hooks || {};
+  const propertySave = h.propertySave || {};
+  const searchAlert = h.searchAlert || {};
+  const smartRecapture = h.smartRecapture || {};
+
+  // A hook is active unless the owner explicitly disabled it.
+  const propEnabled = propertySave.enabled !== false;
+  const searchEnabled = searchAlert.enabled !== false;
+  const recaptureEnabled = smartRecapture.enabled !== false;
+
+  const propThreshold = numOr(propertySave.threshold, PROPERTY_VIEW_THRESHOLD);
+  const searchThreshold = numOr(searchAlert.threshold, SEARCH_THRESHOLD);
+  const recaptureThreshold = numOr(smartRecapture.scoreThreshold, RECAPTURE_SCORE);
+
   const { titles, topId, topCount } = propertyStats(events);
   const searchCount = (events || []).filter((e) => e.type === 'search').length;
 
@@ -67,15 +105,15 @@ async function decideCapture(supabase, sessionId, events, score, existing) {
     ? { propertyId: topId, title: titles[topId] || null, views: topCount }
     : null;
 
-  if (topCount >= PROPERTY_VIEW_THRESHOLD) {
+  if (propEnabled && topCount >= propThreshold) {
     return { shouldCaptureLead: true, captureType: 'property_save', topProperty };
   }
 
-  if (searchCount >= SEARCH_THRESHOLD) {
+  if (searchEnabled && searchCount >= searchThreshold) {
     return { shouldCaptureLead: true, captureType: 'search_alert', topProperty: null };
   }
 
-  if (score >= RECAPTURE_SCORE) {
+  if (recaptureEnabled && score >= recaptureThreshold) {
     const hasEmail = await sessionHasEmail(supabase, sessionId, existing);
     if (!hasEmail) {
       return { shouldCaptureLead: true, captureType: 'smart_recapture', topProperty };
@@ -156,9 +194,10 @@ module.exports = async function handler(req, res) {
     }
     if (sessionCount < 1) sessionCount = 1;
 
-    // 5. Aggregate + score (pure math, no LLM)
+    // 5. Load owner config, then aggregate + score (pure math, no LLM)
+    const { scoring, hooks } = await loadSettings(supabase);
     const stats = aggregateEvents(events, sessionCount);
-    const { score, temperature, breakdown } = computeScore(stats);
+    const { score, temperature, breakdown } = computeScore(stats, scoring || undefined);
 
     // 6. Build the visitor upsert
     const visitorRow = {
@@ -195,7 +234,8 @@ module.exports = async function handler(req, res) {
       sessionId,
       events,
       score,
-      existing
+      existing,
+      hooks
     );
 
     res.writeHead(200, { ...corsHeaders(), 'Content-Type': 'application/json' });

@@ -4,36 +4,7 @@ const { createClient } = require('@supabase/supabase-js');
 const ANTHROPIC_API = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-sonnet-4-5';
 
-const SYSTEM_PROMPT = `You are an AI assistant for the Golfi Team, Hamilton and Niagara's leading RE/MAX real estate team since 1998. You are embedded on their website golfi-team-remax.vercel.app and you help buyers and sellers in the Hamilton and Niagara region find their perfect home or sell their property.
-
-YOU REPRESENT: The Golfi Team RE/MAX Escarpment Realty Inc., Brokerage. Phone: 905-304-9444. Address: 805 Golf Links Rd, Ancaster, ON L9G 3L6.
-
-YOUR PERSONALITY: Warm, knowledgeable, professional. You are like a trusted real estate advisor — never pushy, always helpful. You listen carefully and ask smart questions.
-
-HAMILTON NEIGHBOURHOODS YOU KNOW WELL:
-- Westdale: Near McMaster University, beautiful older homes, walkable, great for families and professionals. $600k–$900k.
-- Ancaster: Premium suburb, Golf Links Rd area, top-rated schools, larger lots, quiet streets. $750k–$1.5M+.
-- Dundas: Charming small-town feel, artsy community, ravine lots, heritage homes. $550k–$900k.
-- Stoney Creek: Growing area, newer builds, close to QEW, popular with young families. $550k–$850k.
-- Waterdown: Family-friendly, Burlington border, newer subdivisions. $650k–$950k.
-- Mountain (Hamilton Mountain): Affordable, practical, large lots, easy highway access. $450k–$700k.
-- Downtown Hamilton: Urban revitalization, arts scene, condos and semis. $350k–$650k.
-- Binbrook: Rural feel, new developments, very family-oriented. $550k–$750k.
-
-NIAGARA REGION:
-- St. Catharines: Urban centre, affordable condos and detached, close to Niagara Falls. $400k–$700k.
-- Niagara-on-the-Lake: Premium wine country community, heritage properties. $900k–$2M+.
-- Grimsby: Escarpment views, growing rapidly, popular with commuters. $550k–$800k.
-- Beamsville / Lincoln: Wine country, newer builds and estates. $600k–$950k.
-
-MARKET CONTEXT (Hamilton/Niagara 2025/2026):
-- Market is balanced-to-buyers-favour after 2023-2024 corrections
-- Interest rates stabilizing, serious buyers active again
-- Hamilton average detached: ~$680k. Condos: ~$420k.
-- Multiple offers still occur on well-priced Ancaster and Waterdown properties
-- Sellers: Price right from day one — overpriced listings sit
-
-LEAD QUALIFICATION APPROACH:
+const BEHAVIOUR_GUIDANCE = `LEAD QUALIFICATION APPROACH:
 For BUYERS naturally find out:
 1. What type of property (detached, condo, townhome, semi)?
 2. Which neighbourhood(s) or areas?
@@ -56,14 +27,113 @@ CAPTURING CONTACT INFO:
 
 BOOKING VIEWINGS:
 - If someone wants to see a property: "Great choice! I can book that for you. What days/times work best this week or next?"
-- Confirm the viewing and tell them the agent will send a confirmation to their email
+- Confirm the viewing and tell them the agent will send a confirmation to their email`;
+
+const DEFAULT_RULES = [
+  'Never guarantee sale prices or specific valuations — always say our agents will do a proper market analysis',
+  'Never badmouth other agents or competitors',
+  'Keep responses concise — 2-4 sentences max unless they ask a complex question',
+  'Always move the conversation toward a natural next step (viewing, valuation, call)',
+].map((r) => `- ${r}`).join('\n');
+
+// Minimal, business-agnostic prompt used only if the settings read fails or is empty,
+// so the chat agent never goes offline just because config is unavailable.
+const FALLBACK_PROMPT = `You are a warm, knowledgeable, professional AI assistant for a real estate team. You help buyers and sellers find the right home or sell their property. You are like a trusted advisor — never pushy, always helpful — and you ask smart qualifying questions.
 
 RULES:
-- Never guarantee sale prices or specific valuations — always say "our agents will do a proper market analysis"
-- Never badmouth other agents or competitors
-- Keep responses concise — 2-4 sentences max unless they ask a complex question
-- Always move the conversation toward a natural next step (viewing, valuation, call)
-- You can suggest they call 905-304-9444 directly for urgent matters`;
+${DEFAULT_RULES}
+
+${BEHAVIOUR_GUIDANCE}`;
+
+// Load the owner-configured agent + business settings from the database.
+// Returns null when nothing is configured so the caller can fall back safely.
+async function loadAgentConfig(supabase) {
+  try {
+    const { data, error } = await supabase
+      .from('settings')
+      .select('key, value')
+      .in('key', ['agent', 'business']);
+    if (error) throw error;
+    const map = {};
+    for (const row of data || []) map[row.key] = row.value || {};
+    if (!map.agent && !map.business) return null;
+    return { agent: map.agent || {}, business: map.business || {} };
+  } catch (err) {
+    console.error('[chat] loadAgentConfig:', err?.message || err);
+    return null;
+  }
+}
+
+// Normalise the rules field (array or string) into bullet lines.
+function formatRules(rules) {
+  if (Array.isArray(rules)) {
+    return rules
+      .filter((r) => r != null && String(r).trim() !== '')
+      .map((r) => `- ${String(r).trim()}`)
+      .join('\n');
+  }
+  if (typeof rules === 'string' && rules.trim() !== '') return rules.trim();
+  return '';
+}
+
+// Assemble the system prompt entirely from DB settings (business + agent).
+// Every section is optional; missing fields simply drop out.
+function buildSystemPrompt(cfg) {
+  const b = (cfg && cfg.business) || {};
+  const a = (cfg && cfg.agent) || {};
+  const sections = [];
+
+  // Identity
+  const name = (b.name || '').toString().trim();
+  const brokerage = (b.brokerage || '').toString().trim();
+  const identity = name || brokerage || 'a professional real estate team';
+  let intro = `You are an AI assistant for ${identity}`;
+  if (brokerage && brokerage !== name) intro += `, ${brokerage}`;
+  if (b.market) intro += `, serving the ${String(b.market).trim()} region`;
+  if (b.since) intro += ` since ${String(b.since).trim()}`;
+  intro += '. You help buyers and sellers find the right home or sell their property.';
+  sections.push(intro);
+
+  // Representation / contact
+  const rep = [];
+  if (brokerage) rep.push(brokerage);
+  if (b.phone) rep.push(`Phone: ${String(b.phone).trim()}`);
+  if (b.email) rep.push(`Email: ${String(b.email).trim()}`);
+  if (b.address) rep.push(`Address: ${String(b.address).trim()}`);
+  if (rep.length) sections.push(`YOU REPRESENT: ${rep.join('. ')}.`);
+
+  // Personality
+  if (a.personality) sections.push(`YOUR PERSONALITY: ${String(a.personality).trim()}`);
+
+  // Neighbourhoods
+  if (Array.isArray(a.neighbourhoods) && a.neighbourhoods.length) {
+    const lines = a.neighbourhoods
+      .filter((n) => n && n.area)
+      .map((n) => {
+        const detail = [n.note, n.range]
+          .filter((x) => x != null && String(x).trim() !== '')
+          .map((x) => String(x).trim())
+          .join(' ');
+        return `- ${String(n.area).trim()}: ${detail}`.trimEnd();
+      });
+    if (lines.length) sections.push(`NEIGHBOURHOODS YOU KNOW WELL:\n${lines.join('\n')}`);
+  }
+
+  // Market context
+  if (a.marketContext) sections.push(`MARKET CONTEXT:\n${String(a.marketContext).trim()}`);
+
+  // Standard behavioural guidance (template — behaviour, not business data)
+  sections.push(BEHAVIOUR_GUIDANCE);
+
+  // Rules (DB-configured, else sensible behavioural defaults) + dynamic contact line
+  let rulesSection = `RULES:\n${formatRules(a.rules) || DEFAULT_RULES}`;
+  if (b.phone) {
+    rulesSection += `\n- For urgent matters, you can suggest they call ${String(b.phone).trim()} directly`;
+  }
+  sections.push(rulesSection);
+
+  return sections.join('\n\n');
+}
 
 const EMAIL_RE = /\b[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}\b/;
 const PHONE_RE = /(\+?1[\s.\-]?)?\(?\d{3}\)?[\s.\-]?\d{3}[\s.\-]?\d{4}/;
@@ -76,15 +146,15 @@ function corsHeaders() {
   };
 }
 
-async function callClaude(messages) {
+async function callClaude(messages, systemPrompt, model) {
   const res = await fetch(ANTHROPIC_API, {
     method: 'POST',
     headers: {
-      'x-api-key': process.env.ANTHROPIC_API_KEY,
+      'x-api-key': (process.env.ANTHROPIC_API_KEY || '').trim(),
       'anthropic-version': '2023-06-01',
       'content-type': 'application/json',
     },
-    body: JSON.stringify({ model: MODEL, max_tokens: 1024, system: SYSTEM_PROMPT, messages }),
+    body: JSON.stringify({ model: model || MODEL, max_tokens: 1024, system: systemPrompt, messages }),
     signal: AbortSignal.timeout(25000),
   });
   if (!res.ok) {
@@ -140,7 +210,13 @@ module.exports = async function handler(req, res) {
       { role: 'user', content: message },
     ];
 
-    const reply = await callClaude(messages);
+    const cfg = await loadAgentConfig(supabase);
+    const systemPrompt = cfg ? buildSystemPrompt(cfg) : FALLBACK_PROMPT;
+    const model = (cfg && cfg.agent && typeof cfg.agent.model === 'string' && cfg.agent.model.trim())
+      ? cfg.agent.model.trim()
+      : MODEL;
+
+    const reply = await callClaude(messages, systemPrompt, model);
 
     // Store messages
     await supabase.from('messages').insert({ session_id: sessionId, role: 'user', content: message });
