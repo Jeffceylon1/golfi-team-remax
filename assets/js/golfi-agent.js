@@ -248,15 +248,35 @@
   var isPropertyPage = /property-details/.test(pagePath);
   var isSearchPage   = /sidebar-grid/.test(pagePath);
 
-  // Page view
-  api('/event', { sessionId: sid, type: 'page_view', data: { url: window.location.href, title: document.title, referrer: document.referrer } });
+  // ─── Phase 2: session origin ────────────────────────────────────────────────
+  var trafficSource = deriveSource();
+  var landingPage = sessionStorage.getItem('golfi_landing');
+  if (!landingPage) {
+    landingPage = window.location.pathname;
+    try { sessionStorage.setItem('golfi_landing', landingPage); } catch (e) {}
+  }
+
+  // Session start — once per browser session, sent before the first page_view
+  if (!sessionStorage.getItem('golfi_session_started')) {
+    try { sessionStorage.setItem('golfi_session_started', '1'); } catch (e) {}
+    sendEvent('session_start', { trafficSource: trafficSource, landingPage: landingPage });
+  }
+
+  // Page view (richer payload: traffic source + landing page)
+  sendEvent('page_view', {
+    url: window.location.pathname,
+    title: document.title,
+    referrer: document.referrer,
+    trafficSource: trafficSource,
+    landingPage: landingPage
+  });
 
   // Property view tracking
   if (isPropertyPage) {
     var propId = pagePath.replace(/\//g, '').replace('.html', '');
     propertyViews[propId] = (propertyViews[propId] || 0) + 1;
     localStorage.setItem('golfi_pv', JSON.stringify(propertyViews));
-    api('/event', { sessionId: sid, type: 'property_view', data: { propertyId: propId, title: document.title } }).then(function (res) {
+    sendEvent('property_view', { propertyId: propId, title: document.title }).then(function (res) {
       if (res && res.shouldCaptureLead && !hookShown['property_save']) triggerSaveBar();
     });
   }
@@ -268,12 +288,138 @@
       searchForm.addEventListener('change', function () {
         searchCount++;
         localStorage.setItem('golfi_sq', searchCount);
-        api('/event', { sessionId: sid, type: 'search', data: { url: window.location.href } }).then(function (res) {
+        sendEvent('search', { url: window.location.href }).then(function (res) {
           if (res && res.shouldCaptureLead && !hookShown['search_alert']) triggerSearchBar();
         });
         if (searchCount >= 2 && !hookShown['search_alert']) triggerSearchBar();
       });
     }
+  }
+
+  // ─── Phase 2: Visitor Intelligence ──────────────────────────────────────────
+  var lastScore = 0;
+  var heartbeatTimer = null;
+  var pageStart = Date.now();
+
+  // Traffic source — cached per session so internal navigation keeps the origin
+  function deriveSource() {
+    var cached = sessionStorage.getItem('golfi_source');
+    if (cached) return cached;
+    var ref = (document.referrer || '').toLowerCase();
+    var src;
+    if (!ref) src = 'direct';
+    else if (ref.indexOf('google') !== -1) src = 'google';
+    else if (ref.indexOf('bing') !== -1) src = 'bing';
+    else if (ref.indexOf('facebook') !== -1 || ref.indexOf('instagram') !== -1) src = 'social';
+    else src = 'referral';
+    try { sessionStorage.setItem('golfi_source', src); } catch (e) {}
+    return src;
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return c === '&' ? '&amp;' : c === '<' ? '&lt;' : c === '>' ? '&gt;' : '&quot;';
+    });
+  }
+
+  // Process every /api/event response: track score + trigger smart re-capture
+  function handleEventResponse(res) {
+    if (!res) return res;
+    if (typeof res.score === 'number') lastScore = res.score;
+    if (res.captureType === 'smart_recapture') triggerRecaptureBar(res.topProperty);
+    return res;
+  }
+
+  function sendEvent(type, data) {
+    return api('/event', { sessionId: sid, type: type, data: data || {} })
+      .then(function (res) { return handleEventResponse(res); })
+      .catch(function () { return {}; });
+  }
+
+  // Fire-and-forget beacon for unload-safe events (survives page teardown)
+  function beacon(type, data) {
+    try {
+      var payload = JSON.stringify({ sessionId: sid, type: type, data: data || {} });
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon(API_BASE + '/event', new Blob([payload], { type: 'application/json' }));
+      } else {
+        fetch(API_BASE + '/event', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: payload,
+          keepalive: true
+        }).catch(function () {});
+      }
+    } catch (e) {}
+  }
+
+  // Heartbeat — keep the visitor in the 'live' window while the tab is visible
+  function startHeartbeat() {
+    if (heartbeatTimer) return;
+    heartbeatTimer = setInterval(function () {
+      if (document.visibilityState === 'visible') sendEvent('heartbeat', { url: window.location.pathname });
+    }, 30000);
+  }
+
+  function stopHeartbeat() {
+    clearInterval(heartbeatTimer);
+    heartbeatTimer = null;
+  }
+
+  // Time on page — flush accumulated seconds on hide/unload, no double counting
+  function flushPageTime() {
+    if (pageStart == null) return;
+    var seconds = Math.round((Date.now() - pageStart) / 1000);
+    pageStart = Date.now();
+    if (seconds < 1) return;
+    beacon('page_time', { url: window.location.pathname, seconds: seconds });
+  }
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'hidden') {
+      flushPageTime();
+      stopHeartbeat();
+    } else {
+      pageStart = Date.now();
+      startHeartbeat();
+    }
+  });
+  window.addEventListener('beforeunload', flushPageTime);
+  window.addEventListener('pagehide', flushPageTime);
+
+  if (document.visibilityState === 'visible') startHeartbeat();
+
+  // Smart re-capture — tailored slide-in bar reusing the save-bar styling
+  function anyPopupOpen() {
+    return !!document.querySelector('#ga-save-bar.show, #ga-search-bar.show, #ga-return-bar.show, #ga-exit.show, #ga-book.show');
+  }
+
+  function triggerRecaptureBar(topProperty) {
+    if (capturedEmail || localStorage.getItem('golfi_email')) return;
+    if (sessionStorage.getItem('golfi_recapture')) return;
+    if (anyPopupOpen()) return;
+    try { sessionStorage.setItem('golfi_recapture', '1'); } catch (e) {}
+
+    var label = (topProperty && (topProperty.title || topProperty.address)) || 'this property';
+    var bar = document.createElement('div');
+    bar.id = 'ga-save-bar';
+    bar.innerHTML = [
+      '<span>🔔 Still interested in ' + esc(label) + '? Get price-drop alerts.</span>',
+      '<input id="ga-save-email" type="email" placeholder="Your email…"/>',
+      '<button id="ga-save-btn">Save</button>',
+      '<button id="ga-save-x" aria-label="Dismiss">&#x2715;</button>',
+    ].join('');
+    document.body.appendChild(bar);
+    setTimeout(function () { bar.classList.add('show'); }, 300);
+
+    bar.querySelector('#ga-save-x').addEventListener('click', function () { bar.classList.remove('show'); });
+    bar.querySelector('#ga-save-btn').addEventListener('click', function () {
+      var email = bar.querySelector('#ga-save-email').value.trim();
+      if (!email || email.indexOf('@') === -1) return;
+      captureLead({ email: email, type: 'property_save', source: 'smart_recapture', data: { property: topProperty || null } });
+      bar.classList.remove('show');
+      showToast('✓ Saved! We\'ll alert you to any price drops.');
+    });
   }
 
   // ─── Hook 1: Property Save Bar ──────────────────────────────────────────────
@@ -459,7 +605,8 @@
     open:   openPanel,
     close:  closePanel,
     lead:   captureLead,
-    sessionId: sid
+    sessionId: sid,
+    get score() { return lastScore; }
   };
 
 }());

@@ -1,10 +1,10 @@
 const { createClient } = require('@supabase/supabase-js');
+const { computeScore, aggregateEvents } = require('./_score');
 
-// Threshold constants
-const PROPERTY_VIEW_THRESHOLD = 3;   // same propertyId viewed N+ times → property_save
-const SEARCH_THRESHOLD = 2;           // N+ search events → search_alert
-const PAGE_VIEW_THRESHOLD = 5;        // N+ page_view events in session
-const SESSION_COUNT_THRESHOLD = 2;    // N+ total sessions seen → return_visitor
+// Capture thresholds
+const PROPERTY_VIEW_THRESHOLD = 3; // same propertyId viewed N+ times -> property_save
+const SEARCH_THRESHOLD = 2;        // N+ search events -> search_alert
+const RECAPTURE_SCORE = 70;        // score >= N (no email yet) -> smart_recapture
 
 function corsHeaders() {
   return {
@@ -15,45 +15,74 @@ function corsHeaders() {
 }
 
 /**
- * Analyse the accumulated events array for a session and return
- * the first threshold that is triggered.
- *
- * @param {Array<{type:string, data:object, created_at:string}>} events
- * @param {number} sessionCount  Number of distinct sessions seen for this visitor
- * @returns {{ shouldCaptureLead: boolean, captureType: string|null }}
+ * Tally property_view events by real propertyId (missing ids are ignored),
+ * tracking the most recent known title per property.
+ * @param {Array<{type:string,data:object}>} events
  */
-function checkThresholds(events, sessionCount) {
-  if (!Array.isArray(events) || events.length === 0) {
-    return { shouldCaptureLead: false, captureType: null };
+function propertyStats(events) {
+  const counts = {};
+  const titles = {};
+  for (const e of events || []) {
+    if (e.type !== 'property_view') continue;
+    const d = e.data || {};
+    const id = d.propertyId;
+    if (!id) continue;
+    counts[id] = (counts[id] || 0) + 1;
+    if (d.title) titles[id] = d.title;
   }
-
-  // 1. Property view threshold: 3+ views of the same propertyId
-  const propertyViewCounts = {};
-  for (const ev of events) {
-    if (ev.type === 'property_view' && ev.data?.propertyId) {
-      const pid = String(ev.data.propertyId);
-      propertyViewCounts[pid] = (propertyViewCounts[pid] || 0) + 1;
+  let topId = null;
+  let topCount = 0;
+  for (const [id, c] of Object.entries(counts)) {
+    if (c > topCount) {
+      topCount = c;
+      topId = id;
     }
   }
-  for (const count of Object.values(propertyViewCounts)) {
-    if (count >= PROPERTY_VIEW_THRESHOLD) {
-      return { shouldCaptureLead: true, captureType: 'property_save' };
-    }
+  return { counts, titles, topId, topCount };
+}
+
+/**
+ * True if this session already has a captured email (visitor row or leads table).
+ */
+async function sessionHasEmail(supabase, sessionId, existing) {
+  if (existing && existing.email && String(existing.email).trim() !== '') return true;
+  const { data, error } = await supabase
+    .from('leads')
+    .select('email')
+    .eq('session_id', sessionId)
+    .limit(50);
+  if (error) throw error;
+  return (data || []).some((l) => l.email && String(l.email).trim() !== '');
+}
+
+/**
+ * Decide whether the widget should prompt for a lead, and how.
+ * Precedence: property_save > search_alert > smart_recapture > none.
+ */
+async function decideCapture(supabase, sessionId, events, score, existing) {
+  const { titles, topId, topCount } = propertyStats(events);
+  const searchCount = (events || []).filter((e) => e.type === 'search').length;
+
+  const topProperty = topId
+    ? { propertyId: topId, title: titles[topId] || null, views: topCount }
+    : null;
+
+  if (topCount >= PROPERTY_VIEW_THRESHOLD) {
+    return { shouldCaptureLead: true, captureType: 'property_save', topProperty };
   }
 
-  // 2. Search threshold: 2+ search events
-  const searchCount = events.filter((ev) => ev.type === 'search').length;
   if (searchCount >= SEARCH_THRESHOLD) {
-    return { shouldCaptureLead: true, captureType: 'search_alert' };
+    return { shouldCaptureLead: true, captureType: 'search_alert', topProperty: null };
   }
 
-  // 3. Return visitor: 5+ page views AND 2+ sessions
-  const pageViewCount = events.filter((ev) => ev.type === 'page_view').length;
-  if (pageViewCount >= PAGE_VIEW_THRESHOLD && (sessionCount || 1) >= SESSION_COUNT_THRESHOLD) {
-    return { shouldCaptureLead: true, captureType: 'return_visitor' };
+  if (score >= RECAPTURE_SCORE) {
+    const hasEmail = await sessionHasEmail(supabase, sessionId, existing);
+    if (!hasEmail) {
+      return { shouldCaptureLead: true, captureType: 'smart_recapture', topProperty };
+    }
   }
 
-  return { shouldCaptureLead: false, captureType: null };
+  return { shouldCaptureLead: false, captureType: null, topProperty: null };
 }
 
 module.exports = async function handler(req, res) {
@@ -68,11 +97,7 @@ module.exports = async function handler(req, res) {
     return res.end(JSON.stringify({ error: 'Method not allowed' }));
   }
 
-  const supabase = createClient(
-    process.env.SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_KEY
-  );
-
+  // Body may arrive as a string or an already-parsed object
   let body;
   try {
     body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
@@ -82,64 +107,110 @@ module.exports = async function handler(req, res) {
   }
 
   const { sessionId, type, data } = body || {};
-
   if (!sessionId || !type) {
     res.writeHead(400, { ...corsHeaders(), 'Content-Type': 'application/json' });
     return res.end(JSON.stringify({ error: 'sessionId and type are required' }));
   }
 
+  const evData = data || {};
+
+  const supabase = createClient(
+    process.env.SUPABASE_URL.trim(),
+    process.env.SUPABASE_SERVICE_KEY.trim()
+  );
+
   try {
     const now = new Date().toISOString();
-    const newEvent = { type, data: data || {}, created_at: now };
 
-    // Fetch existing visitor row so we can append to its events array
+    // 1. Persist the raw event
+    const { error: insertErr } = await supabase
+      .from('events')
+      .insert({ session_id: sessionId, type, data: evData });
+    if (insertErr) throw insertErr;
+
+    // 2. Load the full event history for this session (includes the row above)
+    const { data: eventRows, error: eventsErr } = await supabase
+      .from('events')
+      .select('type,data,created_at')
+      .eq('session_id', sessionId)
+      .order('created_at', { ascending: true })
+      .limit(500);
+    if (eventsErr) throw eventsErr;
+    const events = Array.isArray(eventRows) ? eventRows : [];
+
+    // 3. Read the current visitor row (for session_count + first-set fields)
     const { data: existing, error: fetchErr } = await supabase
       .from('visitors')
-      .select('id, events, session_count, first_seen')
+      .select('session_count, first_seen, landing_page, traffic_source, name, email')
       .eq('session_id', sessionId)
       .maybeSingle();
-
     if (fetchErr) throw fetchErr;
 
-    const existingEvents = Array.isArray(existing?.events) ? existing.events : [];
-    const updatedEvents = [...existingEvents, newEvent];
-    const sessionCount = existing?.session_count ?? 1;
+    // 4. Session count: increment on session_start or a brand-new visitor
+    const prevCount = existing?.session_count ?? 0;
+    let sessionCount;
+    if (type === 'session_start' || !existing) {
+      sessionCount = (prevCount || 0) + 1;
+    } else {
+      sessionCount = prevCount || 1;
+    }
+    if (sessionCount < 1) sessionCount = 1;
 
-    // Upsert visitor row with appended event and updated last_seen
-    const { error: visitorErr } = await supabase.from('visitors').upsert(
-      {
-        session_id: sessionId,
-        events: updatedEvents,
-        last_seen: now,
-        first_seen: existing?.first_seen ?? now,
-        session_count: sessionCount,
-      },
-      { onConflict: 'session_id' }
-    );
+    // 5. Aggregate + score (pure math, no LLM)
+    const stats = aggregateEvents(events, sessionCount);
+    const { score, temperature, breakdown } = computeScore(stats);
 
-    if (visitorErr) throw visitorErr;
-
-    // Also insert a row in the events table for queryability
-    const { error: eventInsertErr } = await supabase.from('events').insert({
+    // 6. Build the visitor upsert
+    const visitorRow = {
       session_id: sessionId,
-      type,
-      data: data || {},
-    });
+      last_seen: now,
+      score,
+      temperature,
+      session_count: sessionCount,
+      total_seconds: stats.totalSeconds,
+      page_views: stats.pageViews,
+      score_breakdown: breakdown,
+    };
 
-    if (eventInsertErr) throw eventInsertErr;
+    const currentPage = evData.url || evData.path;
+    if (currentPage) visitorRow.current_page = currentPage;
 
-    // Evaluate thresholds against the full updated event history
-    const { shouldCaptureLead, captureType } = checkThresholds(
-      updatedEvents,
-      sessionCount
+    // Set first_seen / landing_page / traffic_source only when not already set
+    if (!existing || !existing.first_seen) visitorRow.first_seen = now;
+    if ((!existing || !existing.landing_page) && evData.landingPage) {
+      visitorRow.landing_page = evData.landingPage;
+    }
+    if ((!existing || !existing.traffic_source) && evData.trafficSource) {
+      visitorRow.traffic_source = evData.trafficSource;
+    }
+
+    const { error: upsertErr } = await supabase
+      .from('visitors')
+      .upsert(visitorRow, { onConflict: 'session_id' });
+    if (upsertErr) throw upsertErr;
+
+    // 7. Capture decision
+    const { shouldCaptureLead, captureType, topProperty } = await decideCapture(
+      supabase,
+      sessionId,
+      events,
+      score,
+      existing
     );
 
     res.writeHead(200, { ...corsHeaders(), 'Content-Type': 'application/json' });
     return res.end(
-      JSON.stringify({ success: true, shouldCaptureLead, captureType })
+      JSON.stringify({
+        success: true,
+        score,
+        temperature,
+        shouldCaptureLead,
+        captureType,
+        topProperty,
+      })
     );
   } catch (err) {
-    console.error('[event] error:', err?.message || err);
+    console.error('[event]', err?.message || err);
     res.writeHead(500, { ...corsHeaders(), 'Content-Type': 'application/json' });
     return res.end(JSON.stringify({ error: 'Internal server error' }));
   }

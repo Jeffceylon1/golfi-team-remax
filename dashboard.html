@@ -807,6 +807,79 @@
   </div>
   <!--===== LEADS PANEL ENDS =======-->
 
+  <!--===== VISITOR INTELLIGENCE PANELS START =======-->
+  <div class="dashboard-section-area sp1" style="padding-top:0;">
+    <div class="container">
+
+      <!-- Live now -->
+      <div class="row">
+        <div class="col-12">
+          <div class="dashboad-all-details-section">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:6px;">
+              <div>
+                <h3 style="margin:0 0 4px;"><span style="display:inline-block;width:9px;height:9px;background:#16a34a;border-radius:50%;margin-right:8px;vertical-align:middle;"></span>On the Site Right Now</h3>
+                <p style="margin:0;font-size:13px;color:#888;">Live visitors browsing in the last 5 minutes, ranked by interest level</p>
+              </div>
+              <span id="ga-live-status" style="font-size:12px;color:#888;"></span>
+            </div>
+            <div style="overflow-x:auto;">
+              <table style="width:100%;border-collapse:collapse;font-size:13px;">
+                <thead>
+                  <tr style="background:#0D1B3E;color:#fff;">
+                    <th style="padding:11px 14px;text-align:left;font-weight:600;">Interest</th>
+                    <th style="padding:11px 14px;text-align:left;font-weight:600;">Now viewing</th>
+                    <th style="padding:11px 14px;text-align:left;font-weight:600;">Visits</th>
+                    <th style="padding:11px 14px;text-align:left;font-weight:600;">Pages</th>
+                    <th style="padding:11px 14px;text-align:left;font-weight:600;">Source</th>
+                    <th style="padding:11px 14px;text-align:left;font-weight:600;">Who</th>
+                  </tr>
+                </thead>
+                <tbody id="ga-live-body">
+                  <tr><td colspan="6" style="padding:28px;text-align:center;color:#bbb;font-size:13px;">Load with your access key to see live visitors.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Anonymous high-intent -->
+      <div class="row">
+        <div class="col-12">
+          <div class="space30"></div>
+          <div class="dashboad-all-details-section">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:6px;">
+              <div>
+                <h3 style="margin:0 0 4px;">High-Interest Visitors — Not Yet Identified</h3>
+                <p style="margin:0;font-size:13px;color:#888;">People browsing seriously in the last 7 days who haven't given contact details yet</p>
+              </div>
+              <span id="ga-anon-status" style="font-size:12px;color:#888;"></span>
+            </div>
+            <div style="overflow-x:auto;">
+              <table style="width:100%;border-collapse:collapse;font-size:13px;">
+                <thead>
+                  <tr style="background:#0D1B3E;color:#fff;">
+                    <th style="padding:11px 14px;text-align:left;font-weight:600;">Interest</th>
+                    <th style="padding:11px 14px;text-align:left;font-weight:600;">Visits</th>
+                    <th style="padding:11px 14px;text-align:left;font-weight:600;">Pages seen</th>
+                    <th style="padding:11px 14px;text-align:left;font-weight:600;">Time on site</th>
+                    <th style="padding:11px 14px;text-align:left;font-weight:600;">Source</th>
+                    <th style="padding:11px 14px;text-align:left;font-weight:600;">Last seen</th>
+                  </tr>
+                </thead>
+                <tbody id="ga-anon-body">
+                  <tr><td colspan="6" style="padding:28px;text-align:center;color:#bbb;font-size:13px;">Load with your access key to see anonymous high-interest visitors.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!--===== VISITOR INTELLIGENCE PANELS END =======-->
+
   <script>
   var typeLabels = {
     chat: 'Chat conversation',
@@ -821,6 +894,7 @@
     if (!key) return;
     var status = document.getElementById('ga-lead-status');
     status.textContent = 'Loading…';
+    loadVisitors(key);
     fetch('/api/leads', { headers: { 'X-Dashboard-Key': key } })
       .then(function(r) { return r.json(); })
       .then(function(data) {
@@ -858,6 +932,57 @@
         }).join('');
       })
       .catch(function() { document.getElementById('ga-lead-status').textContent = 'Connection error'; });
+  }
+  var srcLabels = { google:'Google', bing:'Bing', social:'Social media', direct:'Direct', referral:'Referral' };
+  function fmtTime(secs) {
+    if (!secs || secs < 60) return (secs || 0) + 's';
+    var m = Math.floor(secs / 60), s = secs % 60;
+    return m + 'm' + (s ? ' ' + s + 's' : '');
+  }
+  function fmtPage(path) {
+    if (!path) return '—';
+    return path.replace(/^\//, '').replace('.html', '').replace(/-/g, ' ') || 'Home';
+  }
+  function tempBadge(t) {
+    var bg = { hot:'#E2001A', warm:'#d97706', cold:'#94a3b8' }[t || 'cold'];
+    var lbl = { hot:'Hot', warm:'Warm', cold:'Cold' }[t || 'cold'];
+    return '<span style="background:' + bg + ';color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:4px;">' + lbl + '</span>';
+  }
+  function loadVisitors(key) {
+    fetch('/api/visitors', { headers: { 'X-Dashboard-Key': key } })
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        if (data.error) return;
+        var live = data.live || [], anon = data.anon || [];
+        document.getElementById('ga-live-status').textContent = live.length ? live.length + ' online now' : 'Nobody browsing right now';
+        document.getElementById('ga-anon-status').textContent = anon.length ? anon.length + ' to watch' : 'None yet';
+
+        var liveBody = document.getElementById('ga-live-body');
+        liveBody.innerHTML = live.length ? live.map(function(v){
+          return '<tr style="border-bottom:1px solid #f0f0f0;">' +
+            '<td style="padding:12px 14px;">' + tempBadge(v.temperature) + ' <span style="color:#999;font-size:12px;">' + (v.score||0) + '</span></td>' +
+            '<td style="padding:12px 14px;color:#0D1B3E;font-weight:600;font-size:12px;">' + fmtPage(v.current_page) + '</td>' +
+            '<td style="padding:12px 14px;color:#555;">' + (v.session_count||1) + '</td>' +
+            '<td style="padding:12px 14px;color:#555;">' + (v.page_views||0) + '</td>' +
+            '<td style="padding:12px 14px;color:#777;font-size:12px;">' + (srcLabels[v.traffic_source]||'—') + '</td>' +
+            '<td style="padding:12px 14px;color:#444;">' + (v.name || (v.email ? v.email : '<span style="color:#bbb;">Anonymous</span>')) + '</td>' +
+          '</tr>';
+        }).join('') : '<tr><td colspan="6" style="padding:28px;text-align:center;color:#bbb;font-size:13px;">Nobody browsing right now.</td></tr>';
+
+        var anonBody = document.getElementById('ga-anon-body');
+        anonBody.innerHTML = anon.length ? anon.map(function(v){
+          var last = new Date(v.last_seen).toLocaleString('en-CA', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+          return '<tr style="border-bottom:1px solid #f0f0f0;">' +
+            '<td style="padding:12px 14px;">' + tempBadge(v.temperature) + ' <span style="color:#999;font-size:12px;">' + (v.score||0) + '</span></td>' +
+            '<td style="padding:12px 14px;color:#555;">' + (v.session_count||1) + '</td>' +
+            '<td style="padding:12px 14px;color:#555;">' + (v.page_views||0) + '</td>' +
+            '<td style="padding:12px 14px;color:#555;">' + fmtTime(v.total_seconds) + '</td>' +
+            '<td style="padding:12px 14px;color:#777;font-size:12px;">' + (srcLabels[v.traffic_source]||'—') + '</td>' +
+            '<td style="padding:12px 14px;color:#999;font-size:12px;white-space:nowrap;">' + last + '</td>' +
+          '</tr>';
+        }).join('') : '<tr><td colspan="6" style="padding:28px;text-align:center;color:#bbb;font-size:13px;">No high-interest anonymous visitors yet.</td></tr>';
+      })
+      .catch(function(){});
   }
   </script>
 
