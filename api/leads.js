@@ -21,11 +21,10 @@ module.exports = async function handler(req, res) {
   }
 
   // Simple dashboard auth — check X-Dashboard-Key header
-  const dashboardKey = process.env.DASHBOARD_KEY;
-  const providedKey = req.headers['x-dashboard-key'];
+  const dashboardKey = (process.env.DASHBOARD_KEY || '').trim();
+  const providedKey  = (req.headers['x-dashboard-key'] || '').trim();
 
   if (!dashboardKey) {
-    // Misconfigured server — never leak data
     res.writeHead(503, { ...corsHeaders(), 'Content-Type': 'application/json' });
     return res.end(JSON.stringify({ error: 'Dashboard auth not configured' }));
   }
