@@ -565,7 +565,7 @@ table.table tbody tr:hover { background: #fafbfc; }
   align-items: start;
   margin-bottom: 10px;
 }
-.repeat-row input { width: 100%; }
+.repeat-row input, .repeat-row select { width: 100%; }
 .icon-btn {
   border: 1px solid var(--border);
   background: #fff;

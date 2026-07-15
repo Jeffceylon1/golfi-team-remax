@@ -21,7 +21,22 @@
       accentColor:  DEFAULT_NAVY,
       enabled:      true,
       title:        'Golfi Team AI',
-      subtitle:     'Hamilton & Niagara RE/MAX'
+      subtitle:     'Hamilton & Niagara RE/MAX',
+      // Persona
+      personaName:   'Sofia',
+      personaRole:   'Golfi Team Assistant',
+      personaAvatar: '',           // '' = branded initial avatar; else an image URL
+      showOnlineDot: true,
+      consentText:   'By chatting, you agree to our Privacy Policy.',
+      // Intent quick-replies (label + action + value). Actions:
+      // navigate | valuation | booking | message | agent
+      quickReplies: [
+        { label: 'Browse listings',            action: 'navigate',  value: '/sidebar-grid.html' },
+        { label: 'What\u2019s my home worth?', action: 'valuation', value: '' },
+        { label: 'Book a viewing',             action: 'booking',   value: '' },
+        { label: 'I\u2019m looking to buy',    action: 'message',   value: 'I\u2019m looking to buy a home in Hamilton or Niagara.' },
+        { label: 'Talk to an agent',           action: 'agent',     value: '' }
+      ]
     },
     greeting: 'Hi! I\'m the Golfi Team AI Assistant. I can help you find properties in Hamilton and Niagara, answer neighbourhood questions, or book a viewing. What are you looking for?',
     hooks: {
@@ -174,6 +189,32 @@
       return (typeof v === 'string' && v.trim()) ? v.trim() : fallback;
     }
 
+    // Non-empty string wins; blank/absent falls back to the brand default.
+    function text(v, fallback) {
+      return (typeof v === 'string' && v.trim()) ? v : fallback;
+    }
+
+    // A string value may legitimately be empty (e.g. blank consent = hide line,
+    // blank avatar = use initial). Only fall back when the field is absent.
+    function optText(v, fallback) {
+      return (typeof v === 'string') ? v.trim() : fallback;
+    }
+
+    // Keep only well-formed quick-reply entries; a supplied [] means "no chips".
+    function quickReplies(v) {
+      if (!Array.isArray(v)) return DEFAULTS.widget.quickReplies;
+      var ok = { navigate: 1, valuation: 1, booking: 1, message: 1, agent: 1 };
+      return v.filter(function (q) {
+        return q && typeof q.label === 'string' && q.label.trim() && ok[q.action];
+      }).map(function (q) {
+        return {
+          label:  q.label.trim(),
+          action: q.action,
+          value:  typeof q.value === 'string' ? q.value : ''
+        };
+      });
+    }
+
     return {
       red:      color(w.primaryColor, DEFAULT_RED),
       navy:     color(w.accentColor,  DEFAULT_NAVY),
@@ -181,6 +222,14 @@
       title:    raw.title    || w.title    || DEFAULTS.widget.title,
       subtitle: raw.subtitle || w.subtitle || DEFAULTS.widget.subtitle,
       greeting: raw.greeting || DEFAULTS.greeting,
+      phone:    optText(raw.phone, ''),
+      // Persona
+      personaName:   text(w.personaName, DEFAULTS.widget.personaName),
+      personaRole:   text(w.personaRole, DEFAULTS.widget.personaRole),
+      personaAvatar: optText(w.personaAvatar, DEFAULTS.widget.personaAvatar),
+      showOnlineDot: w.showOnlineDot !== false,
+      consentText:   optText(w.consentText, DEFAULTS.widget.consentText),
+      quickReplies:  quickReplies(w.quickReplies),
       hooks: {
         propertySave:   hookCfg('propertySave'),
         exitIntent:     hookCfg('exitIntent'),
@@ -224,7 +273,10 @@
       '#ga-panel{position:fixed;bottom:96px;right:24px;width:340px;height:500px;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.22);z-index:99999;display:none;flex-direction:column;background:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}',
       '#ga-panel.open{display:flex}',
       '#ga-head{background:' + navy + ';padding:16px 18px;display:flex;align-items:center;gap:12px}',
-      '#ga-head-avatar{width:40px;height:40px;border-radius:50%;background:' + red + ';display:flex;align-items:center;justify-content:center;flex-shrink:0}',
+      '#ga-head-avatar{width:40px;height:40px;border-radius:50%;background:' + red + ';display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}',
+      '#ga-head-avatar img{width:40px;height:40px;border-radius:50%;object-fit:cover;display:block}',
+      '#ga-head-avatar .ga-avatar-initial{color:#fff;font-weight:700;font-size:17px;line-height:1;font-family:inherit}',
+      '.ga-persona-dot{position:absolute;bottom:0;right:0;width:11px;height:11px;border-radius:50%;background:#22c55e;border:2px solid ' + navy + ';box-sizing:border-box}',
       '#ga-head-info{flex:1}',
       '#ga-head-name{color:#fff;font-weight:700;font-size:14px;line-height:1.2}',
       '#ga-head-sub{color:rgba(255,255,255,.65);font-size:12px}',
@@ -233,6 +285,12 @@
       '.ga-msg{max-width:82%;padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.55}',
       '.ga-msg.bot{background:#f0f2f5;color:#1a1a2e;border-bottom-left-radius:4px;align-self:flex-start}',
       '.ga-msg.usr{background:' + red + ';color:#fff;border-bottom-right-radius:4px;align-self:flex-end}',
+      '.ga-consent{font-size:11px;color:#9aa0ab;text-align:center;line-height:1.4;padding:0 6px 4px;align-self:stretch}',
+      '.ga-consent a{color:' + red + ';text-decoration:underline}',
+      '.ga-qr{display:flex;flex-wrap:wrap;gap:8px;align-self:stretch;margin-top:2px}',
+      '.ga-qr-chip{background:#fff;color:' + navy + ';border:1.5px solid ' + navy + ';border-radius:16px;padding:7px 13px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;line-height:1.2;transition:background .15s,color .15s,border-color .15s}',
+      '.ga-qr-chip:hover{background:' + red + ';color:#fff;border-color:' + red + '}',
+      '.ga-qr-chip:disabled{opacity:.5;cursor:default;background:#fff;color:' + navy + ';border-color:' + navy + '}',
       '.ga-typing{display:flex;gap:4px;padding:10px 14px;background:#f0f2f5;border-radius:14px;border-bottom-left-radius:4px;align-self:flex-start;width:44px}',
       '.ga-typing span{width:6px;height:6px;border-radius:50%;background:#aaa;animation:ga-bounce 1.2s infinite}',
       '.ga-typing span:nth-child(2){animation-delay:.2s}',
@@ -298,12 +356,19 @@
     btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2Zm-2 12H6v-2h12v2Zm0-3H6V9h12v2Zm0-3H6V6h12v2Z"/></svg>';
     btn.innerHTML += '<span id="ga-badge">1</span>';
 
+    // Persona avatar: an image if configured, else a branded circle with the initial.
+    var personaInitial = esc((((cfg.personaName || 'G').trim().charAt(0)) || 'G').toUpperCase());
+    var avatarInner = cfg.personaAvatar
+      ? '<img src="' + esc(cfg.personaAvatar) + '" alt="' + esc(cfg.personaName) + '"/>'
+      : '<span class="ga-avatar-initial">' + personaInitial + '</span>';
+    var onlineDot = cfg.showOnlineDot ? '<span class="ga-persona-dot" title="Online"></span>' : '';
+
     var panel = document.createElement('div');
     panel.id = 'ga-panel';
     panel.innerHTML = [
       '<div id="ga-head">',
-      '  <div id="ga-head-avatar"><svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2Zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3Zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22Z"/></svg></div>',
-      '  <div id="ga-head-info"><div id="ga-head-name">' + esc(cfg.title) + '</div><div id="ga-head-sub">' + esc(cfg.subtitle) + '</div></div>',
+      '  <div id="ga-head-avatar">' + avatarInner + onlineDot + '</div>',
+      '  <div id="ga-head-info"><div id="ga-head-name">' + esc(cfg.personaName) + '</div><div id="ga-head-sub">' + esc(cfg.personaRole) + '</div></div>',
       '  <button id="ga-close" aria-label="Close">&#x2715;</button>',
       '</div>',
       '<div id="ga-messages"></div>',
@@ -333,6 +398,8 @@
     var sendEl     = panel.querySelector('#ga-send');
     var closeEl    = panel.querySelector('#ga-close');
     var badge      = document.getElementById('ga-badge');
+    var agentPending   = false;   // 'agent' quick-reply asked for contact; capture the next reply
+    var quickRepliesEl = null;    // active quick-reply chip row, if any
 
     function addMsg(role, text) {
       var d = document.createElement('div');
@@ -357,16 +424,91 @@
       if (t) t.remove();
     }
 
+    // ─── Consent line + intent quick-replies ──────────────────────────────────
+    function renderConsent() {
+      if (!cfg.consentText) return;                       // blank = owner hid the line
+      if (messagesEl.querySelector('#ga-consent')) return; // only ever once
+      var c = document.createElement('div');
+      c.id = 'ga-consent';
+      c.className = 'ga-consent';
+      c.textContent = cfg.consentText;
+      messagesEl.insertBefore(c, messagesEl.firstChild);
+    }
+
+    function hideQuickReplies() {
+      if (quickRepliesEl) { quickRepliesEl.remove(); quickRepliesEl = null; }
+    }
+
+    function renderQuickReplies() {
+      hideQuickReplies();
+      // Fresh conversations only — never resurface once the visitor has spoken.
+      if (chatHistory.some(function (m) { return m.role === 'user'; })) return;
+      var replies = cfg.quickReplies || [];
+      if (!replies.length) return;
+      var wrap = document.createElement('div');
+      wrap.id = 'ga-qr';
+      wrap.className = 'ga-qr';
+      replies.forEach(function (q) {
+        var chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'ga-qr-chip';
+        chip.textContent = q.label;
+        chip.addEventListener('click', function () { handleQuickReply(q); });
+        wrap.appendChild(chip);
+      });
+      messagesEl.appendChild(wrap);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+      quickRepliesEl = wrap;
+    }
+
+    function handleQuickReply(q) {
+      switch (q.action) {
+        case 'navigate':
+          hideQuickReplies();
+          if (q.value) window.location.href = q.value;   // relative paths allowed
+          break;
+        case 'valuation': {
+          var vm = document.getElementById('ga-exit') || buildExitModal();
+          setTimeout(function () { vm.classList.add('show'); }, 50);
+          break;
+        }
+        case 'booking': {
+          var open = document.getElementById('ga-book');
+          if (open) open.remove();
+          var bm = buildBookModal(document.title);
+          setTimeout(function () { bm.classList.add('show'); }, 50);
+          break;
+        }
+        case 'message':
+          inputEl.value = q.value || q.label;
+          sendMessage();   // routes through /api/chat, renders a user bubble, hides chips
+          break;
+        case 'agent': {
+          hideQuickReplies();
+          var msg = 'Absolutely \u2014 I\u2019ll connect you with a Golfi agent. What\u2019s your name and the best number to reach you?';
+          if (cfg.phone) msg += ' Or call us now at ' + cfg.phone + '.';
+          addMsg('assistant', msg);
+          chatHistory.push({ role: 'assistant', content: msg });
+          saveHistory();
+          agentPending = true;
+          inputEl.focus();
+          break;
+        }
+      }
+    }
+
     function openPanel() {
       panel.classList.add('open');
       badge.style.display = 'none';
       inputEl.focus();
       if (!messagesEl.children.length) {
+        renderConsent();
         // Load history or show greeting
         if (chatHistory.length) {
           chatHistory.forEach(function (m) { addMsg(m.role === 'user' ? 'user' : 'assistant', m.content); });
         } else {
           addMsg('assistant', cfg.greeting);
+          renderQuickReplies();
         }
       }
     }
@@ -382,9 +524,31 @@
       var text = inputEl.value.trim();
       if (!text) return;
       inputEl.value = '';
+      hideQuickReplies();                       // first real message retires the chips
       addMsg('user', text);
       chatHistory.push({ role: 'user', content: text });
       saveHistory();
+
+      // 'Talk to an agent' handoff — capture the contact details just provided.
+      if (agentPending) {
+        var phoneMatch = text.match(/(\+?\d[\d\s().\-]{7,}\d)/);
+        if (phoneMatch) {
+          var phone = phoneMatch[0].replace(/[^\d+]/g, '');
+          var name  = text.replace(phoneMatch[0], '')
+                          .replace(/[^A-Za-z\u00C0-\u024F '.\-]/g, ' ')
+                          .replace(/\s+/g, ' ').trim();
+          captureLead({
+            name: name || undefined,
+            phone: phone,
+            type: 'chat',
+            source: 'speak_agent',
+            data: { message: text }
+          });
+          agentPending = false;
+          showToast('\u2713 Thanks! A Golfi agent will reach out shortly.');
+        }
+      }
+
       showTyping();
 
       api('/chat', { sessionId: sid, message: text }).then(function (res) {

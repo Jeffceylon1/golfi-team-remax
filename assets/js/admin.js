@@ -1490,6 +1490,7 @@
         { value: 'top-right', label: 'Top right' },
         { value: 'top-left', label: 'Top left' },
       ];
+      var quickReplies = Array.isArray(w.quickReplies) ? w.quickReplies : [];
       var html = '<div class="card card-pad">' +
         toggleField('widget-enabled', 'Widget enabled', w.enabled, 'Show the chat widget on the public site.') +
         '<div class="form-section-title">Appearance</div>' +
@@ -1503,6 +1504,18 @@
           textField('widget-title', 'Title', w.title, { span: true }) +
           textField('widget-subtitle', 'Subtitle', w.subtitle, { span: true }) +
         '</div>' +
+        '<div class="form-section-title">Chat persona</div>' +
+        '<div class="form-grid">' +
+          textField('widget-personaName', 'Persona name', w.personaName) +
+          textField('widget-personaRole', 'Persona role / subtitle', w.personaRole) +
+          textField('widget-personaAvatar', 'Persona avatar image URL', w.personaAvatar, { span: true, hint: 'Leave blank to use a branded initial. Paste a URL to a real team member photo.' }) +
+          textField('widget-consentText', 'Consent line text', w.consentText, { span: true, hint: 'Shown near the chat, e.g. "By chatting, you agree to our Privacy Policy."' }) +
+        '</div>' +
+        toggleField('widget-showOnlineDot', 'Show online dot', w.showOnlineDot, 'Show a green "online" indicator on the persona avatar.') +
+        '<div class="form-section-title">Quick replies</div>' +
+        '<div id="widget-qr-list">' + quickReplies.map(quickReplyRow).join('') + '</div>' +
+        '<button type="button" class="btn btn-secondary btn-sm" id="widget-qr-add">Add quick reply</button>' +
+        '<div class="field-hint" style="margin-top:8px">Buttons shown when the chat opens. Value: URL for navigate, message text for message, leave blank otherwise.</div>' +
         formFoot() +
       '</div>';
 
@@ -1515,19 +1528,78 @@
             if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(t.value)) c.value = t.value;
           });
         });
+        var qrList = root.querySelector('#widget-qr-list');
+        root.querySelector('#widget-qr-add').addEventListener('click', function () {
+          qrList.insertAdjacentHTML('beforeend', quickReplyRow({}));
+          markDirty('widget');
+        });
+        qrList.addEventListener('click', function (e) {
+          var b = e.target.closest('.qr-remove');
+          if (b) { b.closest('.qr-row').remove(); markDirty('widget'); }
+        });
       }
-      function collect() {
-        return { ok: true, value: {
-          enabled: getChecked('widget-enabled'),
-          primaryColor: getVal('widget-primaryColor').trim(),
-          accentColor: getVal('widget-accentColor').trim(),
-          position: getVal('widget-position'),
-          title: getVal('widget-title').trim(),
-          subtitle: getVal('widget-subtitle').trim(),
-        } };
+      function collect(root) {
+        var nameEl = byId('widget-personaName');
+        var name = getVal('widget-personaName').trim();
+        if (nameEl) nameEl.classList.remove('input-invalid');
+        if (!name) {
+          if (nameEl) nameEl.classList.add('input-invalid');
+          return { ok: false, error: 'Give your chat persona a name.' };
+        }
+        var invalid = false;
+        var quickReplies = Array.from(root.querySelectorAll('.qr-row')).map(function (r) {
+          var labelEl = r.querySelector('.qr-label');
+          var actionEl = r.querySelector('.qr-action');
+          var valueEl = r.querySelector('.qr-value');
+          labelEl.classList.remove('input-invalid');
+          actionEl.classList.remove('input-invalid');
+          var label = labelEl.value.trim();
+          var action = actionEl.value;
+          if (!label) { labelEl.classList.add('input-invalid'); invalid = true; }
+          if (!action) { actionEl.classList.add('input-invalid'); invalid = true; }
+          return { label: label, action: action, value: valueEl.value.trim() };
+        });
+        if (invalid) return { ok: false, error: 'Each quick reply needs a label and an action.' };
+        var value = {};
+        var existing = state.settings.widget || {};
+        Object.keys(existing).forEach(function (k) { value[k] = existing[k]; });
+        value.enabled = getChecked('widget-enabled');
+        value.primaryColor = getVal('widget-primaryColor').trim();
+        value.accentColor = getVal('widget-accentColor').trim();
+        value.position = getVal('widget-position');
+        value.title = getVal('widget-title').trim();
+        value.subtitle = getVal('widget-subtitle').trim();
+        value.personaName = name;
+        value.personaRole = getVal('widget-personaRole').trim();
+        value.personaAvatar = getVal('widget-personaAvatar').trim();
+        value.showOnlineDot = getChecked('widget-showOnlineDot');
+        value.consentText = getVal('widget-consentText').trim();
+        value.quickReplies = quickReplies;
+        return { ok: true, value: value };
       }
       return { html: html, afterMount: afterMount, collect: collect };
     });
+  }
+
+  var QR_ACTIONS = [
+    { value: 'navigate', label: 'Navigate to a page' },
+    { value: 'valuation', label: 'Open valuation modal' },
+    { value: 'booking', label: 'Open booking modal' },
+    { value: 'message', label: 'Send a chat message' },
+    { value: 'agent', label: 'Connect to a human' },
+  ];
+  function quickReplyRow(qr) {
+    qr = qr || {};
+    var sel = qr.action || 'navigate';
+    var opts = QR_ACTIONS.map(function (o) {
+      return '<option value="' + esc(o.value) + '"' + (o.value === sel ? ' selected' : '') + '>' + esc(o.label) + '</option>';
+    }).join('');
+    return '<div class="repeat-row qr-row">' +
+      '<input type="text" class="qr-label" placeholder="Label" value="' + esc(qr.label || '') + '">' +
+      '<select class="qr-action">' + opts + '</select>' +
+      '<input type="text" class="qr-value" placeholder="Value" value="' + esc(qr.value || '') + '">' +
+      '<button type="button" class="icon-btn qr-remove" title="Remove">' + ICONS.trash + '</button>' +
+    '</div>';
   }
 
   // ============================================================
