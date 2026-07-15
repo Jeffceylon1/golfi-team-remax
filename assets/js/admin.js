@@ -23,6 +23,11 @@
 
   var leadsState = { all: [], filter: 'all', q: '' };
 
+  var bookingsState = { all: [] };
+
+  var LEAD_STATUSES = ['new', 'contacted', 'qualified', 'closed'];
+  var STATUS_LABEL = { new: 'New', contacted: 'Contacted', qualified: 'Qualified', closed: 'Closed' };
+
   // ============================================================
   // Icons (inline SVG, stroke = currentColor)
   // ============================================================
@@ -47,6 +52,7 @@
     insights: svg('<path d="M4 19V5"/><path d="M4 19h16"/><rect x="7" y="12" width="3" height="5"/><rect x="12" y="8" width="3" height="9"/><rect x="17" y="14" width="3" height="3"/>'),
     digest: svg('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>'),
     nurture: svg('<circle cx="5" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="18" r="2"/><path d="M6.6 7.4l3.8 3.2M13.6 13.4l3.8 3.2"/>'),
+    bookings: svg('<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2.5v3.5M16 2.5v3.5"/><path d="M8 14h3M13 14h3"/>'),
   };
 
   // ============================================================
@@ -57,6 +63,7 @@
     { id: 'leads',         label: 'Leads' },
     { id: 'visitors',      label: 'Live Visitors' },
     { id: 'conversations', label: 'Conversations' },
+    { id: 'bookings',      label: 'Bookings' },
     { id: 'insights',      label: 'Insights' },
     { id: 'agent',         label: 'Agent Settings' },
     { id: 'scoring',       label: 'Scoring Rules' },
@@ -67,7 +74,7 @@
     { id: 'business',      label: 'Business Profile' },
     { id: 'widget',        label: 'Widget' },
   ];
-  var DATA_PANELS = { today: 1, leads: 1, visitors: 1, conversations: 1, insights: 1 };
+  var DATA_PANELS = { today: 1, leads: 1, visitors: 1, conversations: 1, bookings: 1, insights: 1 };
 
   // ============================================================
   // Small helpers
@@ -252,6 +259,7 @@
     leads: renderLeads,
     visitors: renderVisitors,
     conversations: renderConversations,
+    bookings: renderBookings,
     insights: renderInsights,
     agent: renderAgent,
     scoring: renderScoring,
@@ -469,6 +477,7 @@
 
     box.querySelector('[data-refresh]').addEventListener('click', renderLeads);
     var body = byId('leads-body');
+    wireLeadCrud(body);
     body.innerHTML = '<div class="loading">Loading leads…</div>';
 
     try {
@@ -494,6 +503,80 @@
       fillLeads(body);
     });
   }
+  function findLead(id) {
+    for (var i = 0; i < leadsState.all.length; i++) {
+      if (String(leadsState.all[i].id) === String(id)) return leadsState.all[i];
+    }
+    return null;
+  }
+  function wireLeadCrud(body) {
+    body.addEventListener('change', function (e) {
+      var sel = e.target.closest('.status-select');
+      if (sel) updateLeadStatus(sel);
+    });
+    body.addEventListener('click', function (e) {
+      var toggle = e.target.closest('[data-notes-toggle]');
+      if (toggle) {
+        var tr = toggle.closest('tr');
+        var nrow = tr && tr.nextElementSibling;
+        if (nrow && nrow.classList.contains('lead-notes-row')) {
+          nrow.hidden = !nrow.hidden;
+          toggle.classList.toggle('open', !nrow.hidden);
+          if (!nrow.hidden) { var ta = nrow.querySelector('.notes-text'); if (ta) ta.focus(); }
+        }
+        return;
+      }
+      var save = e.target.closest('[data-notes-save]');
+      if (save) {
+        var row = save.closest('.lead-notes-row');
+        var area = row && row.querySelector('.notes-text');
+        saveLeadNotes(save.dataset.id, area ? area.value : '', save, row);
+      }
+    });
+  }
+  async function updateLeadStatus(sel) {
+    var id = sel.dataset.id;
+    var lead = findLead(id);
+    var prev = (lead && lead.status) || 'new';
+    var next = sel.value;
+    sel.dataset.status = next;
+    sel.disabled = true;
+    try {
+      var r = await api('/api/admin/lead', { method: 'POST', body: { id: id, status: next } });
+      var applied = (r && r.lead && r.lead.status) || next;
+      sel.value = applied;
+      sel.dataset.status = applied;
+      if (lead) lead.status = applied;
+      toast('Updated', 'success');
+    } catch (err) {
+      sel.value = prev;
+      sel.dataset.status = prev;
+      if (err.status === 401) { sessionExpired(); return; }
+      toast(err.message || 'Could not update status', 'error');
+    } finally {
+      sel.disabled = false;
+    }
+  }
+  async function saveLeadNotes(id, notes, btn, row) {
+    setBtnLoading(btn, true, 'Saving…');
+    try {
+      var r = await api('/api/admin/lead', { method: 'POST', body: { id: id, notes: notes } });
+      var lead = findLead(id);
+      var applied = (r && r.lead && typeof r.lead.notes === 'string') ? r.lead.notes : notes;
+      if (lead) lead.notes = applied;
+      if (row) {
+        var main = row.previousElementSibling;
+        var toggle = main && main.querySelector('[data-notes-toggle]');
+        if (toggle) toggle.classList.toggle('has-notes', !!(applied && String(applied).trim()));
+      }
+      toast('Note saved', 'success');
+    } catch (err) {
+      if (err.status === 401) { sessionExpired(); return; }
+      toast(err.message || 'Could not save note', 'error');
+    } finally {
+      setBtnLoading(btn, false);
+    }
+  }
   function fillLeads(body) {
     var rows = leadsState.all;
     if (leadsState.filter !== 'all') rows = rows.filter(function (l) { return (l.temperature || 'cold') === leadsState.filter; });
@@ -504,19 +587,40 @@
     if (!rows.length) { body.innerHTML = '<div class="empty">No leads match your filters.</div>'; return; }
     body.innerHTML =
       '<div class="table-wrap"><table class="table"><thead><tr>' +
-        '<th>Name</th><th>Contact</th><th>Type</th><th>Temperature</th><th>Date</th><th>Actions</th>' +
+        '<th>Name</th><th>Contact</th><th>Type</th><th>Temperature</th><th>Status</th><th>Date</th><th>Actions</th>' +
       '</tr></thead><tbody>' +
-      rows.map(function (l) {
-        return '<tr>' +
-          '<td class="t-name">' + (l.name ? esc(l.name) : '<span class="t-muted">Unknown</span>') + '</td>' +
-          '<td>' + contactCell(l) + '</td>' +
-          '<td>' + esc(typeLabel(l.type)) + '</td>' +
-          '<td>' + tempBadge(l.temperature) + '</td>' +
-          '<td class="t-muted t-nowrap">' + esc(fmtDate(l.created_at)) + '</td>' +
-          '<td class="t-nowrap">' + quickBtns(l) + '</td>' +
-        '</tr>';
-      }).join('') +
+      rows.map(leadRowHtml).join('') +
       '</tbody></table></div>';
+  }
+  function leadRowHtml(l) {
+    var hasNotes = !!(l.notes && String(l.notes).trim());
+    var mainRow = '<tr class="lead-row">' +
+      '<td class="t-name">' + (l.name ? esc(l.name) : '<span class="t-muted">Unknown</span>') + '</td>' +
+      '<td>' + contactCell(l) + '</td>' +
+      '<td>' + esc(typeLabel(l.type)) + '</td>' +
+      '<td>' + tempBadge(l.temperature) + '</td>' +
+      '<td>' + statusSelect(l) + '</td>' +
+      '<td class="t-muted t-nowrap">' + esc(fmtDate(l.created_at)) + '</td>' +
+      '<td class="t-nowrap"><div class="lead-actions">' + quickBtns(l) +
+        '<button type="button" class="qbtn qbtn-notes' + (hasNotes ? ' has-notes' : '') + '" data-notes-toggle data-id="' + esc(l.id) + '">Notes</button>' +
+      '</div></td>' +
+    '</tr>';
+    var notesRow = '<tr class="lead-notes-row" hidden><td colspan="7">' +
+      '<div class="notes-editor">' +
+        '<label class="notes-label">Private notes</label>' +
+        '<textarea class="notes-text" rows="3" placeholder="Add a note about this lead…">' + esc(l.notes || '') + '</textarea>' +
+        '<div class="notes-actions">' +
+          '<button type="button" class="btn btn-primary btn-sm" data-notes-save data-id="' + esc(l.id) + '">Save note</button>' +
+        '</div>' +
+      '</div></td></tr>';
+    return mainRow + notesRow;
+  }
+  function statusSelect(l) {
+    var cur = LEAD_STATUSES.indexOf(l.status) !== -1 ? l.status : 'new';
+    var opts = LEAD_STATUSES.map(function (s) {
+      return '<option value="' + s + '"' + (s === cur ? ' selected' : '') + '>' + STATUS_LABEL[s] + '</option>';
+    }).join('');
+    return '<select class="status-select" data-id="' + esc(l.id) + '" data-status="' + cur + '">' + opts + '</select>';
   }
 
   // ============================================================
@@ -592,89 +696,282 @@
     listEl.innerHTML = '<div class="loading">Loading…</div>';
 
     try {
-      var d = await apiData('/api/leads');
-      var leads = d.leads || [];
-      var map = new Map();
-      leads.forEach(function (l) {
-        if (!l.session_id) return;
-        var isChat = l.type === 'chat' || (l.data && l.data.conversation_snippet);
-        if (!isChat) return;
-        if (!map.has(l.session_id)) map.set(l.session_id, l);
-      });
-      var convos = Array.from(map.values());
-      if (!convos.length) { listEl.innerHTML = '<div class="empty">No chat conversations yet.</div>'; return; }
-      listEl.innerHTML = convos.map(convoItem).join('');
+      var d = await api('/api/admin/messages');
+      var sessions = d.sessions || [];
+      if (!sessions.length) { listEl.innerHTML = '<div class="empty">No conversations yet.</div>'; return; }
+      listEl.innerHTML = sessions.map(sessionItem).join('');
       listEl.addEventListener('click', function (e) {
         var it = e.target.closest('.convo-item'); if (!it) return;
         listEl.querySelectorAll('.convo-item').forEach(function (x) { x.classList.toggle('active', x === it); });
-        openTranscript(it.dataset.sid, map.get(it.dataset.sid));
+        openSessionTranscript(it.dataset.sid);
       });
     } catch (err) {
+      if (err.status === 401) { sessionExpired(); return; }
       listEl.innerHTML = dataErrorHtml(err);
       wireDataError(listEl, renderConversations);
     }
   }
-  function convoItem(l) {
-    var snip = l.data && l.data.conversation_snippet;
-    var preview = Array.isArray(snip) ? (snip.length ? (snip[snip.length - 1].content || '') : '')
-                : (typeof snip === 'string' ? snip : '');
-    return '<div class="convo-item" data-sid="' + esc(l.session_id) + '">' +
-      '<div class="ci-name">' + (l.name ? esc(l.name) : 'Anonymous') + '</div>' +
-      '<div class="ci-meta">' + esc(typeLabel(l.type)) + ' · ' + esc(fmtDate(l.created_at)) + '</div>' +
+  function sessionItem(s) {
+    var count = Number(s.message_count) || 0;
+    var preview = s.preview || '';
+    return '<div class="convo-item" data-sid="' + esc(s.session_id) + '">' +
+      '<div class="ci-top"><span class="ci-name">Conversation ' + esc(shortSid(s.session_id)) + '</span>' +
+        '<span class="ci-count">' + count + ' msg' + (count === 1 ? '' : 's') + '</span></div>' +
+      '<div class="ci-meta">' + esc(fmtAgo(s.last_at)) + '</div>' +
       (preview ? '<div class="ci-snip">' + esc(preview) + '</div>' : '') +
     '</div>';
   }
-  async function openTranscript(sid, lead) {
+  function shortSid(sid) {
+    var s = String(sid || '');
+    return s.length > 6 ? '#' + s.slice(-6) : (s ? '#' + s : '');
+  }
+  async function openSessionTranscript(sid) {
     var view = byId('convo-view');
     view.innerHTML = '<div class="loading">Loading transcript…</div>';
     try {
-      var d = await apiData('/api/visitors?view=journey&session=' + encodeURIComponent(sid));
-      view.innerHTML = transcriptHtml(lead || {}, d.events || [], d.visitor || null);
+      var d = await api('/api/admin/messages?session=' + encodeURIComponent(sid));
+      view.innerHTML = sessionTranscriptHtml(d || {});
     } catch (err) {
+      if (err.status === 401) { sessionExpired(); return; }
       view.innerHTML = dataErrorHtml(err);
-      wireDataError(view, function () { openTranscript(sid, lead); });
+      wireDataError(view, function () { openSessionTranscript(sid); });
     }
   }
-  function transcriptHtml(lead, events, visitor) {
-    var header = '<div style="margin-bottom:16px">' +
-      '<div class="t-name" style="font-size:15px">' + (lead.name ? esc(lead.name) : 'Anonymous') + '</div>' +
-      '<div class="t-muted" style="font-size:12.5px">' +
-        (lead.email ? esc(lead.email) : '') +
-        (lead.phone ? (lead.email ? ' · ' : '') + esc(lead.phone) : '') +
-        (visitor ? ' · score ' + (visitor.score || 0) : '') +
-      '</div></div>';
+  function sessionTranscriptHtml(d) {
+    var msgs = d.messages || [];
+    var header = convoContextHeader(d.lead || null, d.visitor || null);
+    if (!msgs.length) return header + '<div class="empty">No messages in this conversation yet.</div>';
+    var thread = msgs.map(function (m) { return msgBubble(m.role, m.content, m.created_at); }).join('');
+    return header + '<div class="chat-thread">' + thread + '</div>';
+  }
+  function convoContextHeader(lead, visitor) {
+    var name = (lead && lead.name) ? esc(lead.name) : 'Anonymous visitor';
+    var contact = [];
+    if (lead && lead.email) contact.push('<a class="t-link" href="mailto:' + esc(lead.email) + '">' + esc(lead.email) + '</a>');
+    if (lead && lead.phone) contact.push('<a class="t-link" href="tel:' + esc(lead.phone) + '">' + esc(lead.phone) + '</a>');
+    var chips = '';
+    if (visitor && visitor.score != null) chips += '<span class="ctx-chip">Score ' + esc(visitor.score) + '</span>';
+    var temp = (visitor && visitor.temperature) || (lead && lead.temperature);
+    if (temp) chips += tempBadge(temp);
+    return '<div class="convo-ctx">' +
+      '<div class="convo-ctx-name">' + name + '</div>' +
+      (contact.length ? '<div class="convo-ctx-contact">' + contact.join(' · ') + '</div>' : '') +
+      (chips ? '<div class="convo-ctx-chips">' + chips + '</div>' : '') +
+    '</div>';
+  }
+  function msgBubble(role, content, ts) {
+    var isUser = role === 'user';
+    var who = isUser ? 'Visitor' : 'Agent';
+    var cls = isUser ? 'user' : 'assistant';
+    return '<div class="msg ' + cls + '"><div class="who">' + who +
+      (ts ? ' · <span class="msg-time">' + esc(fmtDate(ts)) + '</span>' : '') +
+      '</div><div class="bubble">' + esc(content) + '</div></div>';
+  }
 
-    var body = '';
-    var snip = lead.data && lead.data.conversation_snippet;
-    if (Array.isArray(snip)) {
-      body += snip.map(function (m) { return msgBubble(m.role || 'assistant', m.content || ''); }).join('');
-    } else if (typeof snip === 'string' && snip.trim()) {
-      body += msgBubble('assistant', snip);
+  // ============================================================
+  // DATA PANEL: Bookings
+  // ============================================================
+  async function renderBookings() {
+    var box = panelEl('bookings');
+    box.innerHTML = head('Bookings', 'Viewing requests from clients — confirm times and add them to your calendar.',
+      '<button class="btn btn-secondary btn-sm" data-refresh>Refresh</button>') +
+      '<div class="card card-pad"><div id="bookings-body"></div></div>';
+    box.querySelector('[data-refresh]').addEventListener('click', renderBookings);
+    var body = byId('bookings-body');
+    wireBookings(body);
+    body.innerHTML = '<div class="loading">Loading viewing requests…</div>';
+    try {
+      var d = await api('/api/admin/booking');
+      bookingsState.all = d.bookings || [];
+      fillBookings(body);
+    } catch (err) {
+      if (err.status === 401) { sessionExpired(); return; }
+      body.innerHTML = dataErrorHtml(err);
+      wireDataError(body, renderBookings);
     }
-
-    var evs = (events || []).filter(Boolean);
-    if (evs.length) {
-      body += '<div class="form-section-title" style="margin-top:20px">Session journey</div>' +
-        evs.map(eventLine).join('');
-    }
-    if (!body) body = '<div class="empty">No transcript available for this session.</div>';
-    return header + body;
   }
-  function msgBubble(role, content) {
-    var who = role === 'user' ? 'Visitor' : 'Agent';
-    var cls = role === 'user' ? 'user' : 'assistant';
-    return '<div class="msg ' + cls + '"><div class="who">' + who + '</div><div class="bubble">' + esc(content) + '</div></div>';
+  function fillBookings(body) {
+    var rows = bookingsState.all;
+    if (!rows.length) { body.innerHTML = '<div class="empty">No viewing requests yet.</div>'; return; }
+    body.innerHTML =
+      '<div class="table-wrap"><table class="table"><thead><tr>' +
+        '<th>Client</th><th>Contact</th><th>Property</th><th>Requested time</th><th>Status</th><th>Confirm</th>' +
+      '</tr></thead><tbody>' +
+      rows.map(bookingRowHtml).join('') +
+      '</tbody></table></div>';
   }
-  function eventLine(e) {
-    var detail = '';
-    if (e.data) {
-      if (e.data.propertyId) detail = 'Property ' + e.data.propertyId;
-      else if (e.data.query) detail = 'Search: ' + e.data.query;
-      else if (e.data.page) detail = fmtPage(e.data.page);
+  function bookingConfirmedAt(b) {
+    if (!b) return null;
+    if (b.data && b.data.confirmedAt) return b.data.confirmedAt;
+    if (typeof b.confirmed === 'string' && b.confirmed) return b.confirmed;
+    return null;
+  }
+  function bookingRowHtml(b) {
+    var data = b.data || {};
+    var prop = data.title || data.property || '—';
+    var confirmedAt = bookingConfirmedAt(b);
+    var confirmCell = confirmedAt
+      ? '<div class="booking-confirmed">' +
+          '<span class="bk-confirmed-date">' + esc(fmtDate(confirmedAt)) + '</span>' +
+          '<button type="button" class="btn btn-secondary btn-sm" data-recal data-id="' + esc(b.id) + '">Add to calendar</button>' +
+        '</div>'
+      : '<button type="button" class="btn btn-primary btn-sm" data-confirm data-id="' + esc(b.id) + '">Confirm</button>';
+    var mainRow = '<tr class="booking-row" data-id="' + esc(b.id) + '">' +
+      '<td class="t-name">' + (b.name ? esc(b.name) : '<span class="t-muted">Unknown</span>') + '</td>' +
+      '<td>' + contactCell(b) + '</td>' +
+      '<td>' + esc(prop) + '</td>' +
+      '<td class="t-nowrap">' + esc(data.preferredTime || '—') + '</td>' +
+      '<td>' + bookingStatusPill(b) + '</td>' +
+      '<td class="t-nowrap">' + confirmCell + '</td>' +
+    '</tr>';
+    var formInner = confirmedAt ? '<div class="booking-result"></div>' : bookingFormHtml(b);
+    var formRow = '<tr class="booking-form-row" hidden><td colspan="6">' + formInner + '</td></tr>';
+    return mainRow + formRow;
+  }
+  function bookingStatusPill(b) {
+    if (bookingConfirmedAt(b)) return '<span class="status-pill" data-status="confirmed">Confirmed</span>';
+    return '<span class="status-pill" data-status="pending">Pending</span>';
+  }
+  function bookingFormHtml(b) {
+    var data = b.data || {};
+    var def = toLocalInputValue(defaultBookingDate(data.preferredTime));
+    var dur = data.durationMins || 45;
+    return '<div class="booking-form">' +
+      '<div class="booking-form-grid">' +
+        '<div class="form-group"><label>Confirmed date &amp; time</label>' +
+          '<input type="datetime-local" class="bk-datetime" value="' + esc(def) + '"></div>' +
+        '<div class="form-group"><label>Duration (minutes)</label>' +
+          '<input type="number" class="bk-duration" min="5" step="5" value="' + esc(dur) + '"></div>' +
+      '</div>' +
+      '<label class="bk-notify"><input type="checkbox" class="bk-notify-input" checked><span>Notify client by email</span></label>' +
+      '<div class="booking-form-foot">' +
+        '<button type="button" class="btn btn-primary btn-sm" data-confirm-submit data-id="' + esc(b.id) + '">Confirm booking</button>' +
+        '<button type="button" class="btn btn-secondary btn-sm" data-confirm-cancel>Cancel</button>' +
+      '</div>' +
+      '<div class="booking-result"></div>' +
+    '</div>';
+  }
+  function findBooking(id) {
+    for (var i = 0; i < bookingsState.all.length; i++) {
+      if (String(bookingsState.all[i].id) === String(id)) return bookingsState.all[i];
     }
-    return '<div class="event-line"><span class="ev-time">' + esc(fmtDate(e.created_at)) + '</span>' +
-      '<span class="ev-type">' + esc(typeLabel(e.type)) + '</span>' +
-      (detail ? '<span class="t-muted">' + esc(detail) + '</span>' : '') + '</div>';
+    return null;
+  }
+  function pad2(n) { n = String(n); return n.length < 2 ? '0' + n : n; }
+  function toLocalInputValue(d) {
+    return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()) +
+      'T' + pad2(d.getHours()) + ':' + pad2(d.getMinutes());
+  }
+  function defaultBookingDate(preferred) {
+    if (preferred) {
+      var t = new Date(preferred);
+      if (!isNaN(t.getTime()) && t.getTime() > Date.now() - 86400000) return t;
+    }
+    var d = new Date();
+    d.setDate(d.getDate() + 1);
+    d.setHours(10, 0, 0, 0);
+    return d;
+  }
+  function wireBookings(body) {
+    body.addEventListener('click', function (e) {
+      var conf = e.target.closest('[data-confirm]');
+      if (conf) {
+        var fr = conf.closest('tr').nextElementSibling;
+        if (fr && fr.classList.contains('booking-form-row')) {
+          fr.hidden = !fr.hidden;
+          if (!fr.hidden) { var dt = fr.querySelector('.bk-datetime'); if (dt) dt.focus(); }
+        }
+        return;
+      }
+      var cancel = e.target.closest('[data-confirm-cancel]');
+      if (cancel) { var row = cancel.closest('.booking-form-row'); if (row) row.hidden = true; return; }
+      var submit = e.target.closest('[data-confirm-submit]');
+      if (submit) { submitBooking(submit.closest('.booking-form-row'), submit.dataset.id, submit); return; }
+      var recal = e.target.closest('[data-recal]');
+      if (recal) { addConfirmedToCalendar(recal, recal.dataset.id); return; }
+    });
+  }
+  async function submitBooking(formRow, id, btn) {
+    if (!formRow) return;
+    var dtEl = formRow.querySelector('.bk-datetime');
+    var durEl = formRow.querySelector('.bk-duration');
+    var notifyEl = formRow.querySelector('.bk-notify-input');
+    var val = dtEl && dtEl.value;
+    if (!val) { toast('Pick a date and time first.', 'error'); return; }
+    var when = new Date(val);
+    if (isNaN(when.getTime())) { toast('That date and time isn\'t valid.', 'error'); return; }
+    var iso = when.toISOString();
+    var dur = durEl ? (Number(durEl.value) || 45) : 45;
+    var notify = notifyEl ? !!notifyEl.checked : false;
+    setBtnLoading(btn, true, 'Confirming…');
+    try {
+      var r = await api('/api/admin/booking', { method: 'POST', body: { id: id, confirmedAt: iso, durationMins: dur, notify: notify } });
+      var b = findBooking(id);
+      if (b) {
+        if (r && r.lead && r.lead.data) b.data = r.lead.data;
+        b.data = b.data || {};
+        if (!b.data.confirmedAt) b.data.confirmedAt = iso;
+        if (b.data.durationMins == null) b.data.durationMins = dur;
+        if (r && r.lead && r.lead.status) b.status = r.lead.status;
+      }
+      toast('Booking confirmed', 'success');
+      updateBookingRowsAfterConfirm(formRow, b || { id: id, data: { confirmedAt: iso } }, r);
+    } catch (err) {
+      if (err.status === 401) { sessionExpired(); return; }
+      toast(err.message || 'Could not confirm booking', 'error');
+    } finally {
+      setBtnLoading(btn, false);
+    }
+  }
+  function updateBookingRowsAfterConfirm(formRow, b, result) {
+    var mainRow = formRow.previousElementSibling;
+    if (mainRow) {
+      var tds = mainRow.querySelectorAll('td');
+      if (tds[4]) tds[4].innerHTML = bookingStatusPill(b);
+      if (tds[5]) tds[5].innerHTML =
+        '<div class="booking-confirmed">' +
+          '<span class="bk-confirmed-date">' + esc(fmtDate(bookingConfirmedAt(b))) + '</span>' +
+          '<button type="button" class="btn btn-secondary btn-sm" data-recal data-id="' + esc(b.id) + '">Add to calendar</button>' +
+        '</div>';
+    }
+    var cell = formRow.querySelector('td');
+    if (cell) cell.innerHTML = '<div class="booking-result">' + bookingResultHtml(result) + '</div>';
+    formRow.hidden = false;
+  }
+  async function addConfirmedToCalendar(btn, id) {
+    var b = findBooking(id);
+    var confirmedAt = bookingConfirmedAt(b);
+    if (!confirmedAt) { toast('This booking has no confirmed time yet.', 'error'); return; }
+    setBtnLoading(btn, true, 'Loading…');
+    try {
+      var dur = (b.data && b.data.durationMins) || 45;
+      var r = await api('/api/admin/booking', { method: 'POST', body: { id: id, confirmedAt: confirmedAt, durationMins: dur, notify: false } });
+      var formRow = btn.closest('tr').nextElementSibling;
+      if (formRow && formRow.classList.contains('booking-form-row')) {
+        var cell = formRow.querySelector('td');
+        if (cell) cell.innerHTML = '<div class="booking-result">' + bookingResultHtml(r) + '</div>';
+        formRow.hidden = false;
+      }
+    } catch (err) {
+      if (err.status === 401) { sessionExpired(); return; }
+      toast(err.message || 'Could not build a calendar link', 'error');
+    } finally {
+      setBtnLoading(btn, false);
+    }
+  }
+  function bookingResultHtml(r) {
+    r = r || {};
+    var actions = '';
+    if (r.googleCalendarUrl) {
+      actions += '<a class="btn btn-primary btn-sm" target="_blank" rel="noopener" href="' + esc(r.googleCalendarUrl) + '">Add to my calendar</a>';
+    }
+    if (r.ics) {
+      var href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(r.ics);
+      actions += '<a class="btn btn-secondary btn-sm" download="viewing.ics" href="' + esc(href) + '">Download .ics</a>';
+    }
+    if (!actions) return '<div class="t-muted">Confirmed. No calendar link was returned.</div>';
+    return '<div class="booking-result-title">Add this viewing to your calendar:</div>' +
+      '<div class="booking-result-actions">' + actions + '</div>';
   }
 
   // ============================================================
