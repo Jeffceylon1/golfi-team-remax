@@ -44,6 +44,9 @@
     trash: svg('<path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/>'),
     check: svg('<path d="M20 6L9 17l-5-5"/>'),
     alert: svg('<path d="M12 3l9 16H3z"/><path d="M12 10v4"/><circle cx="12" cy="17" r=".6" fill="currentColor" stroke="none"/>'),
+    insights: svg('<path d="M4 19V5"/><path d="M4 19h16"/><rect x="7" y="12" width="3" height="5"/><rect x="12" y="8" width="3" height="9"/><rect x="17" y="14" width="3" height="3"/>'),
+    digest: svg('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>'),
+    nurture: svg('<circle cx="5" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="18" r="2"/><path d="M6.6 7.4l3.8 3.2M13.6 13.4l3.8 3.2"/>'),
   };
 
   // ============================================================
@@ -54,14 +57,17 @@
     { id: 'leads',         label: 'Leads' },
     { id: 'visitors',      label: 'Live Visitors' },
     { id: 'conversations', label: 'Conversations' },
+    { id: 'insights',      label: 'Insights' },
     { id: 'agent',         label: 'Agent Settings' },
     { id: 'scoring',       label: 'Scoring Rules' },
     { id: 'hooks',         label: 'Capture Hooks' },
     { id: 'alerts',        label: 'Alerts' },
+    { id: 'digest',        label: 'Daily Digest' },
+    { id: 'nurture',       label: 'Nurture Sequences' },
     { id: 'business',      label: 'Business Profile' },
     { id: 'widget',        label: 'Widget' },
   ];
-  var DATA_PANELS = { today: 1, leads: 1, visitors: 1, conversations: 1 };
+  var DATA_PANELS = { today: 1, leads: 1, visitors: 1, conversations: 1, insights: 1 };
 
   // ============================================================
   // Small helpers
@@ -246,10 +252,13 @@
     leads: renderLeads,
     visitors: renderVisitors,
     conversations: renderConversations,
+    insights: renderInsights,
     agent: renderAgent,
     scoring: renderScoring,
     hooks: renderHooks,
     alerts: renderAlerts,
+    digest: renderDigest,
+    nurture: renderNurture,
     business: renderBusiness,
     widget: renderWidget,
   };
@@ -666,6 +675,127 @@
     return '<div class="event-line"><span class="ev-time">' + esc(fmtDate(e.created_at)) + '</span>' +
       '<span class="ev-type">' + esc(typeLabel(e.type)) + '</span>' +
       (detail ? '<span class="t-muted">' + esc(detail) + '</span>' : '') + '</div>';
+  }
+
+  // ============================================================
+  // DATA PANEL: Insights
+  // ============================================================
+  var insightsState = { days: 7 };
+
+  async function renderInsights() {
+    var box = panelEl('insights');
+    box.innerHTML = head('Insights', 'Where your traffic and leads come from.',
+      '<div class="chips" id="insights-range">' +
+        '<button class="chip' + (insightsState.days === 7 ? ' active' : '') + '" data-d="7">Last 7 days</button>' +
+        '<button class="chip' + (insightsState.days === 30 ? ' active' : '') + '" data-d="30">Last 30 days</button>' +
+      '</div>' +
+      '<button class="btn btn-secondary btn-sm" data-refresh>Refresh</button>');
+
+    box.querySelector('[data-refresh]').addEventListener('click', function () { loadInsights(); });
+    box.querySelector('#insights-range').addEventListener('click', function (e) {
+      var c = e.target.closest('.chip'); if (!c) return;
+      insightsState.days = Number(c.dataset.d) || 7;
+      document.querySelectorAll('#insights-range .chip').forEach(function (x) { x.classList.toggle('active', x === c); });
+      loadInsights();
+    });
+
+    var body = document.createElement('div');
+    body.id = 'insights-body';
+    box.appendChild(body);
+    await loadInsights();
+  }
+
+  async function loadInsights() {
+    var body = byId('insights-body');
+    if (!body) return;
+    body.innerHTML = '<div class="loading">Loading insights…</div>';
+    try {
+      var d = await api('/api/admin/insights?days=' + insightsState.days);
+      body.innerHTML = insightsHtml(d.insights || {});
+    } catch (err) {
+      if (err.status === 401) { sessionExpired(); return; }
+      body.innerHTML = dataErrorHtml(err);
+      wireDataError(body, loadInsights);
+    }
+  }
+
+  function insightsHtml(ins) {
+    var f = ins.funnel || {};
+    var visitors = f.visitors || 0, engaged = f.engaged || 0, identified = f.identified || 0, hot = f.hot || 0;
+    var win = (ins.window && ins.window.days) || insightsState.days;
+    function pct(n, base) { return base > 0 ? Math.round((n / base) * 100) + '% of previous' : '—'; }
+
+    var funnel =
+      '<div class="stat-grid">' +
+        statCard('Visitors', visitors, 'All visitors tracked', ICONS.visitors) +
+        statCard('Engaged', engaged, pct(engaged, visitors), ICONS.scoring) +
+        statCard('Identified', identified, pct(identified, engaged), ICONS.leads) +
+        statCard('Hot', hot, pct(hot, identified), ICONS.alerts) +
+      '</div>';
+
+    var meta = '<div class="insights-meta">Property searches in the last ' + esc(win) +
+      ' days: <strong>' + esc(ins.searchVolume || 0) + '</strong></div>';
+
+    var sources = (ins.trafficSources || []).map(function (s) { return { label: srcLabel(s.source), value: s.count }; });
+    var byType = (ins.leadsByType || []).map(function (t) { return { label: typeLabel(t.type), value: t.count }; });
+    var twoCol =
+      '<div class="two-col">' +
+        '<div class="card card-pad"><h3 class="card-title">Traffic sources</h3>' +
+          '<p class="card-sub">Where visitors came from in this window.</p>' + barList(sources) +
+        '</div>' +
+        '<div class="card card-pad"><h3 class="card-title">Leads by type</h3>' +
+          '<p class="card-sub">What visitors asked the agent for.</p>' + barList(byType) +
+        '</div>' +
+      '</div>';
+
+    var mv = ins.mostViewedProperties || [];
+    var mostViewed =
+      '<div class="card card-pad"><h3 class="card-title">Most-viewed listings</h3>' +
+        '<p class="card-sub">Top properties by views in this window.</p>' +
+        (mv.length
+          ? '<div class="table-wrap"><table class="table"><thead><tr><th>Property</th><th>Views</th><th>Unique sessions</th></tr></thead><tbody>' +
+            mv.map(function (p) {
+              var title = p.title || ('Property ' + (p.propertyId != null ? p.propertyId : '—'));
+              return '<tr><td class="t-name">' + esc(title) + '</td>' +
+                '<td>' + (p.views || 0) + '</td>' +
+                '<td>' + (p.uniqueSessions || 0) + '</td></tr>';
+            }).join('') +
+            '</tbody></table></div>'
+          : '<div class="empty">No property views in this window yet.</div>') +
+      '</div>';
+
+    var byDay = (ins.leadsByDay || []).map(function (dd) { return { label: fmtDay(dd.date), value: dd.count }; });
+    var leadsByDay =
+      '<div class="card card-pad"><h3 class="card-title">Leads by day</h3>' +
+        '<p class="card-sub">New leads captured per day.</p>' + barList(byDay) +
+      '</div>';
+
+    return funnel + meta + twoCol + mostViewed + leadsByDay;
+  }
+
+  function barList(items) {
+    items = items || [];
+    if (!items.length) return '<div class="empty">No data in this window yet.</div>';
+    var max = items.reduce(function (m, it) { return Math.max(m, Number(it.value) || 0); }, 0);
+    return '<div class="bar-list">' + items.map(function (it) {
+      var v = Number(it.value) || 0;
+      var w = max > 0 ? Math.max(3, Math.round((v / max) * 100)) : 0;
+      return '<div class="bar-row">' +
+        '<div class="bar-label" title="' + esc(it.label) + '">' + esc(it.label) + '</div>' +
+        '<div class="bar-track"><div class="bar-fill" style="width:' + w + '%"></div></div>' +
+        '<div class="bar-val">' + esc(v) + '</div>' +
+      '</div>';
+    }).join('') + '</div>';
+  }
+
+  function fmtDay(d) {
+    if (!d) return '—';
+    var parts = String(d).split('-');
+    if (parts.length === 3) {
+      var dt = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+      if (!isNaN(dt.getTime())) return dt.toLocaleDateString('en-CA', { month: 'short', day: 'numeric' });
+    }
+    return String(d);
   }
 
   // ============================================================
@@ -1101,6 +1231,152 @@
       }
       return { html: html, afterMount: afterMount, collect: collect };
     });
+  }
+
+  // ============================================================
+  // CONFIG PANEL: Daily Digest
+  // ============================================================
+  function renderDigest() {
+    renderConfig('digest', 'Daily Digest', 'A morning email summarising overnight leads and activity.', function (dg) {
+      var html = '<div class="card card-pad">' +
+        toggleField('digest-enabled', 'Daily digest enabled', dg.enabled, 'Send a summary email once a day.') +
+        '<div class="form-grid" style="margin-top:14px">' +
+          textField('digest-recipient', 'Recipient email', dg.recipient, { type: 'email', hint: 'Where the digest is sent each morning.' }) +
+          numField('digest-sendHour', 'Send hour (0–23)', dg.sendHour, { min: 0, max: 23, hint: 'Local hour to send, e.g. 7 for 7am.' }) +
+        '</div>' +
+        '<div class="form-section-title">Include in the digest</div>' +
+        toggleField('digest-includeHotLeads', 'Hot leads', dg.includeHotLeads, 'New hot leads that need follow-up.') +
+        toggleField('digest-includeAnonymous', 'High-intent anonymous', dg.includeAnonymous, 'Anonymous visitors with a high score.') +
+        toggleField('digest-includeInsights', 'Insights summary', dg.includeInsights, 'Funnel and top listings from the last day.') +
+        toggleField('digest-includeMarketStat', 'Market stat', dg.includeMarketStat, 'A market highlight to share.') +
+        '<div class="form-foot">' +
+          '<button type="button" class="btn btn-primary" data-save>Save changes</button>' +
+          '<button type="button" class="btn btn-secondary" id="digest-test">Send test now</button>' +
+          '<span class="dirty-flag" data-dirty>Unsaved changes</span>' +
+        '</div>' +
+      '</div>';
+
+      function afterMount(root) {
+        var testBtn = root.querySelector('#digest-test');
+        testBtn.addEventListener('click', function () { sendTestDigest(testBtn); });
+      }
+
+      function collect() {
+        var hour = numOrNull('digest-sendHour');
+        var wrap = byId('wrap-digest-sendHour');
+        if (hour == null || hour < 0 || hour > 23) {
+          if (wrap) wrap.classList.add('field-invalid');
+          return { ok: false, error: 'Send hour must be a number between 0 and 23.' };
+        }
+        if (wrap) wrap.classList.remove('field-invalid');
+        return { ok: true, value: {
+          enabled: getChecked('digest-enabled'),
+          recipient: getVal('digest-recipient').trim(),
+          sendHour: hour,
+          includeHotLeads: getChecked('digest-includeHotLeads'),
+          includeAnonymous: getChecked('digest-includeAnonymous'),
+          includeInsights: getChecked('digest-includeInsights'),
+          includeMarketStat: getChecked('digest-includeMarketStat'),
+        } };
+      }
+
+      return { html: html, afterMount: afterMount, collect: collect };
+    });
+  }
+
+  async function sendTestDigest(btn) {
+    setBtnLoading(btn, true, 'Sending…');
+    try {
+      var r = await api('/api/cron/digest', { method: 'POST', body: { test: true } });
+      digestResult(r);
+    } catch (err) {
+      if (err.status === 401) { sessionExpired(); return; }
+      toast(err.message || 'Could not send the test digest.', 'error');
+    } finally {
+      setBtnLoading(btn, false);
+    }
+  }
+
+  function digestResult(r) {
+    r = r || {};
+    if (r.skipped === 'disabled') { toast('Turn on Daily Digest and save it before sending a test.', 'error'); return; }
+    if (r.sent === true) {
+      var c = r.counts || {};
+      var bits = [];
+      if (typeof c.hotLeads === 'number') bits.push(c.hotLeads + ' hot lead' + (c.hotLeads === 1 ? '' : 's'));
+      if (typeof c.anon === 'number') bits.push(c.anon + ' anonymous');
+      toast('Test digest sent' + (bits.length ? ' — ' + bits.join(', ') : '') + '.', 'success');
+      return;
+    }
+    if (r.skipped) { toast('Saved — the digest will email once your Resend key is added.'); return; }
+    if (r.error) { toast(r.error, 'error'); return; }
+    toast('Digest run complete.', 'success');
+  }
+
+  // ============================================================
+  // CONFIG PANEL: Nurture Sequences
+  // ============================================================
+  function renderNurture() {
+    renderConfig('nurture', 'Nurture Sequences', 'Automated follow-up emails sent to new leads over time.', function (nu) {
+      var steps = Array.isArray(nu.steps) ? nu.steps : [];
+      var html = '<div class="card card-pad">' +
+        toggleField('nurture-enabled', 'Nurture sequence enabled', nu.enabled, 'Automatically email leads on a schedule.') +
+        '<div class="form-section-title">Steps</div>' +
+        '<div id="nurture-steps">' + steps.map(nurtureStepRow).join('') + '</div>' +
+        '<button type="button" class="btn btn-secondary btn-sm" id="nurture-add">Add step</button>' +
+        formFoot() +
+      '</div>';
+
+      function afterMount(root) {
+        var list = root.querySelector('#nurture-steps');
+        root.querySelector('#nurture-add').addEventListener('click', function () {
+          list.insertAdjacentHTML('beforeend', nurtureStepRow({}));
+          markDirty('nurture');
+        });
+        list.addEventListener('click', function (e) {
+          var b = e.target.closest('.nurture-remove');
+          if (b) { b.closest('.nurture-step').remove(); markDirty('nurture'); }
+        });
+      }
+
+      function collect(root) {
+        var invalid = false;
+        var out = [];
+        Array.from(root.querySelectorAll('.nurture-step')).forEach(function (r) {
+          var dayEl = r.querySelector('.nurture-day');
+          var subject = r.querySelector('.nurture-subject').value.trim();
+          var body = r.querySelector('.nurture-body').value;
+          var dayRaw = dayEl.value.trim();
+          dayEl.classList.remove('input-invalid');
+          if (!subject && !body.trim() && dayRaw === '') return; // skip blank rows
+          var day = Number(dayRaw);
+          if (dayRaw === '' || isNaN(day) || day < 0) { dayEl.classList.add('input-invalid'); invalid = true; return; }
+          out.push({ dayOffset: day, subject: subject, body: body });
+        });
+        if (invalid) return { ok: false, error: 'Each step needs a day offset of 0 or more.' };
+        return { ok: true, value: { enabled: getChecked('nurture-enabled'), steps: out } };
+      }
+
+      return { html: html, afterMount: afterMount, collect: collect };
+    });
+  }
+
+  function nurtureStepRow(s) {
+    s = s || {};
+    var day = (s.dayOffset == null ? '' : s.dayOffset);
+    return '<div class="subcard nurture-step">' +
+      '<div class="subcard-head">' +
+        '<div class="form-group nurture-day-wrap"><label>Day offset</label>' +
+          '<input type="number" class="nurture-day" min="0" step="1" value="' + esc(day) + '"></div>' +
+        '<button type="button" class="icon-btn nurture-remove" title="Remove step">' + ICONS.trash + '</button>' +
+      '</div>' +
+      '<div class="form-group"><label>Subject</label>' +
+        '<input type="text" class="nurture-subject" placeholder="e.g. Still looking in Hamilton?" value="' + esc(s.subject || '') + '"></div>' +
+      '<div class="form-group"><label>Body</label>' +
+        '<textarea class="nurture-body" rows="4" placeholder="Write the follow-up email…">' + esc(s.body || '') + '</textarea>' +
+        '<div class="field-hint">Use {name} to insert the lead\'s first name.</div>' +
+      '</div>' +
+    '</div>';
   }
 
   // ============================================================

@@ -1,5 +1,6 @@
 const { createClient } = require('@supabase/supabase-js');
 const twilio = require('twilio');
+const { sendEmail, emailShell } = require('./_email');
 
 function corsHeaders() {
   return {
@@ -267,6 +268,37 @@ module.exports = async function handler(req, res) {
         }
       } catch (resendErr) {
         console.error('[lead] Resend fetch error:', resendErr?.message || resendErr);
+      }
+    }
+
+    // Valuation auto-reply to the visitor (non-fatal — never blocks the lead response).
+    const isValuation =
+      type === 'valuation' ||
+      (typeof source === 'string' && source.toLowerCase().includes('valuation'));
+    if (isValuation && email) {
+      try {
+        const { data: valRow } = await supabase
+          .from('settings')
+          .select('value')
+          .eq('key', 'valuation')
+          .maybeSingle();
+        const cfg = valRow && valRow.value;
+        if (cfg && cfg.enabled && cfg.autoReply && cfg.subject && cfg.body) {
+          const firstName = (name && String(name).trim().split(/\s+/)[0]) || 'there';
+          const address =
+            (data && typeof data === 'object' && data.address) || 'your property';
+          const bodyHtml = String(cfg.body)
+            .replace(/\{name\}/g, firstName)
+            .replace(/\{address\}/g, address)
+            .replace(/\n/g, '<br>');
+          const html = emailShell(cfg.subject, bodyHtml);
+          const result = await sendEmail({ to: email, subject: cfg.subject, html });
+          if (result && result.error) {
+            console.error('[lead] valuation auto-reply error:', result.error);
+          }
+        }
+      } catch (valErr) {
+        console.error('[lead] valuation auto-reply error:', valErr?.message || valErr);
       }
     }
 
