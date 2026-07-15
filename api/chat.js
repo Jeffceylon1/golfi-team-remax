@@ -234,19 +234,19 @@ module.exports = async function handler(req, res) {
       const historySnippet = (history || []).slice(-6)
         .map((m) => `${m.role}: ${m.content}`).join('\n');
 
-      const { error: upsertErr } = await supabase.from('leads').upsert(
-        {
-          session_id: sessionId,
-          ...(email && { email }),
-          ...(phone && { phone }),
-          type: 'chat',
-          temperature: 'hot',
-          source: 'chat_widget',
-          data: { conversation_snippet: historySnippet.slice(0, 600) },
-          updated_at: new Date().toISOString(),
-        },
-        { onConflict: email ? 'email' : 'session_id' }
-      );
+      const leadRow = {
+        session_id: sessionId,
+        ...(email && { email }),
+        ...(phone && { phone }),
+        type: 'chat',
+        temperature: 'hot',
+        source: 'chat_widget',
+        data: { conversation_snippet: historySnippet.slice(0, 600) },
+        updated_at: new Date().toISOString(),
+      };
+      const { error: upsertErr } = email
+        ? await supabase.from('leads').upsert(leadRow, { onConflict: 'email' })
+        : await supabase.from('leads').insert(leadRow);
       if (!upsertErr) leadCaptured = true;
     }
 

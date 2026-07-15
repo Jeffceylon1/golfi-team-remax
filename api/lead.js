@@ -191,25 +191,22 @@ module.exports = async function handler(req, res) {
     const temperature = calcTemperature(type, phone);
     const now = new Date().toISOString();
 
-    // Upsert lead (conflict on email when available)
-    const { data: lead, error: leadErr } = await supabase
-      .from('leads')
-      .upsert(
-        {
-          session_id: sessionId,
-          ...(name && { name }),
-          ...(email && { email: email.toLowerCase() }),
-          ...(phone && { phone }),
-          type,
-          temperature,
-          source: source || 'website',
-          ...(data && { data }),
-          updated_at: now,
-        },
-        { onConflict: email ? 'email' : 'session_id' }
-      )
-      .select('id')
-      .single();
+    // Dedup by email when present; otherwise insert a fresh row.
+    const leadRow = {
+      session_id: sessionId,
+      ...(name && { name }),
+      ...(email && { email: email.toLowerCase() }),
+      ...(phone && { phone }),
+      type,
+      temperature,
+      source: source || 'website',
+      ...(data && { data }),
+      updated_at: now,
+    };
+    const leadQuery = email
+      ? supabase.from('leads').upsert(leadRow, { onConflict: 'email' })
+      : supabase.from('leads').insert(leadRow);
+    const { data: lead, error: leadErr } = await leadQuery.select('id').single();
 
     if (leadErr) throw leadErr;
 
