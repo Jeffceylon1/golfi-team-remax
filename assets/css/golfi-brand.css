@@ -126,9 +126,9 @@
     .golfi-cta-actions { margin-top: 36px; }
   }
 
-  /* ── HERO / BANNER OVERLAYS → GOLFI BLUE ─────────────────────────────
-     Theme default is dark green #073B3A (via --ztc-text-text-5 and one
-     hard-coded rule). Re-point every visible overlay/ring to Golfi Blue. */
-  .hero2-slider-sectionarea .hero2-slider-area::after { background: #003DA5 !important; }  /* home hero tint */
-  .hero2-small-img .img1 { background: #003DA5 !important; }                                /* home hero circle rings */
-  .hero-inner-section-area-sidebar::after { background: #003DA5 !important; }               /* inner-page banner tint */
+  /* ── HERO / BANNER OVERLAYS → GOLFI DARK BLUE (more see-through) ──────
+     Theme default is dark green #073B3A at 90%/60%. Re-point to deep Golfi
+     blue and dial the opacity down so the property photo shows through. */
+  .hero2-slider-sectionarea .hero2-slider-area::after { background: #002357 !important; opacity: 0.72 !important; }  /* home hero tint */
+  .hero2-small-img .img1 { background: #002357 !important; }                                                        /* home hero circle rings (solid) */
+  .hero-inner-section-area-sidebar::after { background: #002357 !important; opacity: 0.55 !important; }              /* inner-page banner tint */
