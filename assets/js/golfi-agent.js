@@ -27,6 +27,7 @@
       personaRole:   'Golfi Team Assistant',
       personaAvatar: '',           // '' = branded initial avatar; else an image URL
       showOnlineDot: true,
+      launcherPrompt: 'How can I help? \uD83D\uDC4B',  // greeting bubble shown above the launcher
       consentText:   'By chatting, you agree to our Privacy Policy.',
       // Intent quick-replies (label + action + value). Actions:
       // navigate | valuation | booking | message | agent
@@ -228,6 +229,7 @@
       personaRole:   text(w.personaRole, DEFAULTS.widget.personaRole),
       personaAvatar: optText(w.personaAvatar, DEFAULTS.widget.personaAvatar),
       showOnlineDot: w.showOnlineDot !== false,
+      launcherPrompt: optText(w.launcherPrompt, DEFAULTS.widget.launcherPrompt),
       consentText:   optText(w.consentText, DEFAULTS.widget.consentText),
       quickReplies:  quickReplies(w.quickReplies),
       hooks: {
@@ -267,14 +269,17 @@
     // ─── Inject CSS ────────────────────────────────────────────────────────────
     var style = document.createElement('style');
     style.textContent = [
-      '#ga-btn{position:fixed;bottom:24px;right:24px;width:60px;height:60px;border-radius:50%;background:' + red + ';border:none;cursor:pointer;z-index:99999;box-shadow:0 4px 20px rgba(226,0,26,.45);display:flex;align-items:center;justify-content:center;transition:transform .2s}',
+      '#ga-btn{position:fixed;bottom:24px;right:24px;width:64px;height:64px;border-radius:50%;background:' + red + ';border:3px solid #fff;cursor:pointer;z-index:99999;box-shadow:0 6px 22px rgba(0,0,0,.30);padding:0;overflow:visible;transition:transform .2s}',
       '#ga-btn:hover{transform:scale(1.08)}',
+      '#ga-btn img{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center 22%;display:block}',
+      '#ga-btn svg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}',
+      '#ga-btn-dot{position:absolute;bottom:2px;right:2px;width:14px;height:14px;border-radius:50%;background:#22c55e;border:2.5px solid #fff}',
       '#ga-badge{position:absolute;top:-3px;right:-3px;background:#fff;color:' + red + ';font-size:11px;font-weight:700;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;display:none}',
       '#ga-panel{position:fixed;bottom:96px;right:24px;width:340px;height:500px;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.22);z-index:99999;display:none;flex-direction:column;background:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}',
       '#ga-panel.open{display:flex}',
       '#ga-head{background:' + navy + ';padding:16px 18px;display:flex;align-items:center;gap:12px}',
       '#ga-head-avatar{width:40px;height:40px;border-radius:50%;background:' + red + ';display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}',
-      '#ga-head-avatar img{width:40px;height:40px;border-radius:50%;object-fit:cover;display:block}',
+      '#ga-head-avatar img{width:40px;height:40px;border-radius:50%;object-fit:cover;object-position:center 22%;display:block}',
       '#ga-head-avatar .ga-avatar-initial{color:#fff;font-weight:700;font-size:17px;line-height:1;font-family:inherit}',
       '.ga-persona-dot{position:absolute;bottom:0;right:0;width:11px;height:11px;border-radius:50%;background:#22c55e;border:2px solid ' + navy + ';box-sizing:border-box}',
       '#ga-head-info{flex:1}',
@@ -291,6 +296,8 @@
       '.ga-qr-chip{background:#fff;color:' + navy + ';border:1.5px solid ' + navy + ';border-radius:16px;padding:7px 13px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;line-height:1.2;transition:background .15s,color .15s,border-color .15s}',
       '.ga-qr-chip:hover{background:' + red + ';color:#fff;border-color:' + red + '}',
       '.ga-qr-chip:disabled{opacity:.5;cursor:default;background:#fff;color:' + navy + ';border-color:' + navy + '}',
+      '#ga-qr-bar{display:none;flex-wrap:wrap;gap:8px;padding:12px 14px 4px;border-top:1px solid #eee}',
+      '#ga-qr-bar.show{display:flex}',
       '.ga-typing{display:flex;gap:4px;padding:10px 14px;background:#f0f2f5;border-radius:14px;border-bottom-left-radius:4px;align-self:flex-start;width:44px}',
       '.ga-typing span{width:6px;height:6px;border-radius:50%;background:#aaa;animation:ga-bounce 1.2s infinite}',
       '.ga-typing span:nth-child(2){animation-delay:.2s}',
@@ -344,17 +351,25 @@
       '#ga-book-box p{color:#666;font-size:13px;margin:0 0 18px}',
       /* success toast */
       '#ga-toast{position:fixed;bottom:96px;right:24px;background:' + navy + ';color:#fff;padding:12px 18px;border-radius:10px;font-size:13px;z-index:999999;opacity:0;transition:opacity .3s;pointer-events:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:280px}',
+      '#ga-bubble{position:fixed;right:24px;bottom:100px;max-width:190px;background:#fff;color:' + navy + ';padding:11px 30px 11px 14px;border-radius:14px;border-bottom-right-radius:4px;box-shadow:0 8px 26px rgba(0,0,0,.20);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:13.5px;font-weight:600;line-height:1.35;z-index:99999;cursor:pointer;opacity:0;transform:translateY(8px) scale(.96);transform-origin:bottom right;transition:opacity .3s,transform .3s;pointer-events:none}',
+      '#ga-bubble.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}',
+      '#ga-bubble:after{content:"";position:absolute;right:22px;bottom:-7px;border:7px solid transparent;border-top-color:#fff;border-bottom:0}',
+      '#ga-bubble-x{position:absolute;top:5px;right:7px;width:18px;height:18px;border:none;background:none;color:#9aa0ab;font-size:15px;line-height:1;cursor:pointer;padding:0}',
+      '#ga-bubble-x:hover{color:' + navy + '}',
       /* mobile */
       '@media(max-width:480px){#ga-panel{width:100%;right:0;bottom:0;height:70vh;border-bottom-left-radius:0;border-bottom-right-radius:0}#ga-btn{bottom:16px;right:16px}}',
+      '@media(max-width:480px){#ga-bubble{right:84px;bottom:24px;max-width:150px}}',
     ].join('');
     document.head.appendChild(style);
 
     // ─── Build widget DOM ───────────────────────────────────────────────────────
     var btn = document.createElement('button');
     btn.id = 'ga-btn';
-    btn.setAttribute('aria-label', 'Chat with Golfi Team');
-    btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2Zm-2 12H6v-2h12v2Zm0-3H6V9h12v2Zm0-3H6V6h12v2Z"/></svg>';
-    btn.innerHTML += '<span id="ga-badge">1</span>';
+    btn.setAttribute('aria-label', 'Chat with ' + (cfg.personaName || 'us'));
+    var launcherInner = cfg.personaAvatar
+      ? '<img src="' + esc(cfg.personaAvatar) + '" alt="' + esc(cfg.personaName) + '"/>'
+      : '<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2Zm-2 12H6v-2h12v2Zm0-3H6V9h12v2Zm0-3H6V6h12v2Z"/></svg>';
+    btn.innerHTML = launcherInner + (cfg.showOnlineDot ? '<span id="ga-btn-dot"></span>' : '') + '<span id="ga-badge">1</span>';
 
     // Persona avatar: an image if configured, else a branded circle with the initial.
     var personaInitial = esc((((cfg.personaName || 'G').trim().charAt(0)) || 'G').toUpperCase());
@@ -372,6 +387,7 @@
       '  <button id="ga-close" aria-label="Close">&#x2715;</button>',
       '</div>',
       '<div id="ga-messages"></div>',
+      '<div id="ga-qr-bar"></div>',
       '<div id="ga-form">',
       '  <input id="ga-input" type="text" placeholder="Ask about properties\u2026" autocomplete="off"/>',
       '  <button id="ga-send" aria-label="Send"><svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></svg></button>',
@@ -384,6 +400,12 @@
     document.body.appendChild(btn);
     document.body.appendChild(panel);
     document.body.appendChild(toast);
+
+    // Launcher greeting bubble ("How can I help?")
+    var bubble = document.createElement('div');
+    bubble.id = 'ga-bubble';
+    bubble.innerHTML = esc(cfg.launcherPrompt || 'How can I help?') + '<button id="ga-bubble-x" aria-label="Dismiss">\u2715</button>';
+    document.body.appendChild(bubble);
 
     // ─── Toast helper ───────────────────────────────────────────────────────────
     function showToast(msg) {
@@ -400,6 +422,7 @@
     var badge      = document.getElementById('ga-badge');
     var agentPending   = false;   // 'agent' quick-reply asked for contact; capture the next reply
     var quickRepliesEl = null;    // active quick-reply chip row, if any
+    var qrBarEl = panel.querySelector('#ga-qr-bar');
 
     function addMsg(role, text) {
       var d = document.createElement('div');
@@ -436,7 +459,8 @@
     }
 
     function hideQuickReplies() {
-      if (quickRepliesEl) { quickRepliesEl.remove(); quickRepliesEl = null; }
+      if (qrBarEl) { qrBarEl.innerHTML = ''; qrBarEl.classList.remove('show'); }
+      quickRepliesEl = null;
     }
 
     function renderQuickReplies() {
@@ -444,21 +468,17 @@
       // Fresh conversations only — never resurface once the visitor has spoken.
       if (chatHistory.some(function (m) { return m.role === 'user'; })) return;
       var replies = cfg.quickReplies || [];
-      if (!replies.length) return;
-      var wrap = document.createElement('div');
-      wrap.id = 'ga-qr';
-      wrap.className = 'ga-qr';
+      if (!replies.length || !qrBarEl) return;
       replies.forEach(function (q) {
         var chip = document.createElement('button');
         chip.type = 'button';
         chip.className = 'ga-qr-chip';
         chip.textContent = q.label;
         chip.addEventListener('click', function () { handleQuickReply(q); });
-        wrap.appendChild(chip);
+        qrBarEl.appendChild(chip);
       });
-      messagesEl.appendChild(wrap);
-      messagesEl.scrollTop = messagesEl.scrollHeight;
-      quickRepliesEl = wrap;
+      qrBarEl.classList.add('show');   // pinned above the input, always visible
+      quickRepliesEl = qrBarEl;
     }
 
     function handleQuickReply(q) {
@@ -499,6 +519,7 @@
 
     function openPanel() {
       panel.classList.add('open');
+      hideBubble();
       badge.style.display = 'none';
       inputEl.focus();
       if (!messagesEl.children.length) {
@@ -519,6 +540,27 @@
       panel.classList.contains('open') ? closePanel() : openPanel();
     });
     closeEl.addEventListener('click', closePanel);
+
+    // ─── Launcher greeting bubble control ────────────────────────────────────────
+    function hideBubble() { if (bubble) bubble.classList.remove('show'); }
+    function showBubble() {
+      if (!bubble || panel.classList.contains('open')) return;
+      if (localStorage.getItem('golfi_bubble_x')) return;   // permanently dismissed
+      if (chatHistory.length) return;                        // returning chatters skip the nudge
+      bubble.classList.add('show');
+    }
+    bubble.addEventListener('click', function (e) {
+      if (e.target && e.target.id === 'ga-bubble-x') return;
+      hideBubble();
+      openPanel();
+    });
+    var bubbleX = document.getElementById('ga-bubble-x');
+    if (bubbleX) bubbleX.addEventListener('click', function (e) {
+      e.stopPropagation();
+      hideBubble();
+      try { localStorage.setItem('golfi_bubble_x', '1'); } catch (_) {}
+    });
+    setTimeout(showBubble, 2600);
 
     function sendMessage() {
       var text = inputEl.value.trim();

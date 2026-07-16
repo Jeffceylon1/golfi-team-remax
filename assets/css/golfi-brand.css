@@ -3,7 +3,9 @@
 :root {
     --ztc-text-text-4: #E2001A;
     --ztc-bg-bg-3: #E2001A;
-    /* NOTE: --ztc-text-text-5 intentionally NOT overridden */
+    /* NOTE: --ztc-text-text-5 (#073B3A) stays as-is — it is used as a text colour 37×
+       across the theme. The green hero/banner OVERLAYS that used that var are re-pointed
+       to Golfi Blue via explicit selectors at the bottom of this file instead. */
     --ztc-bg-bg-4: #0D1B3E;
     --ztc-text-text-6: #E2001A;
     --ztc-bg-bg-5: #E2001A;
@@ -123,3 +125,10 @@
     .golfi-cta-area .cta-header h2 { font-size: 28px; }
     .golfi-cta-actions { margin-top: 36px; }
   }
+
+  /* ── HERO / BANNER OVERLAYS → GOLFI BLUE ─────────────────────────────
+     Theme default is dark green #073B3A (via --ztc-text-text-5 and one
+     hard-coded rule). Re-point every visible overlay/ring to Golfi Blue. */
+  .hero2-slider-sectionarea .hero2-slider-area::after { background: #003DA5 !important; }  /* home hero tint */
+  .hero2-small-img .img1 { background: #003DA5 !important; }                                /* home hero circle rings */
+  .hero-inner-section-area-sidebar::after { background: #003DA5 !important; }               /* inner-page banner tint */
