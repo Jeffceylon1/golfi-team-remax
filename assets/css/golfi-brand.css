@@ -132,3 +132,8 @@
   .hero2-slider-sectionarea .hero2-slider-area::after { background: #002357 !important; opacity: 0.72 !important; }  /* home hero tint */
   .hero2-small-img .img1 { background: #002357 !important; }                                                        /* home hero circle rings (solid) */
   .hero-inner-section-area-sidebar::after { background: #002357 !important; opacity: 0.55 !important; }              /* inner-page banner tint */
+
+  /* ── HERO SLIDES: equal height so the slider doesn't jump slide-to-slide ── */
+  @media (min-width: 992px) {
+    .hero2-slider-sectionarea .hero2-slider-area { box-sizing: border-box; min-height: 846px; }
+  }

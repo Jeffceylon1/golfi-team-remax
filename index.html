@@ -427,11 +427,12 @@
 
           <div class="property-tab-section search-filter-form">
             <div class="tab-header">
-              <button class="tab-btn active" data-tab="for-sale">For Sale</button>
-              <button class="tab-btn" data-tab="for-rent">For Rent</button>
+              <button class="tab-btn" data-tab="sell">Sell</button>
+              <button class="tab-btn active" data-tab="buy">Buy</button>
+              <button class="tab-btn" data-tab="rent">Rent</button>
             </div>
 
-            <div class="tab-content1" id="for-sale">
+            <div class="tab-content1" id="buy">
               <div class="filters">
                 <div class="filter-group">
                   <label>Status</label>
@@ -481,7 +482,7 @@
               </div>
             </div>
 
-            <div class="tab-content1" id="for-rent" style="display: none;">
+            <div class="tab-content1" id="rent" style="display: none;">
               <div class="filters">
                 <div class="filter-group">
                   <label>Status</label>
@@ -525,6 +526,54 @@
                 </div>
                 <div class="search-button">
                   <button id="search-sale1">Search <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path>
+                    </svg></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-content1" id="sell" style="display: none;">
+              <div class="filters">
+                <div class="filter-group">
+                  <label>Status</label>
+                  <select>
+                    <option>For Sale</option>
+                    <option>All Status</option>
+                    <option>For Rent</option>
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <label>Property Type</label>
+                  <select>
+                    <option>All Types</option>
+                    <option>House</option>
+                    <option>Condo / Apartment</option>
+                    <option>Townhouse</option>
+                    <option>Single Family</option>
+                    <option>Luxury Homes</option>
+                    <option>Land</option>
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <label>Timeframe</label>
+                  <select>
+                    <option>When are you selling?</option>
+                    <option>ASAP</option>
+                    <option>1-3 months</option>
+                    <option>3-6 months</option>
+                    <option>Just researching</option>
+                  </select>
+                </div>
+                <div class="filter-group">
+                  <label for="customize-sell">Customize</label>
+                  <button id="customize-sell" class="customize-sale show-form">
+                    Advance <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M6.17071 18C6.58254 16.8348 7.69378 16 9 16C10.3062 16 11.4175 16.8348 11.8293 18H22V20H11.8293C11.4175 21.1652 10.3062 22 9 22C7.69378 22 6.58254 21.1652 6.17071 20H2V18H6.17071ZM12.1707 11C12.5825 9.83481 13.6938 9 15 9C16.3062 9 17.4175 9.83481 17.8293 11H22V13H17.8293C17.4175 14.1652 16.3062 15 15 15C13.6938 15 12.5825 14.1652 12.1707 13H2V11H12.1707ZM6.17071 4C6.58254 2.83481 7.69378 2 9 2C10.3062 2 11.4175 2.83481 11.8293 4H22V6H11.8293C11.4175 7.16519 10.3062 8 9 8C7.69378 8 6.58254 7.16519 6.17071 6H2V4H6.17071Z"></path>
+                      </svg></span>
+                  </button>
+                </div>
+                <div class="search-button">
+                  <button id="search-sell">Get Home Value <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path>
                     </svg></button>
                 </div>
