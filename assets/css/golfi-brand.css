@@ -137,3 +137,41 @@
   @media (min-width: 992px) {
     .hero2-slider-sectionarea .hero2-slider-area { box-sizing: border-box; min-height: 846px; }
   }
+
+  /* ── HOME SEARCH PILLS: distinct, separated Sell / Buy / Rent ─────────── */
+  .others-section-area2 .property-tab-section .tab-header {
+    display: inline-flex !important;
+    gap: 10px;
+    background: transparent !important;
+    border-radius: 0 !important;
+    overflow: visible !important;
+    padding: 0;
+    margin-bottom: 14px;
+  }
+  .others-section-area2 .property-tab-section .tab-header .tab-btn {
+    background: #EDF1F6 !important;
+    color: #0D1B3E !important;
+    border: 1.5px solid #d7dde7 !important;
+    border-radius: 30px !important;
+    padding: 12px 38px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 2px 6px rgba(13,27,62,.06);
+    transition: background .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease;
+  }
+  .others-section-area2 .property-tab-section .tab-header .tab-btn:hover {
+    background: #fff !important;
+    color: #E2001A !important;
+    border-color: #E2001A !important;
+  }
+  .others-section-area2 .property-tab-section .tab-btn.active {
+    background: #E2001A !important;
+    color: #fff !important;
+    border-color: #E2001A !important;
+    box-shadow: 0 4px 14px rgba(226,0,26,.30);
+  }
+  /* Card corners fully rounded now that the pills float above it */
+  .others-section-area2 .property-tab-section .filters { border-radius: 16px !important; }
+  @media (max-width: 767px) {
+    .others-section-area2 .property-tab-section .tab-header { flex-wrap: wrap; gap: 8px; }
+    .others-section-area2 .property-tab-section .tab-header .tab-btn { width: auto !important; padding: 10px 24px !important; }
+  }
