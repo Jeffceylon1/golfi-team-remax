@@ -48,9 +48,9 @@
       },
       exitIntent: {
         enabled: true,
-        headline: 'What\'s Your Home Worth?',
-        sub: 'Get a free market valuation from the Golfi Team RE/MAX in 24 hours.',
-        button: 'Get My Free Valuation \u2192'
+        headline: 'Your Instant Home Value',
+        sub: 'See your estimated range in seconds — then Gina personally confirms your exact number.',
+        button: 'Get My Instant Value'
       },
       searchAlert: {
         enabled: true, threshold: 2,
@@ -337,6 +337,12 @@
       '.ga-val-spin{width:40px;height:40px;border:4px solid #eee;border-top-color:' + red + ';border-radius:50%;margin:0 auto;animation:ga-spin .8s linear infinite}',
       '@keyframes ga-spin{to{transform:rotate(360deg)}}',
       '.ga-val-badge{display:inline-block;background:#fff7e6;color:#8a6d1a;border:1px solid #f0d98a;border-radius:8px;padding:8px 11px;font-size:11.5px;line-height:1.45}',
+      '.ga-sug{position:absolute;left:0;right:0;top:100%;background:#fff;border:1px solid #e0e3e8;border-radius:8px;margin-top:4px;box-shadow:0 8px 24px rgba(0,0,0,.14);z-index:5;max-height:210px;overflow-y:auto;display:none}',
+      '.ga-sug.show{display:block}',
+      '.ga-sug-item{padding:10px 12px;font-size:13px;cursor:pointer;border-bottom:1px solid #f2f4f7;color:#1a1a2e;line-height:1.35}',
+      '.ga-sug-item:hover{background:#f6f8fb}',
+      '.ga-sug-item:last-child{border-bottom:none}',
+      '.ga-addr-ok{color:#1a7f3c;font-weight:600}',
       '#ga-exit-success{text-align:center;padding:6px 0}',
       '#ga-exit-success .ga-check{width:52px;height:52px;line-height:52px;margin:0 auto 6px;border-radius:50%;background:#e9f9ef;color:#22c55e;font-size:28px;font-weight:700}',
       '#ga-hv-tab{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:99997;background:' + red + ';color:#fff;border:none;border-radius:12px 0 0 12px;padding:16px 10px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-weight:700;font-size:12px;letter-spacing:.5px;writing-mode:vertical-rl;text-orientation:mixed;display:flex;align-items:center;gap:9px;animation:ga-hv-pulse 2.6s ease-in-out infinite;transition:transform .2s,background .2s}',
@@ -807,8 +813,11 @@
         '  <p>' + esc(hooks.exitIntent.sub) + '</p>',
         '  <div class="ga-steps"><i class="on"></i><i></i><i></i><i></i></div>',
         '  <div class="ga-step active" data-step="1">',
-        '    <div class="ga-field"><input id="ga-val-addr" type="text" placeholder="Property address\u2026" autocomplete="off"/></div>',
-        '    <p class="ga-hint">Start with your address — it takes about 20 seconds.</p>',
+        '    <div class="ga-field" style="position:relative">',
+        '      <input id="ga-val-addr" type="text" placeholder="Start typing your address\u2026" autocomplete="off"/>',
+        '      <div id="ga-addr-sug" class="ga-sug"></div>',
+        '    </div>',
+        '    <p class="ga-hint" id="ga-addr-status">Start typing your address — we\u2019ll verify it live.</p>',
         '    <button class="ga-submit" data-next="2" style="margin-top:14px">Continue \u2192</button>',
         '  </div>',
         '  <div class="ga-step" data-step="2">',
@@ -854,6 +863,59 @@
         '</div>',
       ].join('');
       document.body.appendChild(el);
+
+      // ── Live address verification (free, no key via Photon/OSM). Swap the fetch()
+      //    for Google Places Autocomplete when a Maps key is added for max accuracy. ──
+      var addrPostal = '';
+      (function wireAddress() {
+        var input = el.querySelector('#ga-val-addr');
+        var box = el.querySelector('#ga-addr-sug');
+        var status = el.querySelector('#ga-addr-status');
+        if (!input || !box) return;
+        var deb = null;
+        function parts(p) {
+          var l1 = [p.housenumber, p.street].filter(Boolean).join(' ') || p.name || '';
+          var l2 = [p.city || p.district || p.county, p.state, p.postcode].filter(Boolean).join(', ');
+          var full = [l1, p.city || p.district, p.state, p.postcode].filter(Boolean).join(', ');
+          return { l1: l1, l2: l2, postcode: p.postcode || '', full: full };
+        }
+        input.addEventListener('input', function () {
+          addrPostal = '';
+          var q = input.value.trim();
+          if (status) status.textContent = 'Start typing your address — we\u2019ll verify it live.';
+          if (q.length < 4) { box.classList.remove('show'); box.innerHTML = ''; return; }
+          clearTimeout(deb);
+          deb = setTimeout(function () {
+            fetch('https://photon.komoot.io/api/?q=' + encodeURIComponent(q) + '&lang=en&limit=6&lat=43.24&lon=-79.87')
+              .then(function (r) { return r.json(); })
+              .then(function (d) {
+                var feats = (d.features || []).filter(function (f) { return f.properties && f.properties.countrycode === 'CA'; });
+                box.innerHTML = '';
+                if (!feats.length) { box.classList.remove('show'); return; }
+                feats.slice(0, 6).forEach(function (f) {
+                  var s = parts(f.properties);
+                  var div = document.createElement('div');
+                  div.className = 'ga-sug-item';
+                  div.innerHTML = '<strong>' + esc(s.l1) + '</strong>' + (s.l2 ? '<br><span style="color:#8a909c;font-size:12px">' + esc(s.l2) + '</span>' : '');
+                  div.addEventListener('click', function () {
+                    input.value = s.full;
+                    addrPostal = s.postcode;
+                    box.classList.remove('show'); box.innerHTML = '';
+                    if (status) status.innerHTML = s.postcode
+                      ? '<span class="ga-addr-ok">\u2713 Address verified · ' + esc(s.postcode) + '</span>'
+                      : '<span class="ga-addr-ok">\u2713 Address selected</span>';
+                  });
+                  box.appendChild(div);
+                });
+                box.classList.add('show');
+              })
+              .catch(function () {});
+          }, 300);
+        });
+        document.addEventListener('click', function (e) {
+          if (e.target !== input && !box.contains(e.target)) box.classList.remove('show');
+        });
+      })();
 
       // Progress order → how many dots light up for each step.
       var DOTS = { '1': 1, '2': 2, 'value': 3, '3': 4, 'done': 4 };
@@ -937,6 +999,7 @@
           name: name, email: email, phone: normPhone, type: 'valuation',
           data: {
             address: addr,
+            postalCode: addrPostal,
             propertyType: el.querySelector('#ga-val-type').value,
             beds: el.querySelector('#ga-val-beds').value,
             baths: el.querySelector('#ga-val-baths').value,
