@@ -819,12 +819,18 @@
         '  <div class="ga-step" data-step="3">',
         '    <div class="ga-field"><input id="ga-val-name" type="text" placeholder="Your name\u2026"/></div>',
         '    <div class="ga-field"><input id="ga-val-email" type="email" placeholder="Your email\u2026"/></div>',
-        '    <div class="ga-field"><input id="ga-val-phone" type="tel" placeholder="Phone (so Gina can send your report)\u2026"/></div>',
+        '    <div class="ga-field"><input id="ga-val-phone" type="tel" placeholder="Phone (so Gina can call with your value)\u2026"/></div>',
+        '    <p class="ga-hint" id="ga-val-err" style="color:' + red + ';display:none;margin:2px 0 8px"></p>',
         '    <button class="ga-submit" id="ga-val-submit">' + esc(hooks.exitIntent.button) + '</button>',
         '    <button class="ga-back" data-back="2">\u2190 Back</button>',
         '  </div>',
         '  <div class="ga-step" data-step="done">',
-        '    <div id="ga-exit-success"><div class="ga-check">\u2713</div><h3 style="margin:8px 0 6px">You\u2019re all set!</h3><p style="margin:0">Gina will personally prepare your home valuation and send it over shortly. Keep an eye on your inbox.</p></div>',
+        '    <div id="ga-exit-success">',
+        '      <img src="' + esc(cfg.personaAvatar || '/assets/img/agent/gina-avatar.jpg') + '" alt="Gina Gratta" style="width:66px;height:66px;border-radius:50%;object-fit:cover;object-position:center 22%;display:block;margin:0 auto 10px;border:3px solid ' + red + '"/>',
+        '      <h3 style="margin:0 0 6px">Thank you — you\u2019re all set!</h3>',
+        '      <p style="margin:0">Your estimate is on its way. <strong>Gina will personally review your home and reach out</strong> to confirm your exact value — a real number from a real expert, not just an algorithm.</p>',
+        (cfg.phone ? '      <p class="ga-hint" style="margin-top:10px">Prefer to talk now? Call Gina at <strong>' + esc(cfg.phone) + '</strong></p>' : ''),
+        '    </div>',
         '  </div>',
         '</div>',
       ].join('');
@@ -859,9 +865,24 @@
         var name  = el.querySelector('#ga-val-name').value.trim();
         var email = el.querySelector('#ga-val-email').value.trim();
         var phone = el.querySelector('#ga-val-phone').value.trim();
-        if (!email || !email.includes('@')) { el.querySelector('#ga-val-email').focus(); return; }
+        var errEl = el.querySelector('#ga-val-err');
+        function fail(msg, node) {
+          if (errEl) { errEl.textContent = msg; errEl.style.display = 'block'; }
+          if (node) node.focus();
+        }
+        if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+          return fail('Please enter a valid email address.', el.querySelector('#ga-val-email'));
+        }
+        // Canadian / NANP: 10 digits (tolerate a leading 1). Catches typos before capture.
+        var digits = phone.replace(/\D/g, '');
+        if (digits.length === 11 && digits.charAt(0) === '1') digits = digits.slice(1);
+        if (digits.length !== 10) {
+          return fail('Please enter a valid 10-digit phone number so Gina can reach you.', el.querySelector('#ga-val-phone'));
+        }
+        var normPhone = '(' + digits.slice(0, 3) + ') ' + digits.slice(3, 6) + '-' + digits.slice(6);
+        if (errEl) errEl.style.display = 'none';
         captureLead({
-          name: name, email: email, phone: phone, type: 'valuation',
+          name: name, email: email, phone: normPhone, type: 'valuation',
           data: {
             address: addr,
             propertyType: el.querySelector('#ga-val-type').value,
