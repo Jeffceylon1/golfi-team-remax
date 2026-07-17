@@ -322,6 +322,24 @@
       '.ga-field input:focus{border-color:' + red + '}',
       '.ga-submit{width:100%;background:' + red + ';color:#fff;border:none;border-radius:8px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;transition:opacity .2s;font-family:inherit}',
       '.ga-submit:hover{opacity:.88}',
+      '.ga-field select{width:100%;box-sizing:border-box;border:1.5px solid #dde0e8;border-radius:8px;padding:11px 14px;font-size:14px;outline:none;font-family:inherit;background:#fff;color:' + navy + ';transition:border-color .2s}',
+      '.ga-field select:focus{border-color:' + red + '}',
+      '.ga-field-row{display:flex;gap:10px}',
+      '.ga-field-row .ga-field{flex:1}',
+      '.ga-step{display:none}',
+      '.ga-step.active{display:block}',
+      '.ga-steps{display:flex;gap:6px;margin:0 0 16px}',
+      '.ga-steps i{height:4px;flex:1;border-radius:2px;background:#e6e9ef;transition:background .25s}',
+      '.ga-steps i.on{background:' + red + '}',
+      '.ga-back{background:none;border:none;color:#9aa0ab;font-size:13px;cursor:pointer;margin-top:10px;font-family:inherit}',
+      '.ga-back:hover{color:' + navy + '}',
+      '.ga-hint{font-size:12px;color:#9aa0ab;margin:6px 0 0}',
+      '#ga-exit-success{text-align:center;padding:6px 0}',
+      '#ga-exit-success .ga-check{width:52px;height:52px;line-height:52px;margin:0 auto 6px;border-radius:50%;background:#e9f9ef;color:#22c55e;font-size:28px;font-weight:700}',
+      '#ga-hv-tab{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:99997;background:' + red + ';color:#fff;border:none;border-radius:0 12px 12px 0;padding:16px 9px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-weight:700;font-size:12.5px;letter-spacing:.4px;writing-mode:vertical-rl;text-orientation:mixed;box-shadow:2px 3px 14px rgba(0,0,0,.28);display:flex;align-items:center;gap:8px;transition:padding .2s,background .2s}',
+      '#ga-hv-tab:hover{padding-left:15px;background:#bf0016}',
+      '#ga-hv-tab svg{transform:rotate(90deg);flex-shrink:0}',
+      '@media(max-width:480px){#ga-hv-tab{writing-mode:horizontal-tb;top:auto;bottom:92px;transform:none;border-radius:0 24px 24px 0;padding:10px 15px;font-size:12px}#ga-hv-tab svg{transform:none}}',
       /* save banner */
       '#ga-save-bar{background:' + navy + ';color:#fff;padding:12px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;position:fixed;top:0;left:0;right:0;z-index:99998;transform:translateY(-100%);transition:transform .35s;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:13px}',
       '#ga-save-bar.show{transform:translateY(0)}',
@@ -783,24 +801,77 @@
         '  <div id="ga-exit-eyebrow">Free — No Obligation</div>',
         '  <h3>' + esc(hooks.exitIntent.headline) + '</h3>',
         '  <p>' + esc(hooks.exitIntent.sub) + '</p>',
-        '  <div class="ga-field"><input id="ga-val-addr" type="text" placeholder="Property address\u2026"/></div>',
-        '  <div class="ga-field"><input id="ga-val-name" type="text" placeholder="Your name\u2026"/></div>',
-        '  <div class="ga-field"><input id="ga-val-email" type="email" placeholder="Your email\u2026"/></div>',
-        '  <button class="ga-submit" id="ga-val-submit">' + esc(hooks.exitIntent.button) + '</button>',
+        '  <div class="ga-steps"><i class="on"></i><i></i><i></i></div>',
+        '  <div class="ga-step active" data-step="1">',
+        '    <div class="ga-field"><input id="ga-val-addr" type="text" placeholder="Property address\u2026" autocomplete="off"/></div>',
+        '    <p class="ga-hint">Start with your address — it takes about 20 seconds.</p>',
+        '    <button class="ga-submit" data-next="2" style="margin-top:14px">Continue \u2192</button>',
+        '  </div>',
+        '  <div class="ga-step" data-step="2">',
+        '    <div class="ga-field"><select id="ga-val-type"><option value="">Property type\u2026</option><option>House</option><option>Condo / Apartment</option><option>Townhouse</option><option>Semi-detached</option><option>Multi-family</option><option>Land</option></select></div>',
+        '    <div class="ga-field-row">',
+        '      <div class="ga-field"><select id="ga-val-beds"><option value="">Beds</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option></select></div>',
+        '      <div class="ga-field"><select id="ga-val-baths"><option value="">Baths</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div>',
+        '    </div>',
+        '    <button class="ga-submit" data-next="3" style="margin-top:6px">Continue \u2192</button>',
+        '    <button class="ga-back" data-back="1">\u2190 Back</button>',
+        '  </div>',
+        '  <div class="ga-step" data-step="3">',
+        '    <div class="ga-field"><input id="ga-val-name" type="text" placeholder="Your name\u2026"/></div>',
+        '    <div class="ga-field"><input id="ga-val-email" type="email" placeholder="Your email\u2026"/></div>',
+        '    <div class="ga-field"><input id="ga-val-phone" type="tel" placeholder="Phone (so Gina can send your report)\u2026"/></div>',
+        '    <button class="ga-submit" id="ga-val-submit">' + esc(hooks.exitIntent.button) + '</button>',
+        '    <button class="ga-back" data-back="2">\u2190 Back</button>',
+        '  </div>',
+        '  <div class="ga-step" data-step="done">',
+        '    <div id="ga-exit-success"><div class="ga-check">\u2713</div><h3 style="margin:8px 0 6px">You\u2019re all set!</h3><p style="margin:0">Gina will personally prepare your home valuation and send it over shortly. Keep an eye on your inbox.</p></div>',
+        '  </div>',
         '</div>',
       ].join('');
       document.body.appendChild(el);
 
-      el.querySelector('#ga-exit-bg').addEventListener('click', function () { el.classList.remove('show'); });
-      el.querySelector('#ga-exit-close').addEventListener('click', function () { el.classList.remove('show'); });
+      function go(step) {
+        var n = parseInt(step, 10) || 3;
+        el.querySelectorAll('.ga-step').forEach(function (s) {
+          s.classList.toggle('active', s.getAttribute('data-step') === String(step));
+        });
+        el.querySelectorAll('.ga-steps i').forEach(function (d, i) { d.classList.toggle('on', i < n); });
+      }
+      function close() { el.classList.remove('show'); }
+
+      el.querySelector('#ga-exit-bg').addEventListener('click', close);
+      el.querySelector('#ga-exit-close').addEventListener('click', close);
+      el.addEventListener('click', function (e) {
+        var t = e.target.closest('[data-next],[data-back]');
+        if (!t) return;
+        if (t.hasAttribute('data-next')) {
+          if (t.getAttribute('data-next') === '2') {
+            var a = el.querySelector('#ga-val-addr');
+            if (!a.value.trim()) { a.focus(); return; }
+          }
+          go(t.getAttribute('data-next'));
+        } else {
+          go(t.getAttribute('data-back'));
+        }
+      });
       el.querySelector('#ga-val-submit').addEventListener('click', function () {
         var addr  = el.querySelector('#ga-val-addr').value.trim();
         var name  = el.querySelector('#ga-val-name').value.trim();
         var email = el.querySelector('#ga-val-email').value.trim();
+        var phone = el.querySelector('#ga-val-phone').value.trim();
         if (!email || !email.includes('@')) { el.querySelector('#ga-val-email').focus(); return; }
-        captureLead({ name: name, email: email, type: 'valuation', data: { address: addr }, source: 'exit_intent' });
-        el.classList.remove('show');
-        showToast('\u2713 Request received! We\'ll send your valuation within 24 hours.');
+        captureLead({
+          name: name, email: email, phone: phone, type: 'valuation',
+          data: {
+            address: addr,
+            propertyType: el.querySelector('#ga-val-type').value,
+            beds: el.querySelector('#ga-val-beds').value,
+            baths: el.querySelector('#ga-val-baths').value,
+          },
+          source: 'valuation_tool',
+        });
+        try { localStorage.setItem('golfi_hv_done', '1'); } catch (_) {}
+        go('done');
       });
       return el;
     }
@@ -887,17 +958,54 @@
       if (totalViews >= hooks.propertySave.threshold) setTimeout(triggerSaveBar, 4000);
     }
 
-    // Hook 2 wiring: exit intent
-    if (hooks.exitIntent.enabled && !capturedEmail && !sessionStorage.getItem('ga_exit_done')) {
-      var exitModal = null;
-      document.addEventListener('mouseleave', function handler(e) {
-        if (e.clientY > 10 || exitShown) return;
-        exitShown = true;
-        sessionStorage.setItem('ga_exit_done', '1');
-        document.removeEventListener('mouseleave', handler);
-        exitModal = exitModal || buildExitModal();
-        setTimeout(function () { exitModal.classList.add('show'); }, 200);
-      });
+    // ─── Home-Value tool: sticky tab (always) + reliable auto-popup ──────────────
+    var openValuation = function () {
+      var vm = document.getElementById('ga-exit') || buildExitModal();
+      setTimeout(function () { vm.classList.add('show'); }, 30);
+    };
+
+    // Always-available entry point: sticky "What's My Home Worth?" tab on every page.
+    if (hooks.exitIntent.enabled) {
+      var hvTab = document.createElement('button');
+      hvTab.id = 'ga-hv-tab';
+      hvTab.type = 'button';
+      hvTab.setAttribute('aria-label', 'Find out what your home is worth');
+      hvTab.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M12 3 2 12h3v8h6v-5h2v5h6v-8h3L12 3Z"/></svg><span>What\u2019s My Home Worth?</span>';
+      hvTab.addEventListener('click', openValuation);
+      document.body.appendChild(hvTab);
+    }
+
+    // Auto-popup: fires on the FIRST of dwell-time / scroll-depth / exit-intent,
+    // once per cooldown, never after capture. Time + scroll cover mobile (no mouseleave).
+    var HV_COOLDOWN_MS = 3 * 24 * 60 * 60 * 1000; // 3 days
+    var hvRecentlyShown = function () {
+      var t = parseInt(localStorage.getItem('golfi_hv_seen') || '0', 10);
+      return t && (Date.now() - t) < HV_COOLDOWN_MS;
+    };
+    if (hooks.exitIntent.enabled && !capturedEmail
+        && !localStorage.getItem('golfi_hv_done') && !hvRecentlyShown()) {
+      var hvFired = false, hvTimer = null;
+      var hvCleanup = function () {
+        clearTimeout(hvTimer);
+        window.removeEventListener('scroll', hvScroll);
+        document.removeEventListener('mouseleave', hvLeave);
+      };
+      var hvTrigger = function () {
+        if (hvFired || exitShown || capturedEmail) return;
+        hvFired = true; exitShown = true;
+        try { localStorage.setItem('golfi_hv_seen', String(Date.now())); } catch (_) {}
+        hvCleanup();
+        openValuation();
+      };
+      var hvScroll = function () {
+        var sc = window.scrollY || document.documentElement.scrollTop;
+        var h = document.documentElement.scrollHeight - window.innerHeight;
+        if (h > 0 && (sc / h) >= 0.5) hvTrigger();
+      };
+      var hvLeave = function (e) { if (e.clientY <= 10) hvTrigger(); };
+      hvTimer = setTimeout(hvTrigger, 30000);
+      window.addEventListener('scroll', hvScroll, { passive: true });
+      document.addEventListener('mouseleave', hvLeave);
     }
 
     // Hook 4 wiring: return visitor banner
