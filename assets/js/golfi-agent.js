@@ -336,10 +336,11 @@
       '.ga-hint{font-size:12px;color:#9aa0ab;margin:6px 0 0}',
       '#ga-exit-success{text-align:center;padding:6px 0}',
       '#ga-exit-success .ga-check{width:52px;height:52px;line-height:52px;margin:0 auto 6px;border-radius:50%;background:#e9f9ef;color:#22c55e;font-size:28px;font-weight:700}',
-      '#ga-hv-tab{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:99997;background:' + red + ';color:#fff;border:none;border-radius:0 12px 12px 0;padding:16px 9px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-weight:700;font-size:12.5px;letter-spacing:.4px;writing-mode:vertical-rl;text-orientation:mixed;box-shadow:2px 3px 14px rgba(0,0,0,.28);display:flex;align-items:center;gap:8px;transition:padding .2s,background .2s}',
-      '#ga-hv-tab:hover{padding-left:15px;background:#bf0016}',
-      '#ga-hv-tab svg{transform:rotate(90deg);flex-shrink:0}',
-      '@media(max-width:480px){#ga-hv-tab{writing-mode:horizontal-tb;top:auto;bottom:92px;transform:none;border-radius:0 24px 24px 0;padding:10px 15px;font-size:12px}#ga-hv-tab svg{transform:none}}',
+      '#ga-hv-tab{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:99997;background:' + red + ';color:#fff;border:none;border-radius:12px 0 0 12px;padding:16px 10px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-weight:700;font-size:12px;letter-spacing:.5px;writing-mode:vertical-rl;text-orientation:mixed;display:flex;align-items:center;gap:9px;animation:ga-hv-pulse 2.6s ease-in-out infinite;transition:transform .2s,background .2s}',
+      '#ga-hv-tab:hover{transform:translateY(-50%) translateX(-5px);background:#bf0016;animation:none}',
+      '#ga-hv-tab svg{flex-shrink:0}',
+      '@keyframes ga-hv-pulse{0%,100%{box-shadow:-1px 3px 14px rgba(0,0,0,.22)}50%{box-shadow:-2px 3px 24px rgba(226,0,26,.72)}}',
+      '@media(max-width:480px){#ga-hv-tab{writing-mode:horizontal-tb;top:auto;bottom:96px;right:14px;transform:none;border-radius:26px;padding:11px 16px;font-size:12.5px}#ga-hv-tab:hover{transform:none}}',
       /* save banner */
       '#ga-save-bar{background:' + navy + ';color:#fff;padding:12px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;position:fixed;top:0;left:0;right:0;z-index:99998;transform:translateY(-100%);transition:transform .35s;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:13px}',
       '#ga-save-bar.show{transform:translateY(0)}',
@@ -991,7 +992,7 @@
       hvTab.id = 'ga-hv-tab';
       hvTab.type = 'button';
       hvTab.setAttribute('aria-label', 'Find out what your home is worth');
-      hvTab.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M12 3 2 12h3v8h6v-5h2v5h6v-8h3L12 3Z"/></svg><span>What\u2019s My Home Worth?</span>';
+      hvTab.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12 3 2 12h3v8h6v-5h2v5h6v-8h3L12 3Z"/></svg><span>What\u2019s My Home Worth?</span>';
       hvTab.addEventListener('click', openValuation);
       document.body.appendChild(hvTab);
     }
