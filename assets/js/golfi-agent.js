@@ -334,6 +334,9 @@
       '.ga-back{background:none;border:none;color:#9aa0ab;font-size:13px;cursor:pointer;margin-top:10px;font-family:inherit}',
       '.ga-back:hover{color:' + navy + '}',
       '.ga-hint{font-size:12px;color:#9aa0ab;margin:6px 0 0}',
+      '.ga-val-spin{width:40px;height:40px;border:4px solid #eee;border-top-color:' + red + ';border-radius:50%;margin:0 auto;animation:ga-spin .8s linear infinite}',
+      '@keyframes ga-spin{to{transform:rotate(360deg)}}',
+      '.ga-val-badge{display:inline-block;background:#fff7e6;color:#8a6d1a;border:1px solid #f0d98a;border-radius:8px;padding:8px 11px;font-size:11.5px;line-height:1.45}',
       '#ga-exit-success{text-align:center;padding:6px 0}',
       '#ga-exit-success .ga-check{width:52px;height:52px;line-height:52px;margin:0 auto 6px;border-radius:50%;background:#e9f9ef;color:#22c55e;font-size:28px;font-weight:700}',
       '#ga-hv-tab{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:99997;background:' + red + ';color:#fff;border:none;border-radius:12px 0 0 12px;padding:16px 10px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-weight:700;font-size:12px;letter-spacing:.5px;writing-mode:vertical-rl;text-orientation:mixed;display:flex;align-items:center;gap:9px;animation:ga-hv-pulse 2.6s ease-in-out infinite;transition:transform .2s,background .2s}',
@@ -802,7 +805,7 @@
         '  <div id="ga-exit-eyebrow">Free — No Obligation</div>',
         '  <h3>' + esc(hooks.exitIntent.headline) + '</h3>',
         '  <p>' + esc(hooks.exitIntent.sub) + '</p>',
-        '  <div class="ga-steps"><i class="on"></i><i></i><i></i></div>',
+        '  <div class="ga-steps"><i class="on"></i><i></i><i></i><i></i></div>',
         '  <div class="ga-step active" data-step="1">',
         '    <div class="ga-field"><input id="ga-val-addr" type="text" placeholder="Property address\u2026" autocomplete="off"/></div>',
         '    <p class="ga-hint">Start with your address — it takes about 20 seconds.</p>',
@@ -814,22 +817,37 @@
         '      <div class="ga-field"><select id="ga-val-beds"><option value="">Beds</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option></select></div>',
         '      <div class="ga-field"><select id="ga-val-baths"><option value="">Baths</option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div>',
         '    </div>',
-        '    <button class="ga-submit" data-next="3" style="margin-top:6px">Continue \u2192</button>',
+        '    <button class="ga-submit" data-next="value" style="margin-top:6px">See My Estimate \u2192</button>',
         '    <button class="ga-back" data-back="1">\u2190 Back</button>',
         '  </div>',
+        '  <div class="ga-step" data-step="value">',
+        '    <div id="ga-val-loading" style="text-align:center;padding:22px 0">',
+        '      <div class="ga-val-spin"></div>',
+        '      <p class="ga-hint" id="ga-val-loadtxt" style="margin-top:12px">Analyzing recent sales near your home\u2026</p>',
+        '    </div>',
+        '    <div id="ga-val-result" style="display:none;text-align:center">',
+        '      <div style="text-transform:uppercase;letter-spacing:1px;font-weight:700;font-size:11px;color:#9aa0ab">Estimated Value Range</div>',
+        '      <div id="ga-val-range" style="font-size:27px;font-weight:800;color:' + navy + ';margin:6px 0"></div>',
+        '      <div id="ga-val-basis" class="ga-hint" style="margin:0 0 12px"></div>',
+        '      <div class="ga-val-badge">Sample estimate for this demo — live market data plugs in once your valuation source is connected.</div>',
+        '      <button class="ga-submit" data-next="3" style="margin-top:16px">See My Full Report \u2192</button>',
+        '      <button class="ga-back" data-back="2">\u2190 Back</button>',
+        '    </div>',
+        '  </div>',
         '  <div class="ga-step" data-step="3">',
+        '    <p class="ga-hint" style="margin:0 0 10px">Where should Gina send your detailed report?</p>',
         '    <div class="ga-field"><input id="ga-val-name" type="text" placeholder="Your name\u2026"/></div>',
         '    <div class="ga-field"><input id="ga-val-email" type="email" placeholder="Your email\u2026"/></div>',
         '    <div class="ga-field"><input id="ga-val-phone" type="tel" placeholder="Phone (so Gina can call with your value)\u2026"/></div>',
         '    <p class="ga-hint" id="ga-val-err" style="color:' + red + ';display:none;margin:2px 0 8px"></p>',
         '    <button class="ga-submit" id="ga-val-submit">' + esc(hooks.exitIntent.button) + '</button>',
-        '    <button class="ga-back" data-back="2">\u2190 Back</button>',
+        '    <button class="ga-back" data-back="value">\u2190 Back</button>',
         '  </div>',
         '  <div class="ga-step" data-step="done">',
         '    <div id="ga-exit-success">',
         '      <img src="' + esc(cfg.personaAvatar || '/assets/img/agent/gina-avatar.jpg') + '" alt="Gina Gratta" style="width:66px;height:66px;border-radius:50%;object-fit:cover;object-position:center 22%;display:block;margin:0 auto 10px;border:3px solid ' + red + '"/>',
         '      <h3 style="margin:0 0 6px">Thank you — you\u2019re all set!</h3>',
-        '      <p style="margin:0">Your estimate is on its way. <strong>Gina will personally review your home and reach out</strong> to confirm your exact value — a real number from a real expert, not just an algorithm.</p>',
+        '      <p style="margin:0">Your detailed report is on its way. <strong>Gina will personally review your home and reach out</strong> to confirm your exact value — a real number from a real expert, not just an algorithm.</p>',
         (cfg.phone ? '      <p class="ga-hint" style="margin-top:10px">Prefer to talk now? Call Gina at <strong>' + esc(cfg.phone) + '</strong></p>' : ''),
         '    </div>',
         '  </div>',
@@ -837,8 +855,10 @@
       ].join('');
       document.body.appendChild(el);
 
+      // Progress order → how many dots light up for each step.
+      var DOTS = { '1': 1, '2': 2, 'value': 3, '3': 4, 'done': 4 };
       function go(step) {
-        var n = parseInt(step, 10) || 3;
+        var n = DOTS[String(step)] || 1;
         el.querySelectorAll('.ga-step').forEach(function (s) {
           s.classList.toggle('active', s.getAttribute('data-step') === String(step));
         });
@@ -846,20 +866,51 @@
       }
       function close() { el.classList.remove('show'); }
 
+      // ── DEMO estimate: deterministic sample from the inputs. Clearly labelled as
+      //    a sample in the UI. Replace computeEstimate() with the real AVM/data call. ──
+      function fmt(n) { return '$' + Math.round(n).toLocaleString('en-CA'); }
+      function computeEstimate() {
+        var type = el.querySelector('#ga-val-type').value;
+        var beds = parseInt(el.querySelector('#ga-val-beds').value, 10) || 3;
+        var baths = parseInt(el.querySelector('#ga-val-baths').value, 10) || 2;
+        var addr = el.querySelector('#ga-val-addr').value.trim();
+        var base = ({
+          'House': 860000, 'Condo / Apartment': 520000, 'Townhouse': 690000,
+          'Semi-detached': 730000, 'Multi-family': 980000, 'Land': 430000,
+        })[type] || 780000;
+        var val = base + (beds - 3) * 45000 + (baths - 2) * 22000;
+        var hsh = 0; for (var i = 0; i < addr.length; i++) hsh = (hsh * 31 + addr.charCodeAt(i)) & 0xffff;
+        val += ((hsh % 61) - 30) * 1000; // deterministic ±30k so different addresses differ
+        if (val < 250000) val = 250000;
+        return { low: Math.round(val * 0.96 / 1000) * 1000, high: Math.round(val * 1.04 / 1000) * 1000 };
+      }
+      function runEstimate() {
+        var loading = el.querySelector('#ga-val-loading');
+        var result = el.querySelector('#ga-val-result');
+        var addr = el.querySelector('#ga-val-addr').value.trim();
+        el.querySelector('#ga-val-loadtxt').textContent = 'Analyzing recent sales near ' + (addr || 'your home') + '\u2026';
+        loading.style.display = 'block'; result.style.display = 'none';
+        setTimeout(function () {
+          var est = computeEstimate();
+          el.querySelector('#ga-val-range').textContent = fmt(est.low) + ' \u2013 ' + fmt(est.high);
+          el.querySelector('#ga-val-basis').textContent = 'Based on recent comparable sales in your area · updated monthly';
+          loading.style.display = 'none'; result.style.display = 'block';
+        }, 1700);
+      }
+
       el.querySelector('#ga-exit-bg').addEventListener('click', close);
       el.querySelector('#ga-exit-close').addEventListener('click', close);
       el.addEventListener('click', function (e) {
         var t = e.target.closest('[data-next],[data-back]');
         if (!t) return;
-        if (t.hasAttribute('data-next')) {
-          if (t.getAttribute('data-next') === '2') {
-            var a = el.querySelector('#ga-val-addr');
-            if (!a.value.trim()) { a.focus(); return; }
-          }
-          go(t.getAttribute('data-next'));
-        } else {
-          go(t.getAttribute('data-back'));
+        if (t.hasAttribute('data-back')) { go(t.getAttribute('data-back')); return; }
+        var next = t.getAttribute('data-next');
+        if (next === '2') {
+          var a = el.querySelector('#ga-val-addr');
+          if (!a.value.trim()) { a.focus(); return; }
         }
+        if (next === 'value') { go('value'); runEstimate(); return; }
+        go(next);
       });
       el.querySelector('#ga-val-submit').addEventListener('click', function () {
         var addr  = el.querySelector('#ga-val-addr').value.trim();
@@ -874,7 +925,6 @@
         if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
           return fail('Please enter a valid email address.', el.querySelector('#ga-val-email'));
         }
-        // Canadian / NANP: 10 digits (tolerate a leading 1). Catches typos before capture.
         var digits = phone.replace(/\D/g, '');
         if (digits.length === 11 && digits.charAt(0) === '1') digits = digits.slice(1);
         if (digits.length !== 10) {
@@ -882,6 +932,7 @@
         }
         var normPhone = '(' + digits.slice(0, 3) + ') ' + digits.slice(3, 6) + '-' + digits.slice(6);
         if (errEl) errEl.style.display = 'none';
+        var est = computeEstimate();
         captureLead({
           name: name, email: email, phone: normPhone, type: 'valuation',
           data: {
@@ -889,6 +940,7 @@
             propertyType: el.querySelector('#ga-val-type').value,
             beds: el.querySelector('#ga-val-beds').value,
             baths: el.querySelector('#ga-val-baths').value,
+            estimateLow: est.low, estimateHigh: est.high, estimateSample: true,
           },
           source: 'valuation_tool',
         });
