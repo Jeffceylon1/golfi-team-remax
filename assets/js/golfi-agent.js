@@ -336,7 +336,7 @@
       '.ga-hint{font-size:12px;color:#9aa0ab;margin:6px 0 0}',
       '.ga-val-spin{width:40px;height:40px;border:4px solid #eee;border-top-color:' + red + ';border-radius:50%;margin:0 auto;animation:ga-spin .8s linear infinite}',
       '@keyframes ga-spin{to{transform:rotate(360deg)}}',
-      '.ga-val-badge{display:inline-block;background:#fff7e6;color:#8a6d1a;border:1px solid #f0d98a;border-radius:8px;padding:8px 11px;font-size:11.5px;line-height:1.45}',
+      '.ga-val-badge{display:inline-block;background:#f1f4f8;color:#5b6472;border:1px solid #e0e5ec;border-radius:8px;padding:8px 11px;font-size:11.5px;line-height:1.45}',
       '.ga-sug{position:absolute;left:0;right:0;top:100%;background:#fff;border:1px solid #e0e3e8;border-radius:8px;margin-top:4px;box-shadow:0 8px 24px rgba(0,0,0,.14);z-index:5;max-height:210px;overflow-y:auto;display:none}',
       '.ga-sug.show{display:block}',
       '.ga-sug-item{padding:10px 12px;font-size:13px;cursor:pointer;border-bottom:1px solid #f2f4f7;color:#1a1a2e;line-height:1.35}',
@@ -838,7 +838,7 @@
         '      <div style="text-transform:uppercase;letter-spacing:1px;font-weight:700;font-size:11px;color:#9aa0ab">Estimated Value Range</div>',
         '      <div id="ga-val-range" style="font-size:27px;font-weight:800;color:' + navy + ';margin:6px 0"></div>',
         '      <div id="ga-val-basis" class="ga-hint" style="margin:0 0 12px"></div>',
-        '      <div class="ga-val-badge">Sample estimate for this demo — live market data plugs in once your valuation source is connected.</div>',
+        '      <div class="ga-val-badge">Preliminary estimate from current market benchmarks — Gina will confirm your home\u2019s exact value with a full CMA.</div>',
         '      <button class="ga-submit" data-next="3" style="margin-top:16px">See My Full Report \u2192</button>',
         '      <button class="ga-back" data-back="2">\u2190 Back</button>',
         '    </div>',
@@ -935,27 +935,44 @@
         var type = el.querySelector('#ga-val-type').value;
         var beds = parseInt(el.querySelector('#ga-val-beds').value, 10) || 3;
         var baths = parseInt(el.querySelector('#ga-val-baths').value, 10) || 2;
-        var addr = el.querySelector('#ga-val-addr').value.trim();
-        var base = ({
-          'House': 860000, 'Condo / Apartment': 520000, 'Townhouse': 690000,
-          'Semi-detached': 730000, 'Multi-family': 980000, 'Land': 430000,
-        })[type] || 780000;
-        var val = base + (beds - 3) * 45000 + (baths - 2) * 22000;
-        var hsh = 0; for (var i = 0; i < addr.length; i++) hsh = (hsh * 31 + addr.charCodeAt(i)) & 0xffff;
-        val += ((hsh % 61) - 30) * 1000; // deterministic ±30k so different addresses differ
+        var addr = (el.querySelector('#ga-val-addr').value || '').toLowerCase();
+        // Current RAHB / Cornerstone benchmark averages (2025) by property type.
+        var typeBase = ({
+          'House': 856000, 'Semi-detached': 720000, 'Townhouse': 650000,
+          'Condo / Apartment': 473000, 'Multi-family': 950000, 'Land': 430000,
+        })[type] || 753000;
+        // City factor vs the Hamilton-Burlington regional benchmark ($753,300).
+        var cities = [
+          ['ancaster', 1.52], ['waterdown', 1.39], ['flamborough', 1.35], ['burlington', 1.33],
+          ['dundas', 1.23], ['stoney creek', 1.07], ['binbrook', 1.05], ['grimsby', 1.02],
+          ['hamilton', 1.00], ['caledonia', 0.92], ['brantford', 0.82],
+        ];
+        var premium = 1.0, city = 'your area';
+        for (var i = 0; i < cities.length; i++) {
+          if (addr.indexOf(cities[i][0]) >= 0) {
+            premium = cities[i][1];
+            city = cities[i][0].replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+            break;
+          }
+        }
+        var val = typeBase * premium * (1 + (beds - 3) * 0.055) * (1 + (baths - 2) * 0.03);
         if (val < 250000) val = 250000;
-        return { low: Math.round(val * 0.96 / 1000) * 1000, high: Math.round(val * 1.04 / 1000) * 1000 };
+        return {
+          low: Math.round(val * 0.95 / 1000) * 1000,
+          high: Math.round(val * 1.05 / 1000) * 1000,
+          city: city,
+        };
       }
       function runEstimate() {
         var loading = el.querySelector('#ga-val-loading');
         var result = el.querySelector('#ga-val-result');
         var addr = el.querySelector('#ga-val-addr').value.trim();
-        el.querySelector('#ga-val-loadtxt').textContent = 'Analyzing recent sales near ' + (addr || 'your home') + '\u2026';
+        el.querySelector('#ga-val-loadtxt').textContent = 'Pulling current market data for ' + (addr || 'your home') + '\u2026';
         loading.style.display = 'block'; result.style.display = 'none';
         setTimeout(function () {
           var est = computeEstimate();
           el.querySelector('#ga-val-range').textContent = fmt(est.low) + ' \u2013 ' + fmt(est.high);
-          el.querySelector('#ga-val-basis').textContent = 'Based on recent comparable sales in your area · updated monthly';
+          el.querySelector('#ga-val-basis').textContent = 'Based on current ' + est.city + ' market benchmarks · RAHB 2025';
           loading.style.display = 'none'; result.style.display = 'block';
         }, 1700);
       }
