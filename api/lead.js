@@ -146,6 +146,65 @@ function formatEmail({ name, email, phone, type, temperature, data, source }) {
 </html>`;
 }
 
+// ── Visitor-facing valuation report — sleek, Gina-branded, site colours. ──
+function money(n) {
+  const v = Number(n);
+  return Number.isFinite(v) ? '$' + Math.round(v).toLocaleString('en-CA') : '';
+}
+function valuationReportEmail(p) {
+  const d = (p && p.data && typeof p.data === 'object') ? p.data : {};
+  const addr = d.address || 'your property';
+  const range = (money(d.estimateLow) && money(d.estimateHigh))
+    ? money(d.estimateLow) + ' &ndash; ' + money(d.estimateHigh)
+    : 'Prepared just for you';
+  const beds = d.beds || '&mdash;';
+  const baths = d.baths || '&mdash;';
+  const sqft = d.sqft ? Number(d.sqft).toLocaleString('en-CA') : '&mdash;';
+  const ptype = d.propertyType || 'Home';
+  const avatar = 'https://golfi-team-remax.vercel.app/assets/img/agent/gina-avatar.jpg';
+  return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#eef1f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#eef1f5;padding:28px 0;"><tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 20px rgba(13,27,62,.10);">
+  <tr><td style="background:#0D1B3E;padding:22px 30px;">
+    <span style="color:#fff;font-size:19px;font-weight:800;letter-spacing:.5px;">GOLFI TEAM</span><span style="color:#E2001A;font-size:19px;font-weight:800;"> RE/MAX</span>
+  </td></tr>
+  <tr><td style="padding:32px 30px 10px;text-align:center;">
+    <div style="color:#8a93a3;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;">Your Estimated Home Value</div>
+    <div style="color:#0D1B3E;font-size:36px;font-weight:800;margin:10px 0 4px;">${range}</div>
+    <div style="color:#8a93a3;font-size:13px;">${addr}</div>
+  </td></tr>
+  <tr><td style="padding:18px 30px 6px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #eceef2;border-radius:10px;"><tr>
+      <td style="padding:14px;text-align:center;border-right:1px solid #eceef2;"><div style="font-size:20px;font-weight:800;color:#0D1B3E;">${beds}</div><div style="font-size:11px;color:#8a93a3;text-transform:uppercase;letter-spacing:.5px;">Beds</div></td>
+      <td style="padding:14px;text-align:center;border-right:1px solid #eceef2;"><div style="font-size:20px;font-weight:800;color:#0D1B3E;">${baths}</div><div style="font-size:11px;color:#8a93a3;text-transform:uppercase;letter-spacing:.5px;">Baths</div></td>
+      <td style="padding:14px;text-align:center;border-right:1px solid #eceef2;"><div style="font-size:20px;font-weight:800;color:#0D1B3E;">${sqft}</div><div style="font-size:11px;color:#8a93a3;text-transform:uppercase;letter-spacing:.5px;">Sq Ft</div></td>
+      <td style="padding:14px;text-align:center;"><div style="font-size:20px;font-weight:800;color:#0D1B3E;">${ptype}</div><div style="font-size:11px;color:#8a93a3;text-transform:uppercase;letter-spacing:.5px;">Type</div></td>
+    </tr></table>
+  </td></tr>
+  <tr><td style="padding:20px 30px 4px;">
+    <div style="color:#0D1B3E;font-size:15px;font-weight:800;margin-bottom:6px;">What this means</div>
+    <p style="margin:0;color:#4a5262;font-size:14px;line-height:1.6;">This is an automated estimate based on recent comparable sales in your area. Your home's <strong>exact</strong> value depends on its condition, upgrades, and current buyer demand &mdash; things only a local expert can price precisely.</p>
+  </td></tr>
+  <tr><td style="padding:22px 30px 6px;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f7f9fc;border-radius:12px;"><tr>
+      <td width="78" style="padding:16px 0 16px 16px;vertical-align:top;"><img src="${avatar}" alt="Gina Gratta" width="62" height="62" style="width:62px;height:62px;border-radius:50%;object-fit:cover;object-position:center 22%;border:3px solid #E2001A;display:block;"></td>
+      <td style="padding:16px;vertical-align:top;">
+        <p style="margin:0 0 8px;color:#4a5262;font-size:14px;line-height:1.6;">"An algorithm gets you close &mdash; I get you the <strong>real</strong> number. I'll personally review your home and the exact comparables, then send your precise valuation. No pressure, no obligation."</p>
+        <div style="color:#0D1B3E;font-weight:800;font-size:14px;">Gina Gratta</div>
+        <div style="color:#8a93a3;font-size:12px;">REALTOR&reg;, Golfi Team RE/MAX</div>
+      </td>
+    </tr></table>
+  </td></tr>
+  <tr><td style="padding:22px 30px 30px;text-align:center;">
+    <a href="tel:+19055313741" style="display:inline-block;background:#E2001A;color:#fff;text-decoration:none;font-size:15px;font-weight:800;padding:15px 34px;border-radius:9px;">Get My Exact Value &rarr;</a>
+    <div style="margin-top:14px;color:#8a93a3;font-size:13px;">Or call Gina directly at <strong style="color:#0D1B3E;">(905) 531-3741</strong></div>
+  </td></tr>
+  <tr><td style="padding:16px 30px;background:#0D1B3E;color:#9fb0c9;font-size:11px;line-height:1.5;">
+    Gina Gratta, REALTOR&reg; &middot; Golfi Team RE/MAX &middot; Hamilton, Burlington &amp; Niagara<br>This estimate is for informational purposes only and is not a formal appraisal.
+  </td></tr>
+</table></td></tr></table></body></html>`;
+}
+
 module.exports = async function handler(req, res) {
   // CORS preflight
   if (req.method === 'OPTIONS') {
@@ -268,34 +327,25 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    // Valuation auto-reply to the visitor (non-fatal — never blocks the lead response).
+    // Valuation report to the visitor — sleek Gina-branded email (non-fatal).
+    // Sends whenever RESEND_API_KEY is configured; no-ops safely otherwise.
     const isValuation =
       type === 'valuation' ||
       (typeof source === 'string' && source.toLowerCase().includes('valuation'));
     if (isValuation && email) {
       try {
-        const { data: valRow } = await supabase
-          .from('settings')
-          .select('value')
-          .eq('key', 'valuation')
-          .maybeSingle();
-        const cfg = valRow && valRow.value;
-        if (cfg && cfg.enabled && cfg.autoReply && cfg.subject && cfg.body) {
-          const firstName = (name && String(name).trim().split(/\s+/)[0]) || 'there';
-          const address =
-            (data && typeof data === 'object' && data.address) || 'your property';
-          const bodyHtml = String(cfg.body)
-            .replace(/\{name\}/g, firstName)
-            .replace(/\{address\}/g, address)
-            .replace(/\n/g, '<br>');
-          const html = emailShell(cfg.subject, bodyHtml);
-          const result = await sendEmail({ to: email, subject: cfg.subject, html });
-          if (result && result.error) {
-            console.error('[lead] valuation auto-reply error:', result.error);
-          }
+        const html = valuationReportEmail({ name, data });
+        const result = await sendEmail({
+          to: email,
+          subject: 'Your Home Value Estimate — Golfi Team RE/MAX',
+          html,
+          from: 'Gina Gratta <onboarding@resend.dev>',
+        });
+        if (result && result.error) {
+          console.error('[lead] valuation report error:', result.error);
         }
       } catch (valErr) {
-        console.error('[lead] valuation auto-reply error:', valErr?.message || valErr);
+        console.error('[lead] valuation report error:', valErr?.message || valErr);
       }
     }
 
