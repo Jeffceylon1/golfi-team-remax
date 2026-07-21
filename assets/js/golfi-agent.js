@@ -345,6 +345,14 @@
       '.ga-addr-ok{color:#1a7f3c;font-weight:600}',
       '#ga-exit-success{text-align:center;padding:6px 0}',
       '#ga-exit-success .ga-check{width:52px;height:52px;line-height:52px;margin:0 auto 6px;border-radius:50%;background:#e9f9ef;color:#22c55e;font-size:28px;font-weight:700}',
+      '#ga-exit-success .ga-done-cap{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:' + red + ';margin-bottom:14px}',
+      '#ga-exit-success .ga-done-ph{width:80px;height:80px;border-radius:50%;object-fit:cover;object-position:center 20%;border:3px solid ' + red + ';display:block;margin:0 auto 14px;box-shadow:0 6px 18px rgba(226,0,26,.22)}',
+      '#ga-exit-success .ga-done-h{font-size:24px;font-weight:800;color:' + navy + ';line-height:1.15;letter-spacing:-.3px;margin:0 0 12px}',
+      '#ga-exit-success .ga-done-body{font-size:14.5px;line-height:1.6;color:#4a5262;margin:0 0 18px}',
+      '#ga-exit-success .ga-done-name{font-size:15px;font-weight:800;color:' + navy + '}',
+      '#ga-exit-success .ga-done-role{font-size:12px;color:#9aa2b1;margin-top:2px}',
+      '#ga-exit-success .ga-done-div{height:1px;background:#eceef2;margin:20px 0 16px}',
+      '#ga-exit-success .ga-done-cta{display:block;width:100%;box-sizing:border-box;background:' + red + ';color:#fff;text-decoration:none;font-size:15px;font-weight:800;padding:14px;border-radius:10px;box-shadow:0 6px 18px rgba(226,0,26,.28)}',
       '#ga-hv-tab{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:99997;background:' + red + ';color:#fff;border:none;border-radius:12px 0 0 12px;padding:16px 10px;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-weight:700;font-size:12px;letter-spacing:.5px;writing-mode:vertical-rl;text-orientation:mixed;display:flex;align-items:center;gap:9px;animation:ga-hv-pulse 2.6s ease-in-out infinite;transition:transform .2s,background .2s}',
       '#ga-hv-tab:hover{transform:translateY(-50%) translateX(-5px);background:#bf0016;animation:none}',
       '#ga-hv-tab svg{flex-shrink:0}',
@@ -854,10 +862,13 @@
         '  </div>',
         '  <div class="ga-step" data-step="done">',
         '    <div id="ga-exit-success">',
-        '      <img src="' + esc(cfg.personaAvatar || '/assets/img/agent/gina-avatar.jpg') + '" alt="Gina Gratta" style="width:66px;height:66px;border-radius:50%;object-fit:cover;object-position:center 22%;display:block;margin:0 auto 10px;border:3px solid ' + red + '"/>',
-        '      <h3 style="margin:0 0 6px">Thank you — you\u2019re all set!</h3>',
-        '      <p style="margin:0">Your detailed report is on its way. <strong>Gina will personally review your home and reach out</strong> to confirm your exact value — a real number from a real expert, not just an algorithm.</p>',
-        (cfg.phone ? '      <p class="ga-hint" style="margin-top:10px">Prefer to talk now? Call Gina at <strong>' + esc(cfg.phone) + '</strong></p>' : ''),
+        '      <div class="ga-done-cap">Request received</div>',
+        '      <img class="ga-done-ph" src="' + esc(cfg.personaAvatar || '/assets/img/agent/gina-avatar.jpg') + '" alt="Gina Gratta"/>',
+        '      <h3 class="ga-done-h" id="ga-done-h">Thanks — I\u2019m on it.</h3>',
+        '      <p class="ga-done-body">I\u2019ll personally pull the exact comparables for your home and send your precise valuation shortly. A real number from a real local expert — no bots, no obligation.</p>',
+        '      <div class="ga-done-name">Gina Gratta</div>',
+        '      <div class="ga-done-role">REALTOR\u00ae · Golfi Team RE/MAX</div>',
+        (cfg.phone ? '      <div class="ga-done-div"></div><a class="ga-done-cta" href="tel:+1' + (cfg.phone || '').replace(/\D/g, '') + '">Call Gina now · ' + esc(cfg.phone) + '</a><div class="ga-hint" style="margin-top:12px">Prefer to talk it through? I\u2019m one call away.</div>' : ''),
         '    </div>',
         '  </div>',
         '</div>',
@@ -1025,6 +1036,9 @@
           source: 'valuation_tool',
         });
         try { localStorage.setItem('golfi_hv_done', '1'); } catch (_) {}
+        var _first = ((name || '').trim().split(/\s+/)[0]) || '';
+        var _hEl = el.querySelector('#ga-done-h');
+        if (_hEl) _hEl.textContent = _first ? ('Thanks, ' + _first + ' \u2014 I\u2019m on it.') : 'Thanks \u2014 I\u2019m on it.';
         go('done');
       });
       return el;
