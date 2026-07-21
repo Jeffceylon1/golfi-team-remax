@@ -14,7 +14,7 @@ async function sendEmail(opts) {
     return { sent: false, error: 'missing to/subject/html' };
   }
 
-  const from = opts.from || (process.env.EMAIL_FROM || '').trim() || 'Golfi Team <onboarding@resend.dev>';
+  const from = opts.from || (process.env.EMAIL_FROM || '').trim() || 'Golfi Real Estate <onboarding@resend.dev>';
   try {
     const res = await fetch(RESEND_API, {
       method: 'POST',
@@ -39,15 +39,14 @@ function emailShell(title, bodyHtml) {
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f5f7;padding:24px 0;"><tr><td align="center">
 <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);">
 <tr><td style="background:#0D1B3E;padding:22px 28px;">
-<span style="color:#fff;font-size:18px;font-weight:800;letter-spacing:.5px;">GOLFI TEAM</span>
-<span style="color:#E2001A;font-size:18px;font-weight:800;"> RE/MAX</span>
+<span style="color:#fff;font-size:18px;font-weight:800;letter-spacing:.5px;">GOLFI REAL ESTATE</span>
 </td></tr>
 <tr><td style="padding:28px;">
 <h1 style="margin:0 0 16px;color:#0D1B3E;font-size:20px;font-weight:800;">${title}</h1>
 ${bodyHtml}
 </td></tr>
 <tr><td style="padding:18px 28px;background:#fafbfc;border-top:1px solid #eee;color:#999;font-size:12px;">
-Golfi Team RE/MAX · Hamilton &amp; Niagara · 905-304-9444
+Golfi Real Estate · Hamilton &amp; Niagara · 905-304-9444
 </td></tr>
 </table></td></tr></table></body></html>`;
 }

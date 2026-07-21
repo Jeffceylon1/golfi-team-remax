@@ -232,10 +232,10 @@ module.exports = async function handler(req, res) {
       body += section('Market note', `<p style="margin:0;color:#444;font-size:14px;">${esc(marketNote(events, since7, since14))}</p>`);
     }
 
-    const html = emailShell('Your Golfi Team morning briefing', body);
+    const html = emailShell('Your Golfi Real Estate morning briefing', body);
     const result = await sendEmail({
       to: cfg.recipient,
-      subject: 'Golfi Team \u2014 Morning Briefing ' + today,
+      subject: 'Golfi Real Estate \u2014 Morning Briefing ' + today,
       html,
     });
 

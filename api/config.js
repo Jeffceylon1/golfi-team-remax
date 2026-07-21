@@ -32,7 +32,7 @@ module.exports = async function handler(req, res) {
       hooks: map.hooks || {},
       greeting: (map.agent && map.agent.greeting) || '',
       phone: (map.business && map.business.phone) || '',
-      title: (map.widget && map.widget.title) || 'Golfi Team AI',
+      title: (map.widget && map.widget.title) || 'Golfi Real Estate AI',
       subtitle: (map.widget && map.widget.subtitle) || '',
     };
 

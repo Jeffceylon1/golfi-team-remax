@@ -1,5 +1,5 @@
 /* ============================================================
-   Golfi Team RE/MAX — Operator Console
+   Golfi Real Estate — Operator Console
    All console logic. Config values come from the API, never hardcoded.
    ============================================================ */
 (function () {

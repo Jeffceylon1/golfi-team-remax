@@ -168,7 +168,7 @@ module.exports = async function handler(req, res) {
 
       // Build and send this one due step.
       const first = firstName(lead.name);
-      const subject = personalize(s.subject || 'A note from the Golfi Team', first);
+      const subject = personalize(s.subject || 'A note from the Golfi Real Estate', first);
       const bodyText = personalize(s.body || '', first);
       const html = emailShell(
         subject,

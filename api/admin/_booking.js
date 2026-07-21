@@ -113,7 +113,7 @@ module.exports = async function handler(req, res) {
       const clientName = existing.name || 'Client';
       const property = prev.property || prev.title || '';
       const listing = prev.title && prev.title !== property ? prev.title : '';
-      const location = property || listing || 'Golfi Team RE/MAX';
+      const location = property || listing || 'Golfi Real Estate';
       const title = `Property Viewing - ${clientName}`;
 
       const detailLines = [];
@@ -136,7 +136,7 @@ module.exports = async function handler(req, res) {
       const ics = [
         'BEGIN:VCALENDAR',
         'VERSION:2.0',
-        'PRODID:-//Golfi Team RE/MAX//Property Viewing//EN',
+        'PRODID:-//Golfi Real Estate//Property Viewing//EN',
         'CALSCALE:GREGORIAN',
         'METHOD:PUBLISH',
         'BEGIN:VEVENT',
@@ -166,7 +166,7 @@ module.exports = async function handler(req, res) {
             : '';
           const bodyHtml = `
 <p style="margin:0 0 14px;color:#333;font-size:15px;line-height:1.5">Hi ${clientName},</p>
-<p style="margin:0 0 14px;color:#333;font-size:15px;line-height:1.5">Your property viewing with the Golfi Team is confirmed. We look forward to seeing you.</p>
+<p style="margin:0 0 14px;color:#333;font-size:15px;line-height:1.5">Your property viewing with the Golfi Real Estate is confirmed. We look forward to seeing you.</p>
 <table cellpadding="0" cellspacing="0" style="margin:0 0 20px;border:1px solid #eee;border-radius:8px;overflow:hidden;width:100%">
 <tr><td style="padding:6px 12px;color:#555;font-weight:600;white-space:nowrap">Date &amp; time</td><td style="padding:6px 12px;color:#222">${when}</td></tr>
 <tr><td style="padding:6px 12px;color:#555;font-weight:600;white-space:nowrap">Duration</td><td style="padding:6px 12px;color:#222">${durationMins} minutes</td></tr>

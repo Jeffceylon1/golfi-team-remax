@@ -1,5 +1,5 @@
 /**
- * Golfi Team RE/MAX — AI Agent Widget
+ * Golfi Real Estate — AI Agent Widget
  * Chat + passive lead capture + event tracking.
  * Config-driven: colours, header copy, greeting, and hook copy/enabled/thresholds
  * are pulled from /api/config at load. Everything falls back to the brand defaults
@@ -20,11 +20,11 @@
       primaryColor: DEFAULT_RED,
       accentColor:  DEFAULT_NAVY,
       enabled:      true,
-      title:        'Golfi Team AI',
+      title:        'Golfi Real Estate AI',
       subtitle:     'Hamilton & Niagara RE/MAX',
       // Persona
       personaName:   'Sofia',
-      personaRole:   'Golfi Team Assistant',
+      personaRole:   'Golfi Real Estate Assistant',
       personaAvatar: '',           // '' = branded initial avatar; else an image URL
       showOnlineDot: true,
       launcherPrompt: 'How can I help? \uD83D\uDC4B',  // greeting bubble shown above the launcher
@@ -39,7 +39,7 @@
         { label: 'Talk to an agent',           action: 'agent',     value: '' }
       ]
     },
-    greeting: 'Hi! I\'m the Golfi Team AI Assistant. I can help you find properties in Hamilton and Niagara, answer neighbourhood questions, or book a viewing. What are you looking for?',
+    greeting: 'Hi! I\'m the Golfi Real Estate AI Assistant. I can help you find properties in Hamilton and Niagara, answer neighbourhood questions, or book a viewing. What are you looking for?',
     hooks: {
       propertySave: {
         enabled: true, threshold: 3,
@@ -65,7 +65,7 @@
       booking: {
         enabled: true,
         headline: 'Book a Viewing',
-        sub: 'Schedule a showing with the Golfi Team',
+        sub: 'Schedule a showing with the Golfi Real Estate',
         button: 'Confirm Viewing Request \u2192'
       },
       smartRecapture: {
@@ -867,7 +867,7 @@
         '      <h3 class="ga-done-h" id="ga-done-h">Thanks — I\u2019m on it.</h3>',
         '      <p class="ga-done-body">I\u2019ll personally pull the exact comparables for your home and send your precise valuation shortly. A real number from a real local expert — no bots, no obligation.</p>',
         '      <div class="ga-done-name">Gina Gratta</div>',
-        '      <div class="ga-done-role">REALTOR\u00ae · Golfi Team RE/MAX</div>',
+        '      <div class="ga-done-role">REALTOR\u00ae · Golfi Real Estate</div>',
         (cfg.phone ? '      <div class="ga-done-div"></div><a class="ga-done-cta" href="tel:+1' + (cfg.phone || '').replace(/\D/g, '') + '">Call Gina now · ' + esc(cfg.phone) + '</a><div class="ga-hint" style="margin-top:12px">Prefer to talk it through? I\u2019m one call away.</div>' : ''),
         '    </div>',
         '  </div>',

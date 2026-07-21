@@ -1,8 +1,8 @@
-# Golfi Team RE/MAX — Website
+# Golfi Real Estate — Website
 
-Hamilton & Niagara real estate website for the Golfi Team RE/MAX.
+Hamilton & Niagara real estate website for the Golfi Real Estate.
 
-Built on the HouseBox HTML template with Golfi Team branding.
+Built on the HouseBox HTML template with Golfi Real Estate branding.
 
 ## Stack
 - Static HTML / Bootstrap / jQuery
